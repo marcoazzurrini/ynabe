@@ -4,11 +4,12 @@ import {
   HeadContent,
   Outlet,
   Scripts,
-  useRouterState,
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { z } from "zod";
 
-import { AgentPanel } from "../components/agent-panel";
+import { AgentPanel, AgentRail } from "../components/agent/panel";
+import { AgentProvider, useAgent } from "../components/agent/state";
 import { Sidebar } from "../components/sidebar";
 
 import globals from "@ynabe/ui/globals.css?url";
@@ -25,33 +26,36 @@ const RootDocument = ({ children }: { children: ReactNode }) => (
   </html>
 );
 
-const contexts = new Map([
-  ["/accounts", "Accounts"],
-  ["/plan", "Plan"],
-  ["/reflect", "Reflect"],
-]);
-
-const AppShell = () => {
-  const pathname = useRouterState({
-    select: (state) => state.location.pathname,
-  });
+const Shell = () => {
+  const { open } = useAgent();
 
   return (
     <div className="flex h-dvh overflow-hidden">
       <Sidebar />
-      <main className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-        {/* Collections live in the browser, so screens render there only. */}
-        <ClientOnly>
-          <Outlet />
-        </ClientOnly>
+      <main className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <Outlet />
       </main>
-      <AgentPanel context={contexts.get(pathname) ?? "ynabe"} />
+      {open ? <AgentPanel /> : <AgentRail />}
     </div>
   );
 };
 
+/** Collections live in the browser, so the whole app renders there. */
+const App = () => (
+  <ClientOnly>
+    <AgentProvider>
+      <Shell />
+    </AgentProvider>
+  </ClientOnly>
+);
+
+const search = z.object({
+  account: z.string().optional(),
+  month: z.string().optional(),
+});
+
 export const Route = createRootRoute({
-  component: AppShell,
+  component: App,
   head: () => ({
     links: [{ href: globals, rel: "stylesheet" }],
     meta: [
@@ -61,4 +65,5 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  validateSearch: search,
 });

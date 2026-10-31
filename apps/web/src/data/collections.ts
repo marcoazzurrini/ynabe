@@ -2,7 +2,12 @@ import { QueryClient } from "@tanstack/query-core";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { createCollection } from "@tanstack/react-db";
 
-import { getBudget, saveAssignment } from "../server/budget";
+import {
+  getBudget,
+  saveAssignment,
+  saveCategory,
+  saveTarget,
+} from "../server/budget";
 
 export const queryClient = new QueryClient();
 
@@ -22,9 +27,31 @@ export const accounts = createCollection(
   })
 );
 
+export const groups = createCollection(
+  queryCollectionOptions({
+    getKey: (group) => group.id,
+    queryClient,
+    queryFn: async () => {
+      const data = await budget();
+
+      return data.groups;
+    },
+    queryKey: ["budget", "groups"],
+  })
+);
+
 export const categories = createCollection(
   queryCollectionOptions({
     getKey: (category) => category.id,
+    onUpdate: async ({ transaction }) => {
+      await Promise.all(
+        transaction.mutations.map(({ modified }) =>
+          saveTarget({
+            data: { categoryId: modified.id, target: modified.target ?? null },
+          })
+        )
+      );
+    },
     queryClient,
     queryFn: async () => {
       const data = await budget();
@@ -38,6 +65,18 @@ export const categories = createCollection(
 export const transactions = createCollection(
   queryCollectionOptions({
     getKey: (transaction) => transaction.id,
+    onUpdate: async ({ transaction }) => {
+      await Promise.all(
+        transaction.mutations.map(({ modified }) =>
+          saveCategory({
+            data: {
+              categoryId: modified.categoryId,
+              transactionId: modified.id,
+            },
+          })
+        )
+      );
+    },
     queryClient,
     queryFn: async () => {
       const data = await budget();
