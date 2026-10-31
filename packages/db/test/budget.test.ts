@@ -5,7 +5,7 @@ import { planMonth } from "@ynabe/budget";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { migrate } from "drizzle-orm/bun-sqlite/migrator";
 
-import { assign, loadBudget } from "../src/index.ts";
+import { assign, categorize, loadBudget, setTarget } from "../src/index.ts";
 import * as schema from "../src/schema.ts";
 
 const open = () => {
@@ -73,5 +73,35 @@ describe("budget storage", () => {
     await assign(db, "eating", "2026-10", 0);
 
     expect(await db.select().from(schema.assignments)).toEqual([]);
+  });
+
+  test("categorizes transactions and sets targets", async () => {
+    const db = open();
+
+    await db.insert(schema.accounts).values({ id: "revolut", name: "Revolut" });
+    await db.insert(schema.categoryGroups).values({ id: "fun", name: "Fun" });
+    await db
+      .insert(schema.categories)
+      .values({ groupId: "fun", id: "eating", name: "Eating Out" });
+    await db.insert(schema.transactions).values({
+      accountId: "revolut",
+      amount: -130,
+      categoryId: null,
+      date: "2026-10-28",
+      id: "coop",
+      payee: "Coop",
+    });
+
+    await categorize(db, "coop", "eating");
+    await setTarget(db, "eating", { amount: 15_000, kind: "monthly" });
+
+    const budget = await loadBudget(db);
+
+    expect(budget.transactions[0]?.categoryId).toBe("eating");
+    expect(budget.categories[0]?.target).toEqual({
+      amount: 15_000,
+      dueDay: undefined,
+      kind: "monthly",
+    });
   });
 });
