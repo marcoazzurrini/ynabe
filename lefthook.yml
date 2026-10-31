@@ -1,0 +1,43 @@
+pre-commit:
+  piped: true
+  jobs:
+    - name: format
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts,json,jsonc,css,html,md,mdx,yml,yaml}"
+      exclude:
+        - "**/routeTree.gen.ts"
+        - "packages/db/migrations/**"
+        - ".penna/**"
+        - bun.lock
+      run: bunx oxfmt --write {staged_files}
+      stage_fixed: true
+    - name: lint
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}"
+      exclude:
+        - "**/routeTree.gen.ts"
+      run: bunx oxlint --deny-warnings {staged_files}
+    - name: typecheck
+      run: bun run typecheck
+
+pre-push:
+  jobs:
+    # Check a clean copy of the commit being pushed, as CI does. Ignored,
+    # untracked, and uncommitted files cannot make it pass. A tree that
+    # already passed is not checked again, such as after amending only a
+    # commit message.
+    - name: checks on a clean copy of HEAD
+      run: |
+        set -e
+        export CI=true
+        tree=$(git rev-parse "HEAD^{tree}")
+        passed="$(git rev-parse --path-format=absolute --git-common-dir)/pre-push-passed"
+        if grep -qx "$tree" "$passed" 2>/dev/null; then
+          echo "These files already passed the checks."
+          exit 0
+        fi
+        dir=$(mktemp -d)
+        trap 'git worktree remove --force "$dir"' EXIT
+        git worktree add --detach --quiet "$dir" HEAD
+        cd "$dir"
+        bun install --frozen-lockfile
+        bun run check
+        echo "$tree" >> "$passed"

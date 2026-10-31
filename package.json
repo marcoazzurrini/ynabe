@@ -1,0 +1,34 @@
+{
+  "name": "ynabe",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --cwd apps/web dev",
+    "storybook": "bun run --cwd apps/demo dev",
+    "build": "bun run --if-present --workspaces build",
+    "typecheck": "bun run --if-present --workspaces typecheck",
+    "test": "bun run --if-present --workspaces test",
+    "check": "bun run format:check && bun run lint && bun run typecheck && bun run test && bun run build",
+    "format": "oxfmt --write",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint --deny-warnings",
+    "lint:fix": "oxlint --fix --deny-warnings",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "lefthook": "2.2.2",
+    "oxfmt": "0.75.0",
+    "oxlint": "1.90.0",
+    "typescript": "7.0.2",
+    "ultracite": "8.1.0"
+  },
+  "engines": {
+    "node": ">=24.20.0"
+  },
+  "packageManager": "bun@1.4.2"
+}
