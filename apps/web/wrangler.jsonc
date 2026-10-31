@@ -6,6 +6,8 @@
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
+  // Every deploy would otherwise get its own extra preview address.
+  "preview_urls": false,
   "observability": { "enabled": true },
   // GOOGLE_CLIENT_SECRET and BETTER_AUTH_SECRET are Worker secrets, set
   // with `wrangler secret put`. Local development reads all five from
