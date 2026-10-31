@@ -1,162 +1,283 @@
-import { useLiveQuery } from "@tanstack/react-db";
-import { createFileRoute } from "@tanstack/react-router";
-import { READY_TO_ASSIGN } from "@ynabe/budget";
-import type { LedgerTransaction } from "@ynabe/db";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
 import { cn } from "@ynabe/ui/lib/utils";
-import { Plus, Tag } from "lucide-react";
+import {
+  FileUp,
+  Landmark,
+  Plus,
+  Scale,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react";
+import { useMemo, useState } from "react";
 
-import { accounts, categories, transactions } from "../data/collections";
+import { AccountMark } from "../components/account-mark";
+import type { LedgerRow } from "../components/accounts/ledger";
+import { Ledger } from "../components/accounts/ledger";
+import { Segmented } from "../components/segmented";
+import { Topbar } from "../components/topbar";
+import { useBudget } from "../data/use-budget";
 
-const COLUMNS =
-  "grid grid-cols-[minmax(0,1fr)_300px_170px_150px_16px] items-center gap-x-6";
+type Filter = "all" | "uncleared" | "uncategorized" | "transfers";
 
-const dayTitle = (date: string) =>
-  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    timeZone: "UTC",
-    weekday: "long",
-  });
+const kindLabel = new Map([
+  ["card", "Card"],
+  ["cash", "Cash"],
+  ["checking", "Checking"],
+  ["savings", "Savings"],
+  ["tracking", "Tracking"],
+]);
 
-const AccountsScreen = () => {
-  const { data: ledger } = useLiveQuery((q) =>
-    q.from({ transaction: transactions })
-  );
+type Budget = ReturnType<typeof useBudget>;
 
-  const { data: accountRows } = useLiveQuery((q) =>
-    q.from({ account: accounts })
-  );
+/** The category this payee is filed under most often. */
+const guessFor = (row: Budget["ledger"][number], ledger: Budget["ledger"]) => {
+  const counts = new Map<string, number>();
 
-  const { data: categoryRows } = useLiveQuery((q) =>
-    q.from({ category: categories })
-  );
-
-  const accountName = new Map(accountRows.map((row) => [row.id, row.name]));
-  const categoryName = new Map(categoryRows.map((row) => [row.id, row.name]));
-  const days = new Map<string, LedgerTransaction[]>();
-
-  for (const transaction of ledger.toSorted((a, b) =>
-    b.date.localeCompare(a.date)
-  )) {
-    days.set(transaction.date, [
-      ...(days.get(transaction.date) ?? []),
-      transaction,
-    ]);
+  for (const other of ledger) {
+    if (
+      other.payee === row.payee &&
+      other.categoryId &&
+      other.categoryId !== "ready-to-assign"
+    ) {
+      counts.set(other.categoryId, (counts.get(other.categoryId) ?? 0) + 1);
+    }
   }
 
-  const balance = ledger.reduce((total, row) => total + row.amount, 0);
+  return [...counts].toSorted((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+};
+
+const nameOf = (names: Map<string, string>, id: string | null | undefined) =>
+  id ? (names.get(id) ?? null) : null;
+
+/** Joins ledger rows with account, category, and group names, plus a guess. */
+const buildRows = ({
+  accounts,
+  categories,
+  groups,
+  ledger,
+}: Pick<
+  Budget,
+  "accounts" | "categories" | "groups" | "ledger"
+>): LedgerRow[] => {
+  const accountName = new Map(
+    accounts.map((account) => [account.id, account.name])
+  );
+
+  const groupName = new Map(groups.map((group) => [group.id, group.name]));
+  const byId = new Map(categories.map((category) => [category.id, category]));
+
+  return ledger.map((row): LedgerRow => {
+    const category = row.categoryId ? byId.get(row.categoryId) : undefined;
+
+    const best =
+      row.categoryId === null && !row.transferAccountId
+        ? guessFor(row, ledger)
+        : null;
+
+    return {
+      ...row,
+      accountName: accountName.get(row.accountId) ?? "",
+      categoryIcon: category?.icon ?? null,
+      categoryName: category?.name ?? null,
+      groupName: nameOf(groupName, category?.groupId),
+      guess: best ? (byId.get(best)?.name ?? null) : null,
+      transferName: nameOf(accountName, row.transferAccountId),
+    };
+  });
+};
+
+const matchesFilter = (row: LedgerRow, filter: Filter, search: string) => {
+  if (
+    search !== "" &&
+    !`${row.payee} ${row.memo ?? ""} ${row.categoryName ?? ""}`
+      .toLowerCase()
+      .includes(search)
+  ) {
+    return false;
+  }
+
+  if (filter === "uncleared") {
+    return row.cleared === "uncleared";
+  }
+
+  if (filter === "uncategorized") {
+    return row.categoryId === null && !row.transferAccountId;
+  }
+
+  if (filter === "transfers") {
+    return row.transferAccountId !== null;
+  }
+
+  return true;
+};
+
+const AccountsScreen = () => {
+  const { account: accountFilter } = Route.useSearch();
+  const { accounts, categories, groups, ledger } = useBudget();
+  const [filter, setFilter] = useState<Filter>("all");
+  const [query, setQuery] = useState("");
+
+  const rows = useMemo(
+    () => buildRows({ accounts, categories, groups, ledger }),
+    [accounts, categories, groups, ledger]
+  );
+
+  const balance = (id?: string) =>
+    rows
+      .filter((row) => id === undefined || row.accountId === id)
+      .reduce((sum, row) => sum + row.amount, 0);
+
+  const uncleared = (id?: string) =>
+    rows.filter(
+      (row) =>
+        row.cleared === "uncleared" &&
+        (id === undefined || row.accountId === id)
+    );
+
+  const inAccount = rows.filter(
+    (row) => accountFilter === undefined || row.accountId === accountFilter
+  );
+
+  const needsCategory = inAccount.filter(
+    (row) => row.categoryId === null && !row.transferAccountId
+  );
+
+  const search = query.trim().toLowerCase();
+
+  const visible = inAccount.filter((row) => matchesFilter(row, filter, search));
+
+  const card =
+    "flex flex-1 flex-col gap-2 rounded-xl bg-white px-4 py-3.5 shadow-card";
 
   return (
-    <div className="flex flex-col">
-      <section className="flex items-end justify-between px-10 pt-9 pb-6">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
-            Accounts
-          </h1>
-          <p className="text-text-tertiary text-sm font-medium">
-            Working balance{" "}
-            <Money cents={balance} className="text-text-primary" />
-          </p>
-        </div>
-        <Button>
-          <Plus />
-          Add transaction
-        </Button>
-      </section>
-      <section className="px-7">
-        <div
-          className={`${COLUMNS} border-border-subtle text-text-tertiary h-8 border-b px-3 text-xs font-medium`}
-        >
-          <span>Payee</span>
-          <span>Category</span>
-          <span>Account</span>
-          <span className="text-right">Amount</span>
-          <span />
-        </div>
-        {[...days].map(([date, rows]) => (
-          <div key={date} className="mt-3">
-            <h2 className="flex h-9 items-center justify-between px-3 text-[13px] font-semibold">
-              <span>{dayTitle(date)}</span>
-              <Money
-                cents={rows.reduce((total, row) => total + row.amount, 0)}
-                sign
-                className="text-text-tertiary pr-[52px] font-medium"
-              />
-            </h2>
-            {rows.map((row) => {
-              const income = row.categoryId === READY_TO_ASSIGN;
-
-              let category = (
-                <span className="text-text-secondary text-[13px]">
-                  {row.categoryId
-                    ? (categoryName.get(row.categoryId) ?? "")
-                    : ""}
-                </span>
-              );
-
-              if (income) {
-                category = (
-                  <span className="text-text-secondary text-[13px]">
-                    Ready to Assign
-                  </span>
-                );
-              } else if (row.transferAccountId) {
-                category = (
-                  <span className="text-text-tertiary text-[13px]">
-                    Transfer · {accountName.get(row.transferAccountId) ?? ""}
-                  </span>
-                );
-              } else if (row.categoryId === null) {
-                category = (
-                  <span className="bg-under-bg text-under inline-flex h-6 w-fit items-center gap-1 rounded-[7px] px-2 text-xs font-medium">
-                    <Tag className="size-3" />
-                    Needs a category
-                  </span>
-                );
-              }
-
-              return (
-                <div
-                  key={row.id}
-                  className={`${COLUMNS} hover:bg-surface-app h-11 rounded-[10px] px-3 text-sm font-medium`}
-                >
-                  <span className="flex min-w-0 items-baseline gap-2">
-                    <span className="whitespace-nowrap">{row.payee}</span>
-                    {row.memo ? (
-                      <span className="text-text-tertiary truncate text-[13px]">
-                        {row.memo}
-                      </span>
-                    ) : null}
-                  </span>
-                  {category}
-                  <span className="text-text-secondary text-[13px]">
-                    {accountName.get(row.accountId) ?? ""}
-                  </span>
-                  <Money
-                    cents={row.amount}
-                    sign
-                    className={cn(
-                      "text-right font-semibold",
-                      income && "text-inflow"
-                    )}
-                  />
-                  <span
-                    title={row.cleared}
-                    className={cn(
-                      "size-2 justify-self-center rounded-full",
-                      row.cleared === "uncleared" &&
-                        "ring-[1.5px] ring-gray-400 ring-inset"
-                    )}
-                  />
-                </div>
-              );
-            })}
+    <>
+      <Topbar
+        icon={Landmark}
+        title="All Accounts"
+        context={`${accounts.length} accounts · ${ledger.length} transactions`}
+      />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <section className="flex flex-col gap-6 px-10 pt-9 pb-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
+              Accounts
+            </h1>
+            <div className="flex gap-2">
+              <Button variant="ghost">
+                <Scale />
+                Reconcile
+              </Button>
+              <Button variant="outline">
+                <FileUp />
+                Import
+              </Button>
+              <Button>
+                <Plus />
+                Add transaction
+              </Button>
+            </div>
           </div>
-        ))}
-      </section>
-    </div>
+          <div className="flex gap-4">
+            <Link
+              to="/accounts"
+              search={{}}
+              className={cn(
+                card,
+                "flex-[1.2]",
+                accountFilter === undefined &&
+                  "shadow-[0_0_0_1.5px_var(--text-primary),var(--elevation-card)]"
+              )}
+            >
+              <span className="text-text-secondary flex items-center gap-2 text-[13px] font-medium">
+                <span className="flex-1">All accounts</span>
+                <span className="text-text-tertiary text-xs">
+                  {accounts.length}
+                </span>
+              </span>
+              <Money
+                cents={balance()}
+                className="text-xl leading-6 font-semibold tracking-tight"
+              />
+              <span className="text-text-tertiary text-xs font-medium">
+                <Money
+                  cents={uncleared().reduce((sum, row) => sum + row.amount, 0)}
+                />{" "}
+                uncleared
+              </span>
+            </Link>
+            {accounts.map((account) => (
+              <Link
+                key={account.id}
+                to="/accounts"
+                search={{ account: account.id }}
+                className={cn(
+                  card,
+                  accountFilter === account.id &&
+                    "shadow-[0_0_0_1.5px_var(--text-primary),var(--elevation-card)]"
+                )}
+              >
+                <span className="text-text-secondary flex items-center gap-2 text-[13px] font-medium">
+                  <AccountMark id={account.id} />
+                  <span className="flex-1">{account.name}</span>
+                  <span className="text-text-tertiary text-xs">
+                    {kindLabel.get(account.kind) ?? account.kind}
+                  </span>
+                </span>
+                <Money
+                  cents={balance(account.id)}
+                  className="text-xl leading-6 font-semibold tracking-tight"
+                />
+                <span className="text-text-tertiary text-xs font-medium">
+                  {uncleared(account.id).length === 0
+                    ? "All cleared"
+                    : `${uncleared(account.id).length} uncleared`}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+        <div className="flex items-center justify-between px-10 pb-2">
+          <Segmented
+            label="Filter transactions"
+            value={filter}
+            onChange={setFilter}
+            options={[
+              { label: "All", value: "all" },
+              {
+                count: inAccount.filter((row) => row.cleared === "uncleared")
+                  .length,
+                label: "Uncleared",
+                value: "uncleared",
+              },
+              {
+                count: needsCategory.length,
+                label: "Needs a category",
+                value: "uncategorized",
+              },
+              { label: "Transfers", value: "transfers" },
+            ]}
+          />
+          <div className="flex items-center gap-1">
+            <Button variant="ghost">
+              <SlidersHorizontal />
+              View
+            </Button>
+            <label className="border-border-control text-text-tertiary flex h-8 w-[280px] items-center gap-2 rounded-[10px] border bg-white px-2.5 text-[13px] font-medium">
+              <Search className="size-3.5" aria-hidden />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search transactions"
+                className="text-text-primary placeholder:text-text-tertiary flex-1 bg-transparent outline-none"
+              />
+            </label>
+          </div>
+        </div>
+        <Ledger rows={visible} />
+      </div>
+    </>
   );
 };
 
