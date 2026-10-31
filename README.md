@@ -41,4 +41,4 @@ bun run --cwd apps/web db:migrate:remote   # apply new migrations first
 bun run --cwd apps/web deploy              # build and deploy the Worker
 ```
 
-The app has no sign-in yet, so anyone with the URL can see and change its data. Keep it to sample data until authentication lands.
+Only `marco.azzurrini.art@gmail.com` can sign in, with Google. Every server function answers 401 without that session, so the browser shell is all a stranger can load. Locally, copy `apps/web/.dev.vars.example` to `apps/web/.dev.vars` and fill in the values; the Google client lives in the `ynabe` Google Cloud project.
