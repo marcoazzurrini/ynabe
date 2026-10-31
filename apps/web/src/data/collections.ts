@@ -8,11 +8,22 @@ import {
   saveCategory,
   saveTarget,
 } from "../server/budget";
+import { checkSession } from "./session";
 
 export const queryClient = new QueryClient();
 
-const budget = () =>
-  queryClient.fetchQuery({ queryFn: () => getBudget(), queryKey: ["budget"] });
+/** Loads the budget; a refused request means the session ended. */
+const budget = async () => {
+  try {
+    return await queryClient.fetchQuery({
+      queryFn: () => getBudget(),
+      queryKey: ["budget"],
+    });
+  } catch (error) {
+    await checkSession();
+    throw error;
+  }
+};
 
 export const accounts = createCollection(
   queryCollectionOptions({

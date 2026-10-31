@@ -5,6 +5,7 @@ import { Button } from "@ynabe/ui/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -53,6 +54,7 @@ const MonthNav = ({ month }: { month: string }) => (
         variant="outline"
         size="icon"
         aria-label="Previous month"
+        nativeButton={false}
         render={
           <Link
             to="."
@@ -69,6 +71,7 @@ const MonthNav = ({ month }: { month: string }) => (
         variant="outline"
         size="icon"
         aria-label="Next month"
+        nativeButton={false}
         render={
           <Link
             to="."
@@ -155,7 +158,9 @@ const ReadyToAssign = ({
             <ChevronDown />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-72">
-            <DropdownMenuLabel>Auto-assign</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>Auto-assign</DropdownMenuLabel>
+            </DropdownMenuGroup>
             {options.map((option) => (
               <DropdownMenuItem
                 key={option.label}

@@ -1,6 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { ageOfMoney } from "@ynabe/reports";
 import { Money } from "@ynabe/ui/components/money";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@ynabe/ui/components/ui/dropdown-menu";
 import { Kbd } from "@ynabe/ui/components/ui/kbd";
 import {
   ChartPie,
@@ -10,6 +19,7 @@ import {
   Landmark,
   LayoutGrid,
   Link2,
+  LogOut,
   PanelLeft,
   Plus,
   Repeat,
@@ -19,6 +29,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { useMemo } from "react";
 
+import { signOut, useSession } from "../data/session";
 import { useBudget } from "../data/use-budget";
 import { AccountMark } from "./account-mark";
 
@@ -47,8 +58,23 @@ const SectionLabel = ({ label, total }: { label: string; total: number }) => (
 );
 
 /** Navigation, accounts and balances, and the age of money. */
+const Avatar = ({ image }: { image: string | null }) =>
+  image ? (
+    <img
+      src={image}
+      alt=""
+      referrerPolicy="no-referrer"
+      className="size-[22px] rounded-full"
+    />
+  ) : (
+    <span className="size-[22px] rounded-full border-2 border-white bg-[linear-gradient(135deg,#9b69ff,#266df0)]" />
+  );
+
 export const Sidebar = () => {
   const { accounts, ledger } = useBudget();
+  const session = useSession();
+  const me = session.status === "signed-in" ? session.account : null;
+  const firstName = me?.name.split(" ")[0] ?? "";
 
   const balances = useMemo(() => {
     const totals = new Map<string, number>();
@@ -81,10 +107,10 @@ export const Sidebar = () => {
         </span>
         <span className="flex min-w-0 flex-1 flex-col">
           <span className="text-sm font-semibold tracking-tight">
-            Marco’s Budget
+            {firstName ? `${firstName}’s Budget` : "Budget"}
           </span>
           <span className="text-text-tertiary truncate text-[11px]">
-            marco.azzurrini.art@gmail.com
+            {me?.email}
           </span>
         </span>
         <ChevronsUpDown className="text-text-tertiary size-3.5" aria-hidden />
@@ -172,10 +198,29 @@ export const Sidebar = () => {
         </p>
       </section>
       <div className="border-border flex items-center justify-between border-t px-2 pt-2 text-[13px] font-medium text-gray-600">
-        <span className="flex items-center gap-2">
-          <span className="size-[22px] rounded-full border-2 border-white bg-[linear-gradient(135deg,#9b69ff,#266df0)]" />
-          Marco
-        </span>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="hover:text-text-primary flex items-center gap-2 rounded-md py-0.5 pr-1.5">
+            <Avatar image={me?.image ?? null} />
+            {firstName}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="top" align="start" className="w-[248px]">
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="flex flex-col">
+                <span className="text-text-primary text-[13px] font-semibold">
+                  {me?.name}
+                </span>
+                <span className="text-text-tertiary truncate text-[11px] font-medium">
+                  {me?.email}
+                </span>
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={signOut}>
+              <LogOut />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <span className="flex gap-3">
           <Settings className="size-[15px]" aria-label="Settings" />
           <PanelLeft className="size-[15px]" aria-label="Hide the sidebar" />
