@@ -1,4 +1,12 @@
-import type { BudgetData, Category, Cents, Month, Target } from "@ynabe/budget";
+import type {
+  Assignment,
+  BudgetData,
+  Category,
+  Cents,
+  Month,
+  Target,
+  Transaction,
+} from "@ynabe/budget";
 import { and, eq, sql } from "drizzle-orm";
 import type { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core";
 
@@ -12,6 +20,24 @@ export type Database = BaseSQLiteDatabase<
 >;
 
 type CategoryRow = typeof schema.categories.$inferSelect;
+
+export type Account = typeof schema.accounts.$inferSelect;
+
+/** A transaction with everything the ledger shows, not just the maths. */
+export interface LedgerTransaction extends Transaction {
+  accountId: string;
+  payee: string;
+  memo: string | null;
+  cleared: "uncleared" | "cleared" | "reconciled";
+  transferAccountId: string | null;
+}
+
+export interface Budget extends BudgetData {
+  accounts: Account[];
+  assignments: Assignment[];
+  categories: Category[];
+  transactions: LedgerTransaction[];
+}
 
 const targetOf = (row: CategoryRow): Target | undefined => {
   if (row.targetKind === "monthly" && row.targetAmount !== null) {
@@ -40,23 +66,38 @@ const categoryOf = (row: CategoryRow): Category => ({
   target: targetOf(row),
 });
 
-/** Reads everything the budget engine needs. */
-export const loadBudget = async (db: Database): Promise<BudgetData> => {
-  const [categoryRows, assignmentRows, transactionRows] = await Promise.all([
-    db.select().from(schema.categories).orderBy(schema.categories.position),
-    db.select().from(schema.assignments),
-    db.select().from(schema.transactions),
-  ]);
+/** Reads the budget: what the engine needs, plus accounts and ledger detail. */
+export const loadBudget = async (db: Database): Promise<Budget> => {
+  const [accountRows, categoryRows, assignmentRows, transactionRows] =
+    await Promise.all([
+      db.select().from(schema.accounts),
+      db
+        .select({ category: schema.categories })
+        .from(schema.categories)
+        .innerJoin(
+          schema.categoryGroups,
+          eq(schema.categories.groupId, schema.categoryGroups.id)
+        )
+        .orderBy(schema.categoryGroups.position, schema.categories.position),
+      db.select().from(schema.assignments),
+      db.select().from(schema.transactions),
+    ]);
 
   return {
+    accounts: accountRows,
     assignments: assignmentRows,
-    categories: categoryRows.map(categoryOf),
+    categories: categoryRows.map(({ category }) => categoryOf(category)),
     transactions: transactionRows.map((row) => ({
+      accountId: row.accountId,
       amount: row.amount,
       categoryId: row.categoryId,
+      cleared: row.cleared,
       date: row.date,
       id: row.id,
+      memo: row.memo,
+      payee: row.payee,
       transfer: row.transferAccountId !== null,
+      transferAccountId: row.transferAccountId,
     })),
   };
 };
