@@ -1,0 +1,1263 @@
+{
+ "version": 2,
+ "name": "Patterns",
+ "children": [
+  {
+   "id": "jTNzB",
+   "type": "frame",
+   "name": "Pattern/App Shell",
+   "x": 0,
+   "y": 0,
+   "class": "flex",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "overflow": "hidden",
+    "background": "var(--surface-panel)",
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)"
+   },
+   "children": [
+    {
+     "id": "g4pTE",
+     "type": "ref",
+     "ref": "dwQMe",
+     "overrides": {},
+     "name": "App/Sidebar"
+    },
+    {
+     "id": "43fni",
+     "type": "frame",
+     "class": "flex flex-col",
+     "style": {
+      "flex": 1,
+      "minWidth": 0
+     },
+     "children": [
+      {
+       "id": "32Hr7",
+       "type": "ref",
+       "ref": "aJJDU",
+       "style": {
+        "width": "100%"
+       },
+       "overrides": {
+        "Title": {
+         "text": "Section"
+        },
+        "Icon": {
+         "icon": "square"
+        },
+        "Context": {
+         "text": "Context"
+        }
+       },
+       "name": "App/Topbar"
+      },
+      {
+       "id": "dLq6T",
+       "type": "frame",
+       "class": "flex flex-col gap-4",
+       "style": {
+        "flex": 1,
+        "padding": 20
+       },
+       "children": [
+        {
+         "id": "BeHNK",
+         "type": "frame",
+         "class": "flex items-center justify-center",
+         "style": {
+          "borderRadius": 10,
+          "border": "1px dashed #b9c6ee",
+          "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+          "color": "var(--accent-fg)",
+          "fontSize": 13,
+          "fontWeight": 500,
+          "height": 110
+         },
+         "children": [
+          {
+           "id": "jwcuf",
+           "type": "text",
+           "text": "Page header · title, picker, primary summary",
+           "name": "Page header · title, pi…"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "AXcnp",
+         "type": "frame",
+         "class": "flex items-center justify-center",
+         "style": {
+          "borderRadius": 10,
+          "border": "1px dashed #b9c6ee",
+          "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+          "color": "var(--accent-fg)",
+          "fontSize": 13,
+          "fontWeight": 500,
+          "height": 44
+         },
+         "children": [
+          {
+           "id": "M6YxZ",
+           "type": "text",
+           "text": "Toolbar · filters left, actions right",
+           "name": "Toolbar · filters left,…"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "V8MQM",
+         "type": "frame",
+         "class": "flex items-center justify-center",
+         "style": {
+          "borderRadius": 10,
+          "border": "1px dashed #b9c6ee",
+          "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+          "color": "var(--accent-fg)",
+          "fontSize": 13,
+          "fontWeight": 500,
+          "flex": 1
+         },
+         "children": [
+          {
+           "id": "kMxnx",
+           "type": "text",
+           "text": "Content · fluid",
+           "name": "Content · fluid"
+          }
+         ],
+         "name": "Frame"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "39f6c",
+     "type": "frame",
+     "class": "flex flex-col gap-4",
+     "style": {
+      "width": 480,
+      "flexShrink": 0,
+      "padding": 16,
+      "background": "var(--surface-app)",
+      "borderLeft": "1px solid var(--border-default)"
+     },
+     "children": [
+      {
+       "id": "8TqFS",
+       "type": "frame",
+       "class": "flex items-center justify-center",
+       "style": {
+        "borderRadius": 10,
+        "border": "1px dashed #b9c6ee",
+        "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+        "color": "var(--accent-fg)",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "height": 220
+       },
+       "children": [
+        {
+         "id": "gZn7x",
+         "type": "text",
+         "text": "Panel",
+         "name": "Panel"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "3rmTS",
+       "type": "frame",
+       "class": "flex items-center justify-center",
+       "style": {
+        "borderRadius": 10,
+        "border": "1px dashed #b9c6ee",
+        "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+        "color": "var(--accent-fg)",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "height": 320
+       },
+       "children": [
+        {
+         "id": "N5Etu",
+         "type": "text",
+         "text": "Panel",
+         "name": "Panel"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "tW9kg",
+       "type": "frame",
+       "class": "flex items-center justify-center",
+       "style": {
+        "borderRadius": 10,
+        "border": "1px dashed #b9c6ee",
+        "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+        "color": "var(--accent-fg)",
+        "fontSize": 13,
+        "fontWeight": 500,
+        "flex": 1
+       },
+       "children": [
+        {
+         "id": "V49Y7",
+         "type": "text",
+         "text": "Panel",
+         "name": "Panel"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    }
+   ]
+  },
+  {
+   "id": "C9hQ2",
+   "type": "frame",
+   "name": "Pattern/Table Page",
+   "x": 2700,
+   "y": 0,
+   "class": "flex",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "overflow": "hidden",
+    "background": "var(--surface-panel)",
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)"
+   },
+   "children": [
+    {
+     "id": "v2NV3",
+     "type": "ref",
+     "ref": "dwQMe",
+     "overrides": {
+      "Nav Accounts": {
+       "ref": "acDBp"
+      }
+     },
+     "name": "App/Sidebar"
+    },
+    {
+     "id": "39PK5",
+     "type": "frame",
+     "class": "flex flex-col",
+     "style": {
+      "flex": 1,
+      "minWidth": 0
+     },
+     "children": [
+      {
+       "id": "qST3W",
+       "type": "ref",
+       "ref": "aJJDU",
+       "style": {
+        "width": "100%"
+       },
+       "overrides": {
+        "Title": {
+         "text": "Table page"
+        },
+        "Icon": {
+         "icon": "table"
+        },
+        "Context": {
+         "text": "Context"
+        }
+       },
+       "name": "App/Topbar"
+      },
+      {
+       "id": "brzuF",
+       "type": "frame",
+       "class": "flex flex-col",
+       "style": {
+        "flex": 1
+       },
+       "children": [
+        {
+         "id": "gSzTr",
+         "type": "frame",
+         "class": "flex items-end justify-between",
+         "style": {
+          "padding": "28px 20px 20px"
+         },
+         "children": [
+          {
+           "id": "6unfb",
+           "type": "frame",
+           "class": "flex flex-col gap-4",
+           "children": [
+            {
+             "id": "xBiXa",
+             "type": "text",
+             "text": "Page title",
+             "style": {
+              "fontSize": 32,
+              "lineHeight": "36px",
+              "fontWeight": 600,
+              "letterSpacing": "-0.02em"
+             },
+             "name": "Page title"
+            },
+            {
+             "id": "KGjTZ",
+             "type": "frame",
+             "class": "flex gap-6",
+             "children": [
+              {
+               "id": "3iEGC",
+               "type": "ref",
+               "ref": "MUpXz",
+               "name": "Stat"
+              },
+              {
+               "id": "nuW7N",
+               "type": "ref",
+               "ref": "MUpXz",
+               "overrides": {
+                "Value": {
+                 "text": "0.00€"
+                },
+                "Label": {
+                 "text": "Metric"
+                }
+               },
+               "name": "Stat"
+              }
+             ],
+             "name": "Frame"
+            }
+           ],
+           "name": "Frame"
+          },
+          {
+           "id": "Y7guC",
+           "type": "frame",
+           "class": "flex items-center justify-center",
+           "style": {
+            "borderRadius": 10,
+            "border": "1px dashed #b9c6ee",
+            "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+            "color": "var(--accent-fg)",
+            "fontSize": 13,
+            "fontWeight": 500,
+            "width": 420,
+            "height": 96
+           },
+           "children": [
+            {
+             "id": "iGr9h",
+             "type": "text",
+             "text": "Summary card",
+             "name": "Summary card"
+            }
+           ],
+           "name": "Frame"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "DfzX2",
+         "type": "frame",
+         "class": "flex items-center justify-between",
+         "style": {
+          "padding": "0 20px 12px",
+          "borderBottom": "1px solid var(--border-default)"
+         },
+         "children": [
+          {
+           "id": "ZUczA",
+           "type": "frame",
+           "class": "flex gap-2",
+           "children": [
+            {
+             "id": "9jsBr",
+             "type": "ref",
+             "ref": "w7RCk",
+             "name": "Button/Primary"
+            },
+            {
+             "id": "gzK2H",
+             "type": "ref",
+             "ref": "Wszke",
+             "name": "Button/Secondary"
+            }
+           ],
+           "name": "Frame"
+          },
+          {
+           "id": "W7XDf",
+           "type": "frame",
+           "class": "flex items-center gap-2",
+           "children": [
+            {
+             "id": "6VJNz",
+             "type": "frame",
+             "class": "flex gap-1",
+             "style": {
+              "padding": 3,
+              "borderRadius": 10,
+              "background": "var(--surface-sunken)"
+             },
+             "children": [
+              {
+               "id": "92GQy",
+               "type": "ref",
+               "ref": "UfCbf",
+               "name": "Chip/Active"
+              },
+              {
+               "id": "z7YMd",
+               "type": "ref",
+               "ref": "GjKS5",
+               "name": "Chip/Default"
+              }
+             ],
+             "name": "Frame"
+            },
+            {
+             "id": "8C6X9",
+             "type": "ref",
+             "ref": "c959N",
+             "name": "Input/Search"
+            }
+           ],
+           "name": "Frame"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "J7AfE",
+         "type": "ref",
+         "ref": "Qdqm4",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Header Row"
+        },
+        {
+         "id": "XmaLN",
+         "type": "ref",
+         "ref": "VwVWc",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Row"
+        },
+        {
+         "id": "XLajz",
+         "type": "ref",
+         "ref": "VwVWc",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Row"
+        },
+        {
+         "id": "NxUDK",
+         "type": "ref",
+         "ref": "VwVWc",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Row"
+        },
+        {
+         "id": "kFH5z",
+         "type": "ref",
+         "ref": "VwVWc",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Row"
+        },
+        {
+         "id": "JCXmc",
+         "type": "ref",
+         "ref": "VwVWc",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Row"
+        },
+        {
+         "id": "fxUfy",
+         "type": "ref",
+         "ref": "VwVWc",
+         "style": {
+          "width": "100%"
+         },
+         "name": "Transactions/Row"
+        },
+        {
+         "id": "DN3ys",
+         "type": "frame",
+         "class": "flex items-center justify-center",
+         "style": {
+          "borderRadius": 10,
+          "border": "1px dashed #b9c6ee",
+          "background": "repeating-linear-gradient(135deg, rgba(38,109,240,0.04) 0 10px, rgba(38,109,240,0.08) 10px 20px)",
+          "color": "var(--accent-fg)",
+          "fontSize": 13,
+          "fontWeight": 500,
+          "flex": 1,
+          "margin": 20
+         },
+         "children": [
+          {
+           "id": "CLauA",
+           "type": "text",
+           "text": "Rows continue · 40px each · virtualized",
+           "name": "Rows continue · 40px ea…"
+          }
+         ],
+         "name": "Frame"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    }
+   ]
+  },
+  {
+   "id": "RY9dP",
+   "type": "frame",
+   "name": "Pattern/Report Page",
+   "x": 5400,
+   "y": 0,
+   "class": "flex",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "overflow": "hidden",
+    "background": "var(--surface-panel)",
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)"
+   },
+   "children": [
+    {
+     "id": "5Feug",
+     "type": "ref",
+     "ref": "dwQMe",
+     "overrides": {
+      "Nav Reflect": {
+       "ref": "acDBp"
+      }
+     },
+     "name": "App/Sidebar"
+    },
+    {
+     "id": "krPcg",
+     "type": "frame",
+     "class": "flex flex-col",
+     "style": {
+      "flex": 1,
+      "minWidth": 0
+     },
+     "children": [
+      {
+       "id": "dz9yc",
+       "type": "ref",
+       "ref": "aJJDU",
+       "style": {
+        "width": "100%"
+       },
+       "overrides": {
+        "Title": {
+         "text": "Report page"
+        },
+        "Icon": {
+         "icon": "chart-pie"
+        },
+        "Context": {
+         "text": "Context"
+        }
+       },
+       "name": "App/Topbar"
+      },
+      {
+       "id": "Nngfn",
+       "type": "frame",
+       "class": "flex flex-col",
+       "style": {
+        "flex": 1,
+        "background": "var(--surface-app)"
+       },
+       "children": [
+        {
+         "id": "SsBSS",
+         "type": "frame",
+         "class": "flex items-center",
+         "style": {
+          "gap": 28,
+          "padding": "0 24px",
+          "background": "#fff",
+          "borderBottom": "1px solid var(--border-default)"
+         },
+         "children": [
+          {
+           "id": "ggzic",
+           "type": "ref",
+           "ref": "JDnkc",
+           "overrides": {
+            "Label": {
+             "text": "Report A"
+            }
+           },
+           "name": "Tab/Active"
+          },
+          {
+           "id": "As5Dz",
+           "type": "ref",
+           "ref": "eY54i",
+           "overrides": {
+            "Label": {
+             "text": "Report B"
+            }
+           },
+           "name": "Tab/Default"
+          },
+          {
+           "id": "ns8Ce",
+           "type": "ref",
+           "ref": "eY54i",
+           "overrides": {
+            "Label": {
+             "text": "Report C"
+            }
+           },
+           "name": "Tab/Default"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "Yrixt",
+         "type": "frame",
+         "class": "flex items-end justify-between",
+         "style": {
+          "padding": "28px 24px 20px"
+         },
+         "children": [
+          {
+           "id": "ZkPAd",
+           "type": "text",
+           "text": "Report title",
+           "style": {
+            "fontSize": 32,
+            "lineHeight": "36px",
+            "fontWeight": 600,
+            "letterSpacing": "-0.02em"
+           },
+           "name": "Report title"
+          },
+          {
+           "id": "NEUwq",
+           "type": "frame",
+           "class": "flex gap-2",
+           "children": [
+            {
+             "id": "QxUX3",
+             "type": "ref",
+             "ref": "xSxLs",
+             "name": "Date Range"
+            },
+            {
+             "id": "wrmPP",
+             "type": "ref",
+             "ref": "DHma8",
+             "name": "Dropdown"
+            },
+            {
+             "id": "EBU7x",
+             "type": "ref",
+             "ref": "DHma8",
+             "overrides": {
+              "Label": {
+               "text": "All accounts"
+              }
+             },
+             "name": "Dropdown"
+            }
+           ],
+           "name": "Frame"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "teZW4",
+         "type": "frame",
+         "class": "flex gap-5",
+         "style": {
+          "flex": 1,
+          "padding": "0 24px 24px"
+         },
+         "children": [
+          {
+           "id": "9KYBD",
+           "type": "frame",
+           "class": "flex flex-col gap-5",
+           "style": {
+            "flex": 1
+           },
+           "children": [
+            {
+             "id": "yFMWG",
+             "type": "frame",
+             "class": "flex items-center justify-center",
+             "style": {
+              "borderRadius": 10,
+              "border": "1px dashed #b9c6ee",
+              "background": "#fff",
+              "color": "var(--accent-fg)",
+              "fontSize": 13,
+              "fontWeight": 500,
+              "flex": 1
+             },
+             "children": [
+              {
+               "id": "zKSAr",
+               "type": "text",
+               "text": "Primary chart panel",
+               "name": "Primary chart panel"
+              }
+             ],
+             "name": "Frame"
+            },
+            {
+             "id": "6BbJh",
+             "type": "frame",
+             "class": "flex items-center justify-center",
+             "style": {
+              "borderRadius": 10,
+              "border": "1px dashed #b9c6ee",
+              "background": "#fff",
+              "color": "var(--accent-fg)",
+              "fontSize": 13,
+              "fontWeight": 500,
+              "height": 300
+             },
+             "children": [
+              {
+               "id": "rB7Rh",
+               "type": "text",
+               "text": "Secondary chart · 300px",
+               "name": "Secondary chart · 300px"
+              }
+             ],
+             "name": "Frame"
+            },
+            {
+             "id": "P8Afq",
+             "type": "frame",
+             "class": "flex gap-5",
+             "children": [
+              {
+               "id": "32TfL",
+               "type": "frame",
+               "class": "flex items-center justify-center",
+               "style": {
+                "borderRadius": 10,
+                "border": "1px dashed #b9c6ee",
+                "background": "#fff",
+                "color": "var(--accent-fg)",
+                "fontSize": 13,
+                "fontWeight": 500,
+                "flex": 1,
+                "height": 120
+               },
+               "children": [
+                {
+                 "id": "KgtgX",
+                 "type": "text",
+                 "text": "Stat card",
+                 "name": "Stat card"
+                }
+               ],
+               "name": "Frame"
+              },
+              {
+               "id": "vwf9R",
+               "type": "frame",
+               "class": "flex items-center justify-center",
+               "style": {
+                "borderRadius": 10,
+                "border": "1px dashed #b9c6ee",
+                "background": "#fff",
+                "color": "var(--accent-fg)",
+                "fontSize": 13,
+                "fontWeight": 500,
+                "flex": 1,
+                "height": 120
+               },
+               "children": [
+                {
+                 "id": "Mct2g",
+                 "type": "text",
+                 "text": "Stat card",
+                 "name": "Stat card"
+                }
+               ],
+               "name": "Frame"
+              },
+              {
+               "id": "CNU4q",
+               "type": "frame",
+               "class": "flex items-center justify-center",
+               "style": {
+                "borderRadius": 10,
+                "border": "1px dashed #b9c6ee",
+                "background": "#fff",
+                "color": "var(--accent-fg)",
+                "fontSize": 13,
+                "fontWeight": 500,
+                "flex": 1,
+                "height": 120
+               },
+               "children": [
+                {
+                 "id": "WJfDs",
+                 "type": "text",
+                 "text": "Stat card",
+                 "name": "Stat card"
+                }
+               ],
+               "name": "Frame"
+              },
+              {
+               "id": "RGs8Y",
+               "type": "frame",
+               "class": "flex items-center justify-center",
+               "style": {
+                "borderRadius": 10,
+                "border": "1px dashed #b9c6ee",
+                "background": "#fff",
+                "color": "var(--accent-fg)",
+                "fontSize": 13,
+                "fontWeight": 500,
+                "flex": 1,
+                "height": 120
+               },
+               "children": [
+                {
+                 "id": "JGQcR",
+                 "type": "text",
+                 "text": "Stat card",
+                 "name": "Stat card"
+                }
+               ],
+               "name": "Frame"
+              }
+             ],
+             "name": "Frame"
+            }
+           ],
+           "name": "Frame"
+          },
+          {
+           "id": "TipFs",
+           "type": "frame",
+           "class": "flex items-center justify-center",
+           "style": {
+            "borderRadius": 10,
+            "border": "1px dashed #b9c6ee",
+            "background": "#fff",
+            "color": "var(--accent-fg)",
+            "fontSize": 13,
+            "fontWeight": 500,
+            "width": 560
+           },
+           "children": [
+            {
+             "id": "MYn2D",
+             "type": "text",
+             "text": "Breakdown list · 560px",
+             "name": "Breakdown list · 560px"
+            }
+           ],
+           "name": "Frame"
+          }
+         ],
+         "name": "Frame"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    }
+   ]
+  },
+  {
+   "id": "bBrEv",
+   "type": "frame",
+   "name": "Notes",
+   "x": 0,
+   "y": 1520,
+   "class": "flex gap-6",
+   "children": [
+    {
+     "id": "L5EkE",
+     "type": "frame",
+     "class": "flex flex-col gap-2",
+     "style": {
+      "width": 560,
+      "padding": 24,
+      "borderRadius": 12,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-card)",
+      "fontFamily": "Inter"
+     },
+     "children": [
+      {
+       "id": "5c33X",
+       "type": "text",
+       "text": "App shell",
+       "style": {
+        "fontSize": 20,
+        "fontWeight": 600,
+        "letterSpacing": "-0.01em"
+       },
+       "name": "App shell"
+      },
+      {
+       "id": "MpWFi",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "UC9Qx",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "yh5Fg",
+         "type": "text",
+         "text": "Sidebar 272 · top bar 52 · inspector 480 · content is fluid.",
+         "name": "Sidebar 272 · top bar 5…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "8nAFa",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "Nm4Lb",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "6Z72k",
+         "type": "text",
+         "text": "The active section swaps one Nav Item instance to Nav Item/Active.",
+         "name": "The active section swap…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "jG8rV",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "Txqig",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "JwSXD",
+         "type": "text",
+         "text": "Inspector is optional. Use it for the selected item's details.",
+         "name": "Inspector is optional. …"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "3B78c",
+     "type": "frame",
+     "class": "flex flex-col gap-2",
+     "style": {
+      "width": 560,
+      "padding": 24,
+      "borderRadius": 12,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-card)",
+      "fontFamily": "Inter"
+     },
+     "children": [
+      {
+       "id": "XE6wC",
+       "type": "text",
+       "text": "Table page",
+       "style": {
+        "fontSize": 20,
+        "fontWeight": 600,
+        "letterSpacing": "-0.01em"
+       },
+       "name": "Table page"
+      },
+      {
+       "id": "nbv3M",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "TGgh7",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "2LyXW",
+         "type": "text",
+         "text": "Header shows the totals that matter, as Stat components.",
+         "name": "Header shows the totals…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "sB7cd",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "FHqEw",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "nJWeZ",
+         "type": "text",
+         "text": "Toolbar: create and import on the left, filters and search on the right.",
+         "name": "Toolbar: create and imp…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "gYJvv",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "rfMcG",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "CiHyg",
+         "type": "text",
+         "text": "Rows are 40px. Selection shows the Selection Bar at the bottom.",
+         "name": "Rows are 40px. Selectio…"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "MfYne",
+     "type": "frame",
+     "class": "flex flex-col gap-2",
+     "style": {
+      "width": 560,
+      "padding": 24,
+      "borderRadius": 12,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-card)",
+      "fontFamily": "Inter"
+     },
+     "children": [
+      {
+       "id": "5WR9Z",
+       "type": "text",
+       "text": "Report page",
+       "style": {
+        "fontSize": 20,
+        "fontWeight": 600,
+        "letterSpacing": "-0.01em"
+       },
+       "name": "Report page"
+      },
+      {
+       "id": "YMiZ9",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "NnP3a",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "v6RCN",
+         "type": "text",
+         "text": "Tabs switch reports. Filters live in the header row.",
+         "name": "Tabs switch reports. Fi…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "GnKqd",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "9Epxa",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "xL6ad",
+         "type": "text",
+         "text": "One hero chart, one trend chart, four stat cards, one breakdown list.",
+         "name": "One hero chart, one tre…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "fR8qZ",
+       "type": "frame",
+       "class": "flex gap-2",
+       "style": {
+        "fontSize": 13,
+        "lineHeight": "20px",
+        "fontWeight": 500,
+        "color": "var(--text-secondary)"
+       },
+       "children": [
+        {
+         "id": "PZazC",
+         "type": "text",
+         "text": "•",
+         "style": {
+          "color": "var(--text-tertiary)"
+         },
+         "name": "•"
+        },
+        {
+         "id": "sRuh6",
+         "type": "text",
+         "text": "Charts use the chart-1…6 palette in order.",
+         "name": "Charts use the chart-1……"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    }
+   ]
+  }
+ ]
+}
