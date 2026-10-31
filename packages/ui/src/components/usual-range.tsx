@@ -1,7 +1,10 @@
 import { cn } from "@ynabe/ui/lib/utils";
 
+const euros = (cents: number) =>
+  `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(cents / 100)}€`;
+
 export interface UsualRangeProps {
-  /** This period's value. */
+  /** This period's value, in whole cents. */
   value: number;
   low: number;
   high: number;
@@ -28,7 +31,7 @@ export const UsualRange = ({
   return (
     <figure className={cn("relative m-0 h-6 w-full", className)}>
       <figcaption className="sr-only">
-        {value} against a usual range of {low} to {high}
+        {euros(value)} against a usual range of {euros(low)} to {euros(high)}
       </figcaption>
       <div className="bg-border-subtle absolute inset-x-0 top-[11.5px] h-px" />
       <div

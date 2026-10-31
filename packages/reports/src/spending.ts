@@ -238,14 +238,13 @@ export const spendingReport = (
       const value = thisMonth.get(category.id) ?? 0;
       const history = activePast.map((totals) => totals.get(category.id) ?? 0);
 
-      const usual =
-        history.length === 0
-          ? null
-          : {
-              average: Math.round(average(history)),
-              high: Math.max(...history),
-              low: Math.min(...history),
-            };
+      const usual = history.every((amount) => amount === 0)
+        ? null
+        : {
+            average: Math.round(average(history)),
+            high: Math.max(...history),
+            low: Math.min(...history),
+          };
 
       let unusual: CategorySpending["unusual"] = null;
 
