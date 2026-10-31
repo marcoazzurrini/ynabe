@@ -31,6 +31,10 @@ export type Group = Pick<
 /** A category with what the screens show beside the engine fields. */
 export interface BudgetCategory extends Category {
   icon: string | null;
+  /** Order within the group. */
+  position: number;
+  /** Group order, so categories sort across groups too. */
+  groupPosition: number;
 }
 
 /** A transaction with everything the ledger shows, not just the maths. */
@@ -70,9 +74,14 @@ const targetOf = (row: CategoryRow): Target | undefined => {
   return undefined;
 };
 
-const categoryOf = (row: CategoryRow): BudgetCategory => ({
+const categoryOf = (
+  row: CategoryRow,
+  groupPosition: number
+): BudgetCategory => ({
   groupId: row.groupId,
+  groupPosition,
   icon: row.icon,
+  position: row.position,
   id: row.id,
   name: row.name,
   target: targetOf(row),
@@ -97,7 +106,10 @@ export const loadBudget = async (db: Database): Promise<Budget> => {
       .from(schema.categoryGroups)
       .orderBy(schema.categoryGroups.position),
     db
-      .select({ category: schema.categories })
+      .select({
+        category: schema.categories,
+        groupPosition: schema.categoryGroups.position,
+      })
       .from(schema.categories)
       .innerJoin(
         schema.categoryGroups,
@@ -112,7 +124,9 @@ export const loadBudget = async (db: Database): Promise<Budget> => {
     accounts: accountRows,
     groups: groupRows,
     assignments: assignmentRows,
-    categories: categoryRows.map(({ category }) => categoryOf(category)),
+    categories: categoryRows.map(({ category, groupPosition }) =>
+      categoryOf(category, groupPosition)
+    ),
     transactions: transactionRows.map((row) => ({
       accountId: row.accountId,
       amount: row.amount,
@@ -155,4 +169,33 @@ export const assign = async (
       set: { amount: sql`excluded.amount` },
       target: [schema.assignments.categoryId, schema.assignments.month],
     });
+};
+
+/** Files a transaction under a category, or clears its category. */
+export const categorize = async (
+  db: Database,
+  transactionId: string,
+  categoryId: string | null
+): Promise<void> => {
+  await db
+    .update(schema.transactions)
+    .set({ categoryId })
+    .where(eq(schema.transactions.id, transactionId));
+};
+
+/** Sets or removes a category's target. */
+export const setTarget = async (
+  db: Database,
+  categoryId: string,
+  target: Target | null
+): Promise<void> => {
+  await db
+    .update(schema.categories)
+    .set({
+      targetAmount: target?.amount ?? null,
+      targetBy: target?.kind === "savings" ? (target.by ?? null) : null,
+      targetDueDay: target?.kind === "monthly" ? (target.dueDay ?? null) : null,
+      targetKind: target?.kind ?? null,
+    })
+    .where(eq(schema.categories.id, categoryId));
 };
