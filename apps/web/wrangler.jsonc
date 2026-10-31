@@ -2,11 +2,19 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ynabe",
   "account_id": "168a8fd9b88ae669c145fa229de911c5",
-  "main": "@tanstack/react-start/server-entry",
+  "main": "src/worker.ts",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "observability": { "enabled": true },
+  // GOOGLE_CLIENT_SECRET and BETTER_AUTH_SECRET are Worker secrets, set
+  // with `wrangler secret put`. Local development reads all five from
+  // .dev.vars (see .dev.vars.example).
+  "vars": {
+    "AUTH_ALLOWED_EMAILS": "marco.azzurrini.art@gmail.com",
+    "BETTER_AUTH_URL": "https://ynabe.marco-azzurrini-art.workers.dev",
+    "GOOGLE_CLIENT_ID": "462635110749-7d3uhf6kuundauhq2p6aiufib9jnaltv.apps.googleusercontent.com",
+  },
   "d1_databases": [
     {
       "binding": "DB",
