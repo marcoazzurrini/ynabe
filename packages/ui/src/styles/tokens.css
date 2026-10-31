@@ -1,0 +1,121 @@
+/*
+ * Design tokens from the penna design (.penna/). Primitives feed the
+ * semantic layer; components only use the semantic names.
+ */
+:root {
+  /* Primitives */
+  --gray-25: #f9f9fa;
+  --gray-50: #f2f3f5;
+  --gray-100: #eeeff1;
+  --gray-150: #e6e7ea;
+  --gray-200: #e3e6ea;
+  --gray-300: #d5d9df;
+  --gray-350: #cbd0d8;
+  --gray-400: #b5bcc7;
+  --gray-500: #8e96a4;
+  --gray-600: #6f7684;
+  --gray-700: #535a66;
+  --gray-800: #2e3137;
+  --gray-850: #242629;
+  --ink: #1a1b1e;
+  --blue: #266df0;
+  --blue-ink: #3157d8;
+  --blue-tint: #e6ecf7;
+  --green: #007d53;
+  --green-500: #2bbd7e;
+  --green-tint: #e0fced;
+  --green-border: #cbf7e1;
+  --orange: #f5a524;
+  --red: #f0545a;
+
+  /* Text */
+  --text-primary: var(--ink);
+  --text-secondary: var(--gray-700);
+  --text-tertiary: var(--gray-500);
+  --text-disabled: var(--gray-400);
+
+  /* Surfaces and borders */
+  --surface-app: var(--gray-25);
+  --surface-panel: #fff;
+  --surface-sunken: var(--gray-50);
+  --surface-selected: #f4f7ff;
+  --border-subtle: var(--gray-100);
+  --border-control: var(--gray-300);
+
+  /* Money states */
+  --money-funded-bg: var(--green-tint);
+  --money-funded-fg: var(--green);
+  --money-funded-border: var(--green-border);
+  --money-under-bg: #fff3d6;
+  --money-under-fg: #9a5b00;
+  --money-under-border: #ffe3a3;
+  --money-over-bg: #ffe6e7;
+  --money-over-fg: #c42530;
+  --money-over-border: #ffc9cc;
+  --money-inflow: var(--green);
+
+  --envelope-track: #f3f4f6;
+  --envelope-funded: #e9f6ef;
+  --envelope-partial: #ffedc2;
+  --envelope-over: #ffdfe1;
+
+  --progress-track: var(--gray-100);
+  --progress-funded: var(--green-500);
+  --progress-under: var(--orange);
+  --progress-over: var(--red);
+
+  /* Charts (validated with the dataviz palette checks) */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-other: #b5bcc7;
+  --chart-4: #b5bcc7;
+  --chart-5: #8e96a4;
+  --seq-0: #f2f3f5;
+  --seq-1: #e6effc;
+  --seq-2: #bcd5f6;
+  --seq-3: #7eb0ee;
+  --seq-4: #2a78d6;
+
+  /* Elevation */
+  --elevation-xs: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 0 2px 0 rgb(28 40 64 / 0.18);
+  --elevation-card:
+    0 0 1px 1px rgb(0 22 62 / 0.01), 0 4px 12px -1px rgb(0 22 62 / 0.04),
+    0 1px 3px -1px rgb(0 22 62 / 0.18);
+  --elevation-window:
+    0 0 0 1px rgb(11 13 24 / 0.06), 0 1px 2px rgb(11 13 24 / 0.024),
+    0 3px 6px rgb(11 13 24 / 0.03), 0 8px 14px rgb(11 13 24 / 0.035),
+    0 16px 28px rgb(11 13 24 / 0.04);
+  --elevation-button:
+    inset 0.2px 0.2px 2px 0 rgb(255 255 255 / 0.1),
+    0 1.5px 1.5px 0 rgb(0 0 0 / 0.25);
+
+  /* shadcn theme */
+  --radius: 10px;
+  --background: #fff;
+  --foreground: var(--ink);
+  --card: #fff;
+  --card-foreground: var(--ink);
+  --popover: #fff;
+  --popover-foreground: var(--ink);
+  --primary: var(--gray-800);
+  --primary-foreground: #eef0f3;
+  --secondary: var(--gray-50);
+  --secondary-foreground: var(--ink);
+  --muted: var(--gray-50);
+  --muted-foreground: var(--gray-600);
+  --accent: var(--gray-50);
+  --accent-foreground: var(--ink);
+  --destructive: var(--money-over-fg);
+  --border: var(--gray-150);
+  --input: var(--gray-300);
+  --ring: var(--blue);
+  --sidebar: var(--gray-25);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #fff;
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--gray-150);
+  --sidebar-ring: var(--blue);
+}
