@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountsRouteImport } from './routes/accounts'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as ReflectRouteImport } from './routes/reflect'
+import { Route as ScheduledRouteImport } from './routes/scheduled'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const ReflectRoute = ReflectRouteImport.update({
   path: '/reflect',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScheduledRoute = ScheduledRouteImport.update({
+  id: '/scheduled',
+  path: '/scheduled',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/plan': typeof PlanRoute
   '/reflect': typeof ReflectRoute
+  '/scheduled': typeof ScheduledRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accounts': typeof AccountsRoute
   '/plan': typeof PlanRoute
   '/reflect': typeof ReflectRoute
+  '/scheduled': typeof ScheduledRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/accounts': typeof AccountsRoute
   '/plan': typeof PlanRoute
   '/reflect': typeof ReflectRoute
+  '/scheduled': typeof ScheduledRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/accounts' | '/plan' | '/reflect'
+  fullPaths: '/' | '/accounts' | '/plan' | '/reflect' | '/scheduled'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accounts' | '/plan' | '/reflect'
-  id: '__root__' | '/' | '/accounts' | '/plan' | '/reflect'
+  to: '/' | '/accounts' | '/plan' | '/reflect' | '/scheduled'
+  id: '__root__' | '/' | '/accounts' | '/plan' | '/reflect' | '/scheduled'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AccountsRoute: typeof AccountsRoute
   PlanRoute: typeof PlanRoute
   ReflectRoute: typeof ReflectRoute
+  ScheduledRoute: typeof ScheduledRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReflectRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scheduled': {
+      id: '/scheduled'
+      path: '/scheduled'
+      fullPath: '/scheduled'
+      preLoaderRoute: typeof ScheduledRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountsRoute: AccountsRoute,
   PlanRoute: PlanRoute,
   ReflectRoute: ReflectRoute,
+  ScheduledRoute: ScheduledRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
