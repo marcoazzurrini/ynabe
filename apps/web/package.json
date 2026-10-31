@@ -1,0 +1,46 @@
+{
+  "name": "@ynabe/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./components/*": "./src/components/*.tsx"
+  },
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview --port 3000",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "wrangler d1 migrations apply ynabe --local",
+    "db:seed": "wrangler d1 execute ynabe --local --file ../../packages/db/seed.sql",
+    "deploy": "wrangler deploy --config dist/server/wrangler.json"
+  },
+  "dependencies": {
+    "@tanstack/charts": "1.1.0",
+    "@tanstack/query-core": "5.105.0",
+    "@tanstack/query-db-collection": "1.5.0",
+    "@tanstack/react-db": "1.0.0-rc.1.1",
+    "@tanstack/react-router": "1.170.46",
+    "@tanstack/react-start": "1.169.4",
+    "@ynabe/budget": "workspace:*",
+    "@ynabe/db": "workspace:*",
+    "@ynabe/reports": "workspace:*",
+    "@ynabe/ui": "workspace:*",
+    "lucide-react": "1.66.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.66.0",
+    "@cloudflare/workers-types": "5.20261031.1",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "wrangler": "4.156.0"
+  }
+}
