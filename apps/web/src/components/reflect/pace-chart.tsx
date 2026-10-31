@@ -21,27 +21,30 @@ export const PaceChart = ({ pace }: { pace: readonly PacePoint[] }) => {
     return defineChart({
       marks: [
         areaY(rows, {
-          fill: "var(--chart-muted, #8e96a4)",
+          fill: "#8e96a4",
           fillOpacity: 0.12,
           x: "day",
           y1: "low",
           y2: "high",
         }),
         lineY(rows, {
-          stroke: "var(--gray-400)",
+          stroke: "#b5bcc7",
           strokeWidth: 2,
           x: "day",
           y: "typical",
         }),
         lineY(rows, {
-          stroke: "var(--text-primary)",
+          stroke: "#1a1b1e",
           strokeWidth: 2,
           x: "day",
           y: "actual",
         }),
       ],
       scales: {
-        x: { axis: { label: "Day of the month" }, scale: scaleLinear },
+        x: {
+          axis: { ticks: { format: (value) => `Day ${value}` } },
+          scale: scaleLinear,
+        },
         y: {
           axis: { ticks: { format: (value) => `${euros.format(value)}€` } },
           grid: true,
