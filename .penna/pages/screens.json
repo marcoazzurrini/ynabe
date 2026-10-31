@@ -13888,6 +13888,554 @@
      ]
     }
    ]
+  },
+  {
+   "id": "q4UtY",
+   "type": "frame",
+   "name": "Sign in",
+   "x": 0,
+   "y": 3200,
+   "class": "flex flex-col items-center justify-center",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)",
+    "background": "var(--surface-app)",
+    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
+    "backgroundSize": "160px 100%",
+    "position": "relative"
+   },
+   "children": [
+    {
+     "id": "9A5Lr",
+     "type": "frame",
+     "class": "flex flex-col items-center",
+     "style": {
+      "width": 440,
+      "padding": "40px 40px 32px",
+      "borderRadius": 16,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-window)",
+      "gap": 24
+     },
+     "children": [
+      {
+       "id": "gFaKH",
+       "type": "ref",
+       "ref": "Xv56p",
+       "name": "Auth/Mark"
+      },
+      {
+       "id": "MkXkx",
+       "type": "frame",
+       "class": "flex flex-col items-center gap-2",
+       "style": {
+        "textAlign": "center"
+       },
+       "children": [
+        {
+         "id": "kc2Q4",
+         "type": "text",
+         "text": "Sign in to ynabe",
+         "style": {
+          "fontSize": 28,
+          "lineHeight": "32px",
+          "fontWeight": 600,
+          "letterSpacing": "-0.02em"
+         },
+         "name": "Sign in to ynabe"
+        },
+        {
+         "id": "DpeQ7",
+         "type": "text",
+         "text": "Your budget, planned with Ledger.",
+         "style": {
+          "fontSize": 14,
+          "fontWeight": 500,
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Your budget, planned wi…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "j4Tbh",
+       "type": "ref",
+       "ref": "7dFCr",
+       "overrides": {},
+       "name": "Auth/Google Button"
+      },
+      {
+       "id": "jcFCs",
+       "type": "frame",
+       "class": "flex items-center gap-2",
+       "style": {
+        "fontSize": 12,
+        "fontWeight": 500,
+        "color": "var(--text-tertiary)"
+       },
+       "children": [
+        {
+         "id": "CMyC3",
+         "type": "icon",
+         "icon": "lock",
+         "style": {
+          "width": 12,
+          "height": 12,
+          "flexShrink": 0
+         },
+         "name": "lock"
+        },
+        {
+         "id": "2iyN9",
+         "type": "text",
+         "text": "Private budget. Only its owner can sign in.",
+         "name": "Private budget. Only it…"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "aum6P",
+     "type": "text",
+     "text": "© 2026 ynabe",
+     "style": {
+      "position": "absolute",
+      "bottom": 32,
+      "fontSize": 12,
+      "fontWeight": 500,
+      "color": "var(--text-disabled)"
+     },
+     "name": "© 2026 ynabe"
+    }
+   ]
+  },
+  {
+   "id": "kypne",
+   "type": "frame",
+   "name": "Sign in · Not allowed",
+   "x": 2700,
+   "y": 3200,
+   "class": "flex flex-col items-center justify-center",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)",
+    "background": "var(--surface-app)",
+    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
+    "backgroundSize": "160px 100%",
+    "position": "relative"
+   },
+   "children": [
+    {
+     "id": "aH2xq",
+     "type": "frame",
+     "class": "flex flex-col items-center",
+     "style": {
+      "width": 440,
+      "padding": "40px 40px 32px",
+      "borderRadius": 16,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-window)",
+      "gap": 24
+     },
+     "children": [
+      {
+       "id": "mSEJw",
+       "type": "ref",
+       "ref": "Xv56p",
+       "name": "Auth/Mark"
+      },
+      {
+       "id": "PSpZv",
+       "type": "frame",
+       "class": "flex flex-col items-center gap-2",
+       "style": {
+        "textAlign": "center"
+       },
+       "children": [
+        {
+         "id": "rfwJw",
+         "type": "text",
+         "text": "Sign in to ynabe",
+         "style": {
+          "fontSize": 28,
+          "lineHeight": "32px",
+          "fontWeight": 600,
+          "letterSpacing": "-0.02em"
+         },
+         "name": "Sign in to ynabe"
+        },
+        {
+         "id": "NECR6",
+         "type": "text",
+         "text": "Your budget, planned with Ledger.",
+         "style": {
+          "fontSize": 14,
+          "fontWeight": 500,
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Your budget, planned wi…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "kBufD",
+       "type": "ref",
+       "ref": "67rqV",
+       "name": "Auth/Notice/Error"
+      },
+      {
+       "id": "w6SVs",
+       "type": "ref",
+       "ref": "7dFCr",
+       "overrides": {
+        "Label": {
+         "text": "Use another Google account"
+        }
+       },
+       "name": "Auth/Google Button"
+      },
+      {
+       "id": "2yQrE",
+       "type": "frame",
+       "class": "flex items-center gap-2",
+       "style": {
+        "fontSize": 12,
+        "fontWeight": 500,
+        "color": "var(--text-tertiary)"
+       },
+       "children": [
+        {
+         "id": "kES9v",
+         "type": "icon",
+         "icon": "lock",
+         "style": {
+          "width": 12,
+          "height": 12,
+          "flexShrink": 0
+         },
+         "name": "lock"
+        },
+        {
+         "id": "aUcUC",
+         "type": "text",
+         "text": "Private budget. Only its owner can sign in.",
+         "name": "Private budget. Only it…"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "NV9Xg",
+     "type": "text",
+     "text": "© 2026 ynabe",
+     "style": {
+      "position": "absolute",
+      "bottom": 32,
+      "fontSize": 12,
+      "fontWeight": 500,
+      "color": "var(--text-disabled)"
+     },
+     "name": "© 2026 ynabe"
+    }
+   ]
+  },
+  {
+   "id": "yyYjf",
+   "type": "frame",
+   "name": "Sign in · Signed out",
+   "x": 5400,
+   "y": 3200,
+   "class": "flex flex-col items-center justify-center",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)",
+    "background": "var(--surface-app)",
+    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
+    "backgroundSize": "160px 100%",
+    "position": "relative"
+   },
+   "children": [
+    {
+     "id": "p9MiB",
+     "type": "frame",
+     "class": "flex flex-col items-center",
+     "style": {
+      "width": 440,
+      "padding": "40px 40px 32px",
+      "borderRadius": 16,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-window)",
+      "gap": 24
+     },
+     "children": [
+      {
+       "id": "w8Jmj",
+       "type": "ref",
+       "ref": "Xv56p",
+       "name": "Auth/Mark"
+      },
+      {
+       "id": "N5jy9",
+       "type": "frame",
+       "class": "flex flex-col items-center gap-2",
+       "style": {
+        "textAlign": "center"
+       },
+       "children": [
+        {
+         "id": "sgSJZ",
+         "type": "text",
+         "text": "Sign in to ynabe",
+         "style": {
+          "fontSize": 28,
+          "lineHeight": "32px",
+          "fontWeight": 600,
+          "letterSpacing": "-0.02em"
+         },
+         "name": "Sign in to ynabe"
+        },
+        {
+         "id": "Tawe6",
+         "type": "text",
+         "text": "Your budget, planned with Ledger.",
+         "style": {
+          "fontSize": 14,
+          "fontWeight": 500,
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Your budget, planned wi…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "CHcrw",
+       "type": "ref",
+       "ref": "EnPVU",
+       "name": "Auth/Notice/Info"
+      },
+      {
+       "id": "XCU6U",
+       "type": "ref",
+       "ref": "7dFCr",
+       "overrides": {},
+       "name": "Auth/Google Button"
+      },
+      {
+       "id": "H7Vun",
+       "type": "frame",
+       "class": "flex items-center gap-2",
+       "style": {
+        "fontSize": 12,
+        "fontWeight": 500,
+        "color": "var(--text-tertiary)"
+       },
+       "children": [
+        {
+         "id": "cmHqg",
+         "type": "icon",
+         "icon": "lock",
+         "style": {
+          "width": 12,
+          "height": 12,
+          "flexShrink": 0
+         },
+         "name": "lock"
+        },
+        {
+         "id": "Rgv2B",
+         "type": "text",
+         "text": "Private budget. Only its owner can sign in.",
+         "name": "Private budget. Only it…"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "NFHba",
+     "type": "text",
+     "text": "© 2026 ynabe",
+     "style": {
+      "position": "absolute",
+      "bottom": 32,
+      "fontSize": 12,
+      "fontWeight": 500,
+      "color": "var(--text-disabled)"
+     },
+     "name": "© 2026 ynabe"
+    }
+   ]
+  },
+  {
+   "id": "AYcpX",
+   "type": "frame",
+   "name": "Sign in · Checking",
+   "x": 8100,
+   "y": 3200,
+   "class": "flex flex-col items-center justify-center",
+   "style": {
+    "width": 2560,
+    "height": 1440,
+    "fontFamily": "Inter",
+    "color": "var(--text-primary)",
+    "background": "var(--surface-app)",
+    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
+    "backgroundSize": "160px 100%",
+    "position": "relative"
+   },
+   "children": [
+    {
+     "id": "wVTnw",
+     "type": "frame",
+     "class": "flex flex-col items-center",
+     "style": {
+      "width": 440,
+      "padding": "40px 40px 32px",
+      "borderRadius": 16,
+      "background": "#fff",
+      "boxShadow": "var(--shadow-window)",
+      "gap": 24
+     },
+     "children": [
+      {
+       "id": "StkC6",
+       "type": "ref",
+       "ref": "Xv56p",
+       "name": "Auth/Mark"
+      },
+      {
+       "id": "gVtXE",
+       "type": "frame",
+       "class": "flex flex-col items-center gap-2",
+       "style": {
+        "textAlign": "center"
+       },
+       "children": [
+        {
+         "id": "vnBYW",
+         "type": "text",
+         "text": "Sign in to ynabe",
+         "style": {
+          "fontSize": 28,
+          "lineHeight": "32px",
+          "fontWeight": 600,
+          "letterSpacing": "-0.02em"
+         },
+         "name": "Sign in to ynabe"
+        },
+        {
+         "id": "ntSkB",
+         "type": "text",
+         "text": "Your budget, planned with Ledger.",
+         "style": {
+          "fontSize": 14,
+          "fontWeight": 500,
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Your budget, planned wi…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "MHrYe",
+       "type": "frame",
+       "class": "flex items-center justify-center gap-3",
+       "style": {
+        "width": 360,
+        "height": 44,
+        "borderRadius": 12,
+        "background": "var(--surface-sunken)",
+        "fontSize": 14,
+        "fontWeight": 500,
+        "color": "var(--text-tertiary)"
+       },
+       "children": [
+        {
+         "id": "NDiuR",
+         "type": "frame",
+         "style": {
+          "width": 16,
+          "height": 16,
+          "borderRadius": 9999,
+          "border": "2px solid var(--gray-300)",
+          "borderTopColor": "var(--text-primary)"
+         },
+         "name": "Frame"
+        },
+        {
+         "id": "FTjRP",
+         "type": "text",
+         "text": "Checking your session…",
+         "name": "Checking your session…"
+        }
+       ],
+       "name": "Frame"
+      },
+      {
+       "id": "tAAnn",
+       "type": "frame",
+       "class": "flex items-center gap-2",
+       "style": {
+        "fontSize": 12,
+        "fontWeight": 500,
+        "color": "var(--text-tertiary)"
+       },
+       "children": [
+        {
+         "id": "u4TjA",
+         "type": "icon",
+         "icon": "lock",
+         "style": {
+          "width": 12,
+          "height": 12,
+          "flexShrink": 0
+         },
+         "name": "lock"
+        },
+        {
+         "id": "QRECw",
+         "type": "text",
+         "text": "Private budget. Only its owner can sign in.",
+         "name": "Private budget. Only it…"
+        }
+       ],
+       "name": "Frame"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "UuVwa",
+     "type": "text",
+     "text": "© 2026 ynabe",
+     "style": {
+      "position": "absolute",
+      "bottom": 32,
+      "fontSize": 12,
+      "fontWeight": 500,
+      "color": "var(--text-disabled)"
+     },
+     "name": "© 2026 ynabe"
+    }
+   ]
   }
  ]
 }
