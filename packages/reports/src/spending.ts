@@ -37,9 +37,30 @@ export interface CategorySpending {
   unusual: { direction: "above" | "below"; change: number } | null;
 }
 
+export interface GroupSpending {
+  id: string;
+  name: string;
+  /** How many categories in the group have spending or history. */
+  categoryCount: number;
+  spent: Cents;
+  share: number;
+  usual: UsualRange | null;
+  unusual: CategorySpending["unusual"];
+}
+
+export interface MonthSpending {
+  month: Month;
+  spent: Cents;
+}
+
 export interface SpendingReport {
   month: Month;
   spent: Cents;
+  /** Income that reached Ready to Assign this month. */
+  income: Cents;
+  /** Spending for the last 12 months, oldest first, ending with this one. */
+  months: MonthSpending[];
+  groups: GroupSpending[];
   previous: Cents;
   /** Change against the previous month, as a ratio: -0.062 is 6.2% less. */
   change: number | null;
@@ -54,7 +75,53 @@ export interface SpendingReport {
 interface SpendingInput {
   categories: readonly Category[];
   transactions: readonly Transaction[];
+  groups?: readonly { id: string; name: string }[];
 }
+
+const average = (values: readonly number[]): number =>
+  values.length === 0
+    ? 0
+    : values.reduce((total, value) => total + value, 0) / values.length;
+
+interface Comparison {
+  share: number;
+  spent: Cents;
+  usual: UsualRange | null;
+  unusual: CategorySpending["unusual"];
+}
+
+/** Compares one bucket's spending with its own history. */
+const compareWithHistory = (
+  value: Cents,
+  history: readonly Cents[],
+  total: Cents
+): Comparison => {
+  const usual = history.every((amount) => amount === 0)
+    ? null
+    : {
+        average: Math.round(average(history)),
+        high: Math.max(...history),
+        low: Math.min(...history),
+      };
+
+  let unusual: CategorySpending["unusual"] = null;
+
+  if (usual && value > usual.high && usual.average > 0) {
+    unusual = { change: value / usual.average - 1, direction: "above" };
+  } else if (usual && value < usual.low && usual.average > 0) {
+    unusual = { change: value / usual.average - 1, direction: "below" };
+  }
+
+  return {
+    share: total === 0 ? 0 : value / total,
+    spent: value,
+    unusual,
+    usual,
+  };
+};
+
+const sumBy = (totals: Map<string, Cents>, ids: readonly string[]): Cents =>
+  ids.reduce((total, id) => total + (totals.get(id) ?? 0), 0);
 
 interface ReportOptions {
   /** Months before this one to compare against. */
@@ -71,11 +138,6 @@ const isSpending = (transaction: Transaction): boolean =>
   !transaction.transfer &&
   transaction.categoryId !== null &&
   transaction.categoryId !== READY_TO_ASSIGN;
-
-const average = (values: readonly number[]): number =>
-  values.length === 0
-    ? 0
-    : values.reduce((total, value) => total + value, 0) / values.length;
 
 /** Daily spending for one month, indexed from day 1. */
 const dailySpending = (
@@ -234,43 +296,68 @@ export const spendingReport = (
   const activePast = pastMonths.filter((totals) => totals.size > 0);
 
   const categories = input.categories
-    .map((category): CategorySpending => {
-      const value = thisMonth.get(category.id) ?? 0;
-      const history = activePast.map((totals) => totals.get(category.id) ?? 0);
-
-      const usual = history.every((amount) => amount === 0)
-        ? null
-        : {
-            average: Math.round(average(history)),
-            high: Math.max(...history),
-            low: Math.min(...history),
-          };
-
-      let unusual: CategorySpending["unusual"] = null;
-
-      if (usual && value > usual.high && usual.average > 0) {
-        unusual = { change: value / usual.average - 1, direction: "above" };
-      } else if (usual && value < usual.low && usual.average > 0) {
-        unusual = { change: value / usual.average - 1, direction: "below" };
-      }
-
-      return {
-        groupId: category.groupId,
-        id: category.id,
-        name: category.name,
-        share: spent === 0 ? 0 : value / spent,
-        spent: value,
-        unusual,
-        usual,
-      };
-    })
+    .map((category): CategorySpending => ({
+      groupId: category.groupId,
+      id: category.id,
+      name: category.name,
+      ...compareWithHistory(
+        thisMonth.get(category.id) ?? 0,
+        activePast.map((totals) => totals.get(category.id) ?? 0),
+        spent
+      ),
+    }))
     .filter((category) => category.spent !== 0 || category.usual !== null)
     .toSorted((a, b) => b.spent - a.spent);
+
+  const groups = (input.groups ?? [])
+    .map((group): GroupSpending => {
+      const ids = input.categories
+        .filter((category) => category.groupId === group.id)
+        .map((category) => category.id);
+
+      return {
+        categoryCount: categories.filter(({ groupId }) => groupId === group.id)
+          .length,
+        id: group.id,
+        name: group.name,
+        ...compareWithHistory(
+          sumBy(thisMonth, ids),
+          activePast.map((totals) => sumBy(totals, ids)),
+          spent
+        ),
+      };
+    })
+    .filter((group) => group.spent !== 0 || group.usual !== null)
+    .toSorted((a, b) => b.spent - a.spent);
+
+  const months = Array.from({ length: 12 }, (_, index) => {
+    const at = addMonths(month, index - 11);
+
+    return {
+      month: at,
+      spent: dailySpending(input.transactions, at).reduce(
+        (total, value) => total + value,
+        0
+      ),
+    };
+  });
+
+  const income = input.transactions
+    .filter(
+      (transaction) =>
+        transaction.categoryId === READY_TO_ASSIGN &&
+        !transaction.transfer &&
+        monthOf(transaction.date) === month
+    )
+    .reduce((total, transaction) => total + transaction.amount, 0);
 
   const weekdayAverage = average(weekday);
 
   return {
     categories,
+    groups,
+    income,
+    months,
     change: previous === 0 ? null : spent / previous - 1,
     dailyAverage: Math.round(spent / days.length),
     days: spendingDays,

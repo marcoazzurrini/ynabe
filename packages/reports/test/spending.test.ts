@@ -91,3 +91,32 @@ describe("spendingReport", () => {
     expect(report.days[0]?.level).toBe(4);
   });
 });
+
+describe("spendingReport groups and history", () => {
+  const grouped = spendingReport(
+    {
+      categories,
+      groups: [
+        { id: "bills", name: "Bills" },
+        { id: "fun", name: "Fun" },
+      ],
+      transactions: history,
+    },
+    "2026-10",
+    { compare: 2 }
+  );
+
+  test("adds up groups and compares them with their history", () => {
+    const fun = grouped.groups.find(({ id }) => id === "fun");
+
+    expect(fun).toMatchObject({ categoryCount: 1, name: "Fun", spent: 27_200 });
+    expect(fun?.unusual?.direction).toBe("above");
+  });
+
+  test("reports income and the last 12 months of spending", () => {
+    expect(grouped.income).toBe(300_000);
+    expect(grouped.months).toHaveLength(12);
+    expect(grouped.months.at(-1)).toEqual({ month: "2026-10", spent: 72_200 });
+    expect(grouped.months.at(-2)).toEqual({ month: "2026-09", spent: 60_000 });
+  });
+});

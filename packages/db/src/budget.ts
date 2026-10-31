@@ -23,6 +23,16 @@ type CategoryRow = typeof schema.categories.$inferSelect;
 
 export type Account = typeof schema.accounts.$inferSelect;
 
+export type Group = Pick<
+  typeof schema.categoryGroups.$inferSelect,
+  "id" | "name" | "position"
+>;
+
+/** A category with what the screens show beside the engine fields. */
+export interface BudgetCategory extends Category {
+  icon: string | null;
+}
+
 /** A transaction with everything the ledger shows, not just the maths. */
 export interface LedgerTransaction extends Transaction {
   accountId: string;
@@ -34,8 +44,9 @@ export interface LedgerTransaction extends Transaction {
 
 export interface Budget extends BudgetData {
   accounts: Account[];
+  groups: Group[];
   assignments: Assignment[];
-  categories: Category[];
+  categories: BudgetCategory[];
   transactions: LedgerTransaction[];
 }
 
@@ -59,8 +70,9 @@ const targetOf = (row: CategoryRow): Target | undefined => {
   return undefined;
 };
 
-const categoryOf = (row: CategoryRow): Category => ({
+const categoryOf = (row: CategoryRow): BudgetCategory => ({
   groupId: row.groupId,
+  icon: row.icon,
   id: row.id,
   name: row.name,
   target: targetOf(row),
@@ -68,23 +80,37 @@ const categoryOf = (row: CategoryRow): Category => ({
 
 /** Reads the budget: what the engine needs, plus accounts and ledger detail. */
 export const loadBudget = async (db: Database): Promise<Budget> => {
-  const [accountRows, categoryRows, assignmentRows, transactionRows] =
-    await Promise.all([
-      db.select().from(schema.accounts),
-      db
-        .select({ category: schema.categories })
-        .from(schema.categories)
-        .innerJoin(
-          schema.categoryGroups,
-          eq(schema.categories.groupId, schema.categoryGroups.id)
-        )
-        .orderBy(schema.categoryGroups.position, schema.categories.position),
-      db.select().from(schema.assignments),
-      db.select().from(schema.transactions),
-    ]);
+  const [
+    accountRows,
+    groupRows,
+    categoryRows,
+    assignmentRows,
+    transactionRows,
+  ] = await Promise.all([
+    db.select().from(schema.accounts),
+    db
+      .select({
+        id: schema.categoryGroups.id,
+        name: schema.categoryGroups.name,
+        position: schema.categoryGroups.position,
+      })
+      .from(schema.categoryGroups)
+      .orderBy(schema.categoryGroups.position),
+    db
+      .select({ category: schema.categories })
+      .from(schema.categories)
+      .innerJoin(
+        schema.categoryGroups,
+        eq(schema.categories.groupId, schema.categoryGroups.id)
+      )
+      .orderBy(schema.categoryGroups.position, schema.categories.position),
+    db.select().from(schema.assignments),
+    db.select().from(schema.transactions),
+  ]);
 
   return {
     accounts: accountRows,
+    groups: groupRows,
     assignments: assignmentRows,
     categories: categoryRows.map(({ category }) => categoryOf(category)),
     transactions: transactionRows.map((row) => ({
