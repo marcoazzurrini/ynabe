@@ -1,182 +1,206 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { planMonth } from "@ynabe/budget";
-import type { CategoryPlan } from "@ynabe/budget";
-import { Envelope } from "@ynabe/ui/components/envelope";
-import type { EnvelopeState } from "@ynabe/ui/components/envelope";
-import { Money } from "@ynabe/ui/components/money";
+import { addMonths, planMonth } from "@ynabe/budget";
 import { Button } from "@ynabe/ui/components/ui/button";
-import { Zap } from "lucide-react";
-import { useMemo } from "react";
+import { LayoutGrid, Plus, Search, SlidersHorizontal } from "lucide-react";
+import { useMemo, useState } from "react";
 
-import { assignments } from "../data/collections";
+import type { AutoAssignOption } from "../components/plan/month-header";
+import { MonthHeader } from "../components/plan/month-header";
+import type { PlanGroup, PlanRow } from "../components/plan/table";
+import { PlanTable } from "../components/plan/table";
+import { Segmented } from "../components/segmented";
+import { Topbar } from "../components/topbar";
+import { setAssigned } from "../data/actions";
 import {
-  currentMonth,
-  groupTitle,
-  monthTitle,
+  monthFromSearch,
+  monthName,
+  monthYear,
   useBudget,
 } from "../data/use-budget";
 
-const envelopeState: Record<CategoryPlan["status"], EnvelopeState> = {
-  available: "available",
-  empty: "empty",
-  funded: "funded",
-  overspent: "overspent",
-  underfunded: "underfunded",
-};
+type Filter = "all" | "attention" | "funded" | "snoozed";
 
-const COLUMNS =
-  "grid grid-cols-[minmax(0,1fr)_340px_140px_140px_200px] items-center gap-x-6";
-
-/** Assigns what a category still needs, on top of what it already has. */
-const fund = (category: CategoryPlan, month: string) => {
-  const key: `${string}:${string}` = `${category.id}:${month}`;
-  const amount = category.assigned + category.needed;
-
-  if (assignments.has(key)) {
-    assignments.update(key, (draft) => {
-      draft.amount = amount;
-    });
-  } else {
-    assignments.insert({ amount, categoryId: category.id, month });
-  }
-};
-
-const Note = ({ category }: { category: CategoryPlan }) => {
-  if (category.status === "overspent") {
-    return (
-      <span className="text-over text-[13px]">
-        Overspent by <Money cents={-category.available} />
-      </span>
-    );
+const matches = (row: PlanRow, filter: Filter) => {
+  if (filter === "attention") {
+    return row.status === "underfunded" || row.status === "overspent";
   }
 
-  if (category.status === "underfunded") {
-    return (
-      <span className="text-under text-[13px]">
-        Needs <Money cents={category.needed} />
-      </span>
-    );
+  if (filter === "funded") {
+    return row.status === "funded" || row.status === "available";
   }
 
-  return <span />;
+  return filter === "all";
 };
-
-const Quiet = ({ cents }: { cents: number }) =>
-  cents === 0 ? (
-    <span className="text-gray-350 text-right">—</span>
-  ) : (
-    <Money cents={Math.abs(cents)} className="text-text-secondary text-right" />
-  );
 
 const PlanScreen = () => {
-  const month = currentMonth();
-  const { data, ready } = useBudget();
-  const plan = useMemo(() => planMonth(data, month), [data, month]);
-  const groups = new Map<string, CategoryPlan[]>();
+  const month = monthFromSearch(Route.useSearch());
+  const { data, categories, groups } = useBudget();
+  const [filter, setFilter] = useState<Filter>("all");
 
-  for (const category of plan.categories) {
-    groups.set(category.groupId, [
-      ...(groups.get(category.groupId) ?? []),
-      category,
-    ]);
-  }
-
-  const underfunded = plan.categories.filter(
-    ({ status }) => status === "underfunded"
+  const plans = useMemo(
+    () =>
+      Array.from({ length: 7 }, (_, index) =>
+        planMonth(data, addMonths(month, index - 6))
+      ),
+    [data, month]
   );
 
+  const plan = plans.at(-1) ?? planMonth(data, month);
+  const previous = plans.at(-2);
+
+  const rows = useMemo(
+    () =>
+      plan.categories.map((category): PlanRow => {
+        const source = categories.find((entry) => entry.id === category.id);
+
+        const past = plans
+          .slice(3, 6)
+          .map(
+            (entry) =>
+              entry.categories.find(({ id }) => id === category.id)?.assigned ??
+              0
+          );
+
+        return {
+          ...category,
+          average: Math.round(
+            past.reduce((sum, value) => sum + value, 0) /
+              Math.max(1, past.length)
+          ),
+          history: plans.slice(1).map((entry) => {
+            const found = entry.categories.find(({ id }) => id === category.id);
+
+            return {
+              assigned: found?.assigned ?? 0,
+              month: entry.month,
+              spent: Math.max(0, -(found?.activity ?? 0)),
+            };
+          }),
+          icon: source?.icon ?? null,
+          lastMonth:
+            previous?.categories.find(({ id }) => id === category.id)
+              ?.assigned ?? 0,
+          target: source?.target,
+        };
+      }),
+    [plan, plans, previous, categories]
+  );
+
+  const visible: PlanGroup[] = groups
+    .map((group) => ({
+      id: group.id,
+      name: group.name,
+      rows: rows.filter(
+        (row) => row.groupId === group.id && matches(row, filter)
+      ),
+    }))
+    .filter((group) => group.rows.length > 0);
+
+  const assignAll = (pick: (row: PlanRow) => number) => {
+    for (const row of rows) {
+      const amount = pick(row);
+
+      if (amount !== row.assigned) {
+        setAssigned(row.id, month, amount);
+      }
+    }
+  };
+
+  const fundUnderfunded = () =>
+    assignAll((row) =>
+      row.status === "underfunded" ? row.assigned + row.needed : row.assigned
+    );
+
+  const total = (pick: (row: PlanRow) => number) =>
+    rows.reduce((sum, row) => sum + Math.max(0, pick(row) - row.assigned), 0);
+
+  const options: AutoAssignOption[] = [
+    {
+      amount: plan.attention.needed,
+      label: "Underfunded",
+      run: fundUnderfunded,
+    },
+    {
+      amount: total((row) => row.lastMonth),
+      label: "Assigned last month",
+      run: () => assignAll((row) => row.lastMonth),
+    },
+    {
+      amount: total((row) =>
+        Math.max(row.assigned, row.history.at(-1)?.spent ?? 0)
+      ),
+      label: "Spent last month",
+      run: () =>
+        assignAll((row) =>
+          Math.max(row.assigned, row.history.at(-1)?.spent ?? 0)
+        ),
+    },
+    {
+      amount: total((row) => row.average),
+      label: "Average assigned",
+      run: () => assignAll((row) => row.average),
+    },
+  ];
+
+  const attention = rows.filter((row) => matches(row, "attention")).length;
+
   return (
-    <div className="flex flex-col">
-      <section className="flex flex-col gap-6 px-10 pt-9 pb-7">
-        <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
-          {monthTitle(month)}
-        </h1>
-        <div className="flex items-stretch gap-5">
-          <div className="border-funded-border bg-funded-bg flex items-center gap-6 rounded-[14px] border py-3 pr-3 pl-5">
-            <div className="flex flex-col">
-              <Money
-                cents={plan.readyToAssign}
-                className="text-funded text-[28px] leading-8 font-semibold tracking-tight"
-              />
-              <span className="text-funded text-xs font-medium">
-                Ready to assign
-              </span>
-            </div>
-          </div>
-          <div className="shadow-card flex max-w-[640px] flex-1 flex-col gap-3 rounded-[14px] bg-white px-5 py-4">
-            <div className="flex items-baseline justify-between gap-4">
-              <p>
-                <span className="text-[22px] font-semibold tracking-tight">
-                  {Math.round(plan.funded * 100)}%
-                </span>
-                <span className="text-text-tertiary text-[13px] font-medium">
-                  {" "}
-                  of {monthTitle(month).split(" ")[0]}’s targets funded
-                </span>
-              </p>
-              <Button
-                variant="outline"
-                disabled={underfunded.length === 0 || !ready}
-                onClick={() => {
-                  for (const category of underfunded) {
-                    fund(category, month);
-                  }
-                }}
-              >
-                <Zap />
-                Fund {underfunded.length} ·{" "}
-                <Money cents={plan.attention.needed} />
-              </Button>
-            </div>
-            <div className="bg-progress-track h-1.5 rounded-full">
-              <div
-                className="bg-progress-funded h-1.5 rounded-full"
-                style={{ width: `${plan.funded * 100}%` }}
-              />
-            </div>
+    <>
+      <Topbar
+        icon={LayoutGrid}
+        title="Plan"
+        context={`${monthName(month)} ${monthYear(month)}`}
+      />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <MonthHeader
+          month={month}
+          plan={plan}
+          options={options}
+          onFundAll={fundUnderfunded}
+        />
+        <div className="flex items-center justify-between px-10 pb-2">
+          <Segmented
+            label="Filter categories"
+            value={filter}
+            onChange={setFilter}
+            options={[
+              { count: rows.length, label: "All", value: "all" },
+              {
+                count: attention,
+                label: "Needs attention",
+                value: "attention",
+              },
+              {
+                count: rows.filter((row) => matches(row, "funded")).length,
+                label: "Funded",
+                value: "funded",
+              },
+              { count: 0, label: "Snoozed", value: "snoozed" },
+            ]}
+          />
+          <div className="flex items-center gap-1">
+            <Button variant="ghost">
+              <Plus />
+              Group
+            </Button>
+            <Button variant="ghost">
+              <SlidersHorizontal />
+              View
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="Search categories">
+              <Search />
+            </Button>
           </div>
         </div>
-      </section>
-      <section className="px-7">
-        <div
-          className={`${COLUMNS} border-border-subtle text-text-tertiary h-8 border-b px-3 text-xs font-medium`}
-        >
-          <span>Category</span>
-          <span />
-          <span className="text-right">Assigned</span>
-          <span className="text-right">Spent</span>
-          <span className="pr-2.5 text-right">Available</span>
-        </div>
-        {[...groups].map(([groupId, rows]) => (
-          <div key={groupId} className="mt-3">
-            <h2 className="flex h-10 items-center gap-2 px-3 text-[13px] font-semibold">
-              {groupTitle(groupId)}
-              <span className="text-text-tertiary font-medium">
-                {rows.length}
-              </span>
-            </h2>
-            {rows.map((category) => (
-              <div
-                key={category.id}
-                className={`${COLUMNS} hover:bg-surface-app h-11 rounded-[10px] px-3 text-sm font-medium`}
-              >
-                <span className="truncate">{category.name}</span>
-                <Note category={category} />
-                <Quiet cents={category.assigned} />
-                <Quiet cents={category.activity} />
-                <div className="flex justify-end">
-                  <Envelope
-                    cents={category.available}
-                    progress={category.progress}
-                    state={envelopeState[category.status]}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        ))}
-      </section>
-    </div>
+        <PlanTable
+          month={month}
+          groups={visible}
+          onAssign={(categoryId, amount) =>
+            setAssigned(categoryId, month, amount)
+          }
+        />
+      </div>
+    </>
   );
 };
 
