@@ -7,13 +7,14 @@
     "./components/*": "./src/components/*.tsx"
   },
   "scripts": {
-    "dev": "vite --port 3000",
     "build": "vite build",
-    "preview": "vite preview --port 3000",
-    "typecheck": "tsc --noEmit",
     "db:migrate": "wrangler d1 migrations apply ynabe --local",
+    "db:migrate:remote": "wrangler d1 migrations apply ynabe --remote",
     "db:seed": "wrangler d1 execute ynabe --local --file ../../packages/db/seed.sql",
-    "deploy": "wrangler deploy --config dist/server/wrangler.json"
+    "deploy": "vite build && wrangler deploy --config dist/server/wrangler.json",
+    "dev": "vite --port 3000",
+    "preview": "vite preview --port 3000",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/charts": "1.1.0",
