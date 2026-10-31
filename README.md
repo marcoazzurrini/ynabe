@@ -34,4 +34,11 @@ bun run storybook                   # Storybook on http://localhost:6006
 
 ## Deploying
 
-Create the database with `wrangler d1 create ynabe`, put its id in `apps/web/wrangler.jsonc`, apply migrations with `--remote`, then run `bun run --cwd apps/web build && bun run --cwd apps/web deploy`.
+The app runs on Cloudflare Workers at <https://ynabe.marco-azzurrini-art.workers.dev>, with its data in the `ynabe` D1 database (Western Europe).
+
+```sh
+bun run --cwd apps/web db:migrate:remote   # apply new migrations first
+bun run --cwd apps/web deploy              # build and deploy the Worker
+```
+
+The app has no sign-in yet, so anyone with the URL can see and change its data. Keep it to sample data until authentication lands.
