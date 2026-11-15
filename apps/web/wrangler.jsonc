@@ -5,7 +5,11 @@
   "main": "src/worker.ts",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": true,
+  // The app lives on its own subdomain. The workers.dev address is off,
+  // because sign-in and passkeys only work on the one origin in
+  // BETTER_AUTH_URL.
+  "workers_dev": false,
+  "routes": [{ "pattern": "ynabe.marcoazzurrini.com", "custom_domain": true }],
   // Every deploy would otherwise get its own extra preview address.
   "preview_urls": false,
   "observability": { "enabled": true },
@@ -17,7 +21,7 @@
   // reads them, and the vars below, from .dev.vars (see .dev.vars.example).
   "vars": {
     "AUTH_ALLOWED_EMAILS": "marco.azzurrini.art@gmail.com",
-    "BETTER_AUTH_URL": "https://ynabe.marco-azzurrini-art.workers.dev",
+    "BETTER_AUTH_URL": "https://ynabe.marcoazzurrini.com",
     "GOOGLE_CLIENT_ID": "462635110749-7d3uhf6kuundauhq2p6aiufib9jnaltv.apps.googleusercontent.com",
   },
   "d1_databases": [
