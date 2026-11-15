@@ -1,8 +1,11 @@
 import serverEntry from "@tanstack/react-start/server-entry";
+import { afterSync, foldThread, runAssistant } from "@ynabe/agent";
 import { createDb, syncBanks, synciFeed } from "@ynabe/db";
 
+import { serveAgentTools, setupFor } from "./server/assistant";
 import { authFor, passkeyFor, sessionFor, userFor } from "./server/auth";
-import type { AuthEnv } from "./server/auth";
+
+export { AgentRunner } from "./server/runner";
 
 const SERVER_FUNCTIONS = "/_serverFn/";
 
@@ -19,7 +22,7 @@ const noStore = { "Cache-Control": "no-store" };
  * `/%5FserverFn/`, so the check that counts is the one in start.ts.
  */
 export default {
-  async fetch(request: Request, env: AuthEnv): Promise<Response> {
+  async fetch(request: Request, env: Cloudflare.Env): Promise<Response> {
     const { pathname } = new URL(request.url);
     const auth = authFor(env);
 
@@ -35,6 +38,12 @@ export default {
         (await passkeyFor(env, request)) ??
         new Response("Sign-in is not configured", { status: 503 })
       );
+    }
+
+    // The runner calls the assistant's tools here. Its pass, not a
+    // sign-in, is what opens them.
+    if (pathname === "/api/agent/mcp") {
+      return await serveAgentTools(env, request);
     }
 
     if (pathname === "/api/session") {
@@ -63,11 +72,16 @@ export default {
     return serverEntry.fetch(request);
   },
 
-  /** The timed run: brings every linked bank account up to date. */
+  /**
+   * The timed run: brings every linked bank account up to date, lets the
+   * assistant look at what is new, and tidies its conversation.
+   */
   async scheduled(
     _controller: ScheduledController,
     env: Cloudflare.Env
   ): Promise<void> {
+    const assistant = setupFor(env);
+
     if (env.SYNCI_API_TOKEN) {
       const report = await syncBanks(
         createDb(env.DB),
@@ -76,6 +90,17 @@ export default {
 
       // Counts only: bank rows are private.
       console.log("Bank sync", report);
+
+      if (report.added > 0 && assistant) {
+        await runAssistant(
+          assistant,
+          afterSync(report.added, new Date().toISOString().slice(0, 10))
+        );
+      }
+    }
+
+    if (assistant) {
+      await foldThread(assistant);
     }
   },
 };
