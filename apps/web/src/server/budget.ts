@@ -1,5 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
-import { assign, categorize, createDb, loadBudget, setTarget } from "@ynabe/db";
+import {
+  assign,
+  categorize,
+  createDb,
+  loadBudget,
+  setTarget,
+  syncBanks,
+  synciFeed,
+} from "@ynabe/db";
 import { z } from "zod";
 
 const database = async () => {
@@ -65,3 +73,14 @@ export const saveTarget = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     await setTarget(await database(), data.categoryId, data.target);
   });
+
+/** Fetches new bank rows now, instead of waiting for the next timed run. */
+export const syncBank = createServerFn({ method: "POST" }).handler(async () => {
+  const { env } = await import("cloudflare:workers");
+
+  if (!env.SYNCI_API_TOKEN) {
+    throw new Error("Bank sync is not set up: SYNCI_API_TOKEN is missing");
+  }
+
+  return syncBanks(createDb(env.DB), synciFeed(env.SYNCI_API_TOKEN));
+});

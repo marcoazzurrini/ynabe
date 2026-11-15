@@ -6,5 +6,9 @@ export { assign, categorize, loadBudget, setTarget } from "./budget.ts";
 
 export type { Account, Budget, Database, LedgerTransaction } from "./budget.ts";
 
+export { synciFeed, syncBanks } from "./sync.ts";
+
+export type { BankFeed, BankLink, Fetcher, SyncReport } from "./sync.ts";
+
 /** Opens the app's D1 database with the schema attached. */
 export const createDb = (d1: D1Database) => drizzle(d1, { schema });

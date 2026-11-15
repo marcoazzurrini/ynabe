@@ -6,6 +6,7 @@ import {
   FileUp,
   Landmark,
   Plus,
+  RefreshCw,
   Scale,
   Search,
   SlidersHorizontal,
@@ -17,6 +18,7 @@ import type { LedgerRow } from "../components/accounts/ledger";
 import { Ledger } from "../components/accounts/ledger";
 import { Segmented } from "../components/segmented";
 import { Topbar } from "../components/topbar";
+import { syncBanks } from "../data/actions";
 import { useBudget } from "../data/use-budget";
 
 type Filter = "all" | "uncleared" | "uncategorized" | "transfers";
@@ -113,6 +115,37 @@ const matchesFilter = (row: LedgerRow, filter: Filter, search: string) => {
   return true;
 };
 
+/** Asks the banks for new rows and says how many came. */
+const SyncButton = () => {
+  const [state, setState] = useState<"idle" | "busy" | "failed">("idle");
+  const [added, setAdded] = useState<number | null>(null);
+
+  const run = async () => {
+    setState("busy");
+
+    try {
+      const report = await syncBanks();
+
+      setAdded(report.added);
+      setState("idle");
+    } catch {
+      setState("failed");
+    }
+  };
+
+  const label = new Map([
+    ["busy", "Syncing…"],
+    ["failed", "Sync failed. Try again"],
+  ]).get(state);
+
+  return (
+    <Button variant="outline" disabled={state === "busy"} onClick={run}>
+      <RefreshCw className={cn(state === "busy" && "animate-spin")} />
+      {label ?? (added === null ? "Sync banks" : `${added} new · Sync again`)}
+    </Button>
+  );
+};
+
 const AccountsScreen = () => {
   const { account: accountFilter } = Route.useSearch();
   const { accounts, categories, groups, ledger } = useBudget();
@@ -145,6 +178,7 @@ const AccountsScreen = () => {
   );
 
   const search = query.trim().toLowerCase();
+  const open = accounts.filter((account) => !account.closed);
 
   const visible = inAccount.filter((row) => matchesFilter(row, filter, search));
 
@@ -169,6 +203,7 @@ const AccountsScreen = () => {
                 <Scale />
                 Reconcile
               </Button>
+              <SyncButton />
               <Button variant="outline">
                 <FileUp />
                 Import
@@ -207,7 +242,7 @@ const AccountsScreen = () => {
                 uncleared
               </span>
             </Link>
-            {accounts.map((account) => (
+            {open.map((account) => (
               <Link
                 key={account.id}
                 to="/accounts"

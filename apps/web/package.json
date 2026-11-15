@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "vite build",
+    "db:import": "cd ../../imports && wrangler d1 execute ynabe --local --config ../apps/web/wrangler.jsonc --file",
     "db:migrate": "wrangler d1 migrations apply ynabe --local",
     "db:migrate:remote": "wrangler d1 migrations apply ynabe --remote",
     "db:seed": "wrangler d1 execute ynabe --local --file ../../packages/db/seed.sql",

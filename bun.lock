@@ -93,12 +93,26 @@
       "version": "0.1.0",
       "dependencies": {
         "@ynabe/budget": "workspace:*",
+        "@ynabe/import": "workspace:*",
         "drizzle-orm": "0.45.4",
+        "zod": "4.6.7",
       },
       "devDependencies": {
         "@cloudflare/workers-types": "5.20261001.1",
         "bun-types": "1.4.2",
         "drizzle-kit": "0.31.11",
+        "typescript": "7.0.2",
+      },
+    },
+    "packages/import": {
+      "name": "@ynabe/import",
+      "version": "0.1.0",
+      "dependencies": {
+        "@ynabe/budget": "workspace:*",
+        "fflate": "0.8.3",
+      },
+      "devDependencies": {
+        "bun-types": "1.4.2",
         "typescript": "7.0.2",
       },
     },
@@ -840,6 +854,8 @@
 
     "@ynabe/demo": ["@ynabe/demo@workspace:apps/demo"],
 
+    "@ynabe/import": ["@ynabe/import@workspace:packages/import"],
+
     "@ynabe/reports": ["@ynabe/reports@workspace:packages/reports"],
 
     "@ynabe/ui": ["@ynabe/ui@workspace:packages/ui"],
@@ -1081,6 +1097,8 @@
     "fdir": ["fdir@6.5.0", "", { "peerDependencies": { "picomatch": "^3 || ^4" }, "optionalPeers": ["picomatch"] }, "sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg=="],
 
     "fetchdts": ["fetchdts@0.2.0", "", {}, "sha512-PJb4ZTGT2/wK78RmVrxZITStWabhZlKBsL52VOgq+c7clEkdHdEB+0rtzrXCbZJqeYJj+IwNWYqB5/G6vouA6A=="],
+
+    "fflate": ["fflate@0.8.3", "", {}, "sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA=="],
 
     "figures": ["figures@6.1.0", "", { "dependencies": { "is-unicode-supported": "^2.0.0" } }, "sha512-d+l3qxjSesT4V7v2fh+QnmFnUWv9lSpjarhShNTgBOfA0ttejbQUAlHLitbjkoRiDulW0OPoQPYIGhIC8ohejg=="],
 

@@ -1,6 +1,12 @@
 import type { Cents, Target } from "@ynabe/budget";
 
-import { assignments, categories, transactions } from "./collections";
+import { syncBank } from "../server/budget";
+import {
+  assignments,
+  categories,
+  queryClient,
+  transactions,
+} from "./collections";
 
 /** Sets a category's assignment for a month; the screen updates at once. */
 export const setAssigned = (
@@ -34,4 +40,13 @@ export const updateTarget = (categoryId: string, target: Target): void => {
   categories.update(categoryId, (draft) => {
     draft.target = target;
   });
+};
+
+/** Fetches new bank rows, then reloads the budget so they show. */
+export const syncBanks = async () => {
+  const report = await syncBank();
+
+  await queryClient.invalidateQueries({ queryKey: ["budget"] });
+
+  return report;
 };
