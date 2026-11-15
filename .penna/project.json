@@ -4,7 +4,8 @@
   "page-1",
   "components",
   "patterns",
-  "screens"
+  "screens",
+  "explorations"
  ],
  "variables": {
   "white": "#ffffff",
@@ -63,8 +64,8 @@
   "font-serif": "'Newsreader', Georgia, serif",
   "text-primary": "var(--ink)",
   "text-secondary": "var(--gray-700)",
-  "text-tertiary": "var(--gray-500)",
-  "text-disabled": "var(--gray-400)",
+  "text-tertiary": "var(--gray-600)",
+  "text-disabled": "var(--gray-500)",
   "text-inverse": "#f2f3f5",
   "text-link": "var(--blue-ink)",
   "surface-app": "var(--gray-25)",
@@ -136,14 +137,14 @@
   "agent-glyph-bg": "linear-gradient(135deg,#1a1b1e 0%,#3a3e46 100%)",
   "agent-bubble-user": "var(--gray-100)",
   "agent-surface": "var(--surface-app)",
-  "agent-w": "480px",
+  "agent-w": "640px",
   "envelope-track": "#f3f4f6",
   "envelope-funded": "#e9f6ef",
   "envelope-partial": "#ffedc2",
   "envelope-over": "#ffdfe1",
   "row-hover": "#f7f8fa",
   "plan-cols": "minmax(0,1fr) 340px 140px 140px 200px",
-  "tx-cols": "minmax(0,1fr) 300px 170px 150px 16px",
+  "tx-cols": "minmax(0,1fr) 300px 150px 20px",
   "report-cols": "minmax(0,1fr) 420px 110px 140px",
   "chart-other": "#b5bcc7",
   "chart-grid": "#eceef1",
@@ -152,6 +153,9 @@
   "seq-1": "#e6effc",
   "seq-2": "#bcd5f6",
   "seq-3": "#7eb0ee",
-  "seq-4": "#2a78d6"
+  "seq-4": "#2a78d6",
+  "chart-7": "#9b69ff",
+  "chart-8": "#d99a00",
+  "chart-9": "#e0559b"
  }
 }

@@ -1,26 +1,37 @@
 import { cn } from "@ynabe/ui/lib/utils";
 
-const gradients = new Map([
-  ["illimity", "linear-gradient(135deg,#ffb36b,#f0545a)"],
-  ["monzo", "linear-gradient(135deg,#ff7a8a,#e8436b)"],
-  ["revolut", "linear-gradient(135deg,#3a3e46,#0c0c0c)"],
-  ["tinaba", "linear-gradient(135deg,#36d1a1,#007d53)"],
-]);
+/** Banks with an icon in `public/banks`, keyed by account id. */
+const icons = new Set(["illimity", "monzo", "revolut", "tinaba"]);
 
-/** The small colored square that stands for an account. */
+/** The bank's icon for an account, or its initial when there is none. */
 export const AccountMark = ({
   id,
+  name,
   className,
 }: {
   id: string;
+  name: string;
   className?: string;
-}) => (
-  <span
-    aria-hidden
-    className={cn("size-4 shrink-0 rounded-[5px]", className)}
-    style={{
-      background:
-        gradients.get(id) ?? "linear-gradient(135deg,#b5bcc7,#6f7684)",
-    }}
-  />
-);
+}) =>
+  icons.has(id) ? (
+    <img
+      src={`/banks/${id}.png`}
+      alt=""
+      title={name}
+      className={cn(
+        "size-[18px] shrink-0 rounded-[5px] bg-white object-contain ring-1 ring-black/10",
+        className
+      )}
+    />
+  ) : (
+    <span
+      aria-hidden
+      title={name}
+      className={cn(
+        "flex size-[18px] shrink-0 items-center justify-center rounded-[5px] bg-gray-600 text-[11px] leading-none font-bold text-white",
+        className
+      )}
+    >
+      {name.slice(0, 1).toUpperCase()}
+    </span>
+  );

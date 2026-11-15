@@ -40,22 +40,13 @@
      },
      "children": [
       {
-       "id": "9jncb",
-       "type": "ref",
-       "ref": "aJJDU",
-       "style": {
-        "width": "100%"
-       },
-       "name": "App/Topbar"
-      },
-      {
        "id": "KN7K3",
        "type": "frame",
        "name": "Month",
        "class": "flex flex-col",
        "style": {
-        "padding": "36px 40px 28px",
-        "gap": 24
+        "padding": "28px 40px 24px",
+        "gap": 0
        },
        "children": [
         {
@@ -86,12 +77,12 @@
            "name": "October 2026"
           },
           {
-           "id": "JAvNa",
+           "id": "5PcL8",
            "type": "frame",
            "class": "flex gap-1",
            "children": [
             {
-             "id": "pb9Dm",
+             "id": "JMPSp",
              "type": "ref",
              "ref": "jXs6x",
              "overrides": {
@@ -102,7 +93,7 @@
              "name": "Button/Icon"
             },
             {
-             "id": "rPhnC",
+             "id": "YeL8Z",
              "type": "ref",
              "ref": "jXs6x",
              "overrides": {
@@ -114,139 +105,20 @@
             }
            ],
            "name": "Frame"
-          }
-         ],
-         "name": "Frame"
-        },
-        {
-         "id": "kgTyf",
-         "type": "frame",
-         "class": "flex items-stretch",
-         "style": {
-          "gap": 20
-         },
-         "children": [
+          },
+          {
+           "id": "YyY3j",
+           "type": "frame",
+           "style": {
+            "flex": 1
+           },
+           "name": "Frame"
+          },
           {
            "id": "mkVec",
            "type": "ref",
            "ref": "LVgiq",
            "name": "Ready to Assign/Positive"
-          },
-          {
-           "id": "8EryX",
-           "type": "ref",
-           "ref": "eacWf",
-           "style": {
-            "flex": 1,
-            "maxWidth": 640
-           },
-           "name": "Funding Meter"
-          },
-          {
-           "id": "YiAtR",
-           "type": "frame",
-           "class": "flex flex-col justify-center gap-2",
-           "style": {
-            "width": 260,
-            "paddingLeft": 20,
-            "borderLeft": "1px solid var(--border-subtle)"
-           },
-           "children": [
-            {
-             "id": "ViTey",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "uv8ER",
-               "type": "text",
-               "text": "Left over from Sep",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Left over from Sep"
-              },
-              {
-               "id": "4EjMw",
-               "type": "text",
-               "text": "40,964.33€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "40,964.33€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "WSS6B",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "d5dQK",
-               "type": "text",
-               "text": "Assigned in Oct",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Assigned in Oct"
-              },
-              {
-               "id": "CpiC6",
-               "type": "text",
-               "text": "2,104.00€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "2,104.00€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "PpbuP",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "cB8is",
-               "type": "text",
-               "text": "Spent in Oct",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Spent in Oct"
-              },
-              {
-               "id": "si9sJ",
-               "type": "text",
-               "text": "1,249.72€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "1,249.72€"
-              }
-             ],
-             "name": "Frame"
-            }
-           ],
-           "name": "Frame"
           }
          ],
          "name": "Frame"
@@ -254,7 +126,7 @@
        ]
       },
       {
-       "id": "LgszQ",
+       "id": "T92VF",
        "type": "frame",
        "name": "Toolbar",
        "class": "flex items-center justify-between",
@@ -263,7 +135,7 @@
        },
        "children": [
         {
-         "id": "HCQrL",
+         "id": "bhprA",
          "type": "frame",
          "class": "flex items-center gap-1",
          "style": {
@@ -271,9 +143,10 @@
           "borderRadius": 10,
           "background": "var(--surface-sunken)"
          },
+         "name": "Frame",
          "children": [
           {
-           "id": "jGS2L",
+           "id": "V64VE",
            "type": "ref",
            "ref": "UfCbf",
            "overrides": {
@@ -287,7 +160,7 @@
            "name": "Chip/Active"
           },
           {
-           "id": "38znu",
+           "id": "MUmXG",
            "type": "ref",
            "ref": "GjKS5",
            "overrides": {
@@ -301,7 +174,7 @@
            "name": "Chip/Default"
           },
           {
-           "id": "geDFm",
+           "id": "qdxKh",
            "type": "ref",
            "ref": "GjKS5",
            "overrides": {
@@ -313,74 +186,116 @@
             }
            },
            "name": "Chip/Default"
-          },
-          {
-           "id": "2GAn9",
-           "type": "ref",
-           "ref": "GjKS5",
-           "overrides": {
-            "Label": {
-             "text": "Snoozed"
-            },
-            "Count": {
-             "text": "0"
-            }
-           },
-           "name": "Chip/Default"
           }
-         ],
-         "name": "Frame"
+         ]
         },
         {
-         "id": "g8LNw",
+         "id": "xVDyx",
          "type": "frame",
-         "class": "flex items-center gap-1",
+         "class": "flex items-center gap-2",
+         "name": "Frame",
          "children": [
           {
-           "id": "BgyLw",
-           "type": "ref",
-           "ref": "f5MKg",
-           "overrides": {
-            "Label": {
-             "text": "Group"
-            },
-            "Icon": {
-             "icon": "plus"
-            }
-           },
-           "name": "Button/Ghost"
-          },
-          {
-           "id": "bppf9",
-           "type": "ref",
-           "ref": "f5MKg",
-           "overrides": {
-            "Label": {
-             "text": "View"
-            },
-            "Icon": {
-             "icon": "sliders-horizontal"
-            }
-           },
-           "name": "Button/Ghost"
-          },
-          {
-           "id": "4aGwM",
-           "type": "ref",
-           "ref": "jXs6x",
+           "id": "pMJdB",
+           "type": "frame",
+           "class": "flex items-center gap-2",
            "style": {
-            "border": "none",
-            "background": "transparent"
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-secondary)"
            },
-           "overrides": {
-            "Icon": {
-             "icon": "search"
+           "name": "Frame",
+           "children": [
+            {
+             "id": "iEyur",
+             "type": "frame",
+             "style": {
+              "width": 8,
+              "height": 8,
+              "borderRadius": 2,
+              "background": "var(--progress-under)"
+             },
+             "name": "Frame"
+            },
+            {
+             "id": "ztdSr",
+             "type": "text",
+             "text": "9 need 142.06€",
+             "name": "9 need 142.06€"
             }
+           ]
+          },
+          {
+           "id": "AMSme",
+           "type": "text",
+           "text": "·",
+           "style": {
+            "color": "var(--text-disabled)",
+            "fontSize": 13
            },
-           "name": "Button/Icon"
+           "name": "·"
+          },
+          {
+           "id": "AGMKN",
+           "type": "frame",
+           "class": "flex items-center gap-2",
+           "style": {
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-secondary)"
+           },
+           "name": "Frame",
+           "children": [
+            {
+             "id": "KNVUj",
+             "type": "frame",
+             "style": {
+              "width": 8,
+              "height": 8,
+              "borderRadius": 2,
+              "background": "var(--progress-over)"
+             },
+             "name": "Frame"
+            },
+            {
+             "id": "AjZSw",
+             "type": "text",
+             "text": "1 overspent",
+             "name": "1 overspent"
+            }
+           ]
+          },
+          {
+           "id": "zKykV",
+           "type": "frame",
+           "class": "flex items-center gap-1.5",
+           "style": {
+            "fontSize": 13,
+            "fontWeight": 600,
+            "color": "var(--text-link)",
+            "marginLeft": 8
+           },
+           "name": "Frame",
+           "children": [
+            {
+             "id": "aV84A",
+             "type": "icon",
+             "icon": "zap",
+             "style": {
+              "width": 14,
+              "height": 14
+             },
+             "name": "zap"
+            },
+            {
+             "id": "dBbUm",
+             "type": "text",
+             "text": "Fund them",
+             "name": "Fund them"
+            }
+           ]
           }
-         ],
-         "name": "Frame"
+         ]
         }
        ]
       },
@@ -428,6 +343,32 @@
           },
           "Available": {
            "text": "25,812.91€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 3
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "3 funded · 1 no target"
+          },
+          "None": {
+           "style": {
+            "flex": 1,
+            "borderLeftWidth": 2
+           }
           }
          },
          "name": "Plan/Group"
@@ -638,6 +579,32 @@
           },
           "Available": {
            "text": "12,995.10€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 4
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 2,
+            "borderLeftWidth": 2
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "4 funded · 2 need money"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -938,6 +905,32 @@
           },
           "Available": {
            "text": "1,175.76€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 6
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 6,
+            "borderLeftWidth": 2
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "6 funded · 6 need money"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -1482,6 +1475,32 @@
           },
           "Available": {
            "text": "1.60€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 2
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 1,
+            "borderLeftWidth": 2
+           }
+          },
+          "Summary": {
+           "text": "2 funded · 1 overspent"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -1871,7 +1890,7 @@
    "type": "frame",
    "name": "Plan · Agent collapsed",
    "x": 2700,
-   "y": 1600,
+   "y": 0,
    "class": "flex",
    "style": {
     "width": 2560,
@@ -1904,22 +1923,13 @@
      },
      "children": [
       {
-       "id": "By8PT",
-       "type": "ref",
-       "ref": "aJJDU",
-       "style": {
-        "width": "100%"
-       },
-       "name": "App/Topbar"
-      },
-      {
        "id": "dayhS",
        "type": "frame",
        "name": "Month",
        "class": "flex flex-col",
        "style": {
-        "padding": "36px 40px 28px",
-        "gap": 24
+        "padding": "28px 40px 24px",
+        "gap": 0
        },
        "children": [
         {
@@ -1951,13 +1961,12 @@
            "name": "October 2026"
           },
           {
-           "id": "QTTad",
+           "id": "Fjact",
            "type": "frame",
            "class": "flex gap-1",
-           "name": "Frame",
            "children": [
             {
-             "id": "ftv3N",
+             "id": "GbbJc",
              "type": "ref",
              "ref": "jXs6x",
              "overrides": {
@@ -1968,7 +1977,7 @@
              "name": "Button/Icon"
             },
             {
-             "id": "xraMu",
+             "id": "jeth5",
              "type": "ref",
              "ref": "jXs6x",
              "overrides": {
@@ -1978,147 +1987,29 @@
              },
              "name": "Button/Icon"
             }
-           ]
-          }
-         ]
-        },
-        {
-         "id": "UQkSZ",
-         "type": "frame",
-         "class": "flex items-stretch",
-         "style": {
-          "gap": 20
-         },
-         "name": "Frame",
-         "children": [
+           ],
+           "name": "Frame"
+          },
+          {
+           "id": "rjwBr",
+           "type": "frame",
+           "style": {
+            "flex": 1
+           },
+           "name": "Frame"
+          },
           {
            "id": "VZTCD",
            "type": "ref",
            "ref": "LVgiq",
            "name": "Ready to Assign/Positive"
-          },
-          {
-           "id": "m8h3N",
-           "type": "ref",
-           "ref": "eacWf",
-           "style": {
-            "flex": 1,
-            "maxWidth": 640
-           },
-           "name": "Funding Meter"
-          },
-          {
-           "id": "tZtFB",
-           "type": "frame",
-           "class": "flex flex-col justify-center gap-2",
-           "style": {
-            "width": 260,
-            "paddingLeft": 20,
-            "borderLeft": "1px solid var(--border-subtle)"
-           },
-           "name": "Frame",
-           "children": [
-            {
-             "id": "ziaf9",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "name": "Frame",
-             "children": [
-              {
-               "id": "Mc8VY",
-               "type": "text",
-               "text": "Left over from Sep",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Left over from Sep"
-              },
-              {
-               "id": "trLcL",
-               "type": "text",
-               "text": "40,964.33€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "40,964.33€"
-              }
-             ]
-            },
-            {
-             "id": "QnkTz",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "name": "Frame",
-             "children": [
-              {
-               "id": "mELZc",
-               "type": "text",
-               "text": "Assigned in Oct",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Assigned in Oct"
-              },
-              {
-               "id": "Q6kA9",
-               "type": "text",
-               "text": "2,104.00€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "2,104.00€"
-              }
-             ]
-            },
-            {
-             "id": "4qTsT",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "name": "Frame",
-             "children": [
-              {
-               "id": "RbyH6",
-               "type": "text",
-               "text": "Spent in Oct",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Spent in Oct"
-              },
-              {
-               "id": "d5btQ",
-               "type": "text",
-               "text": "1,249.72€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "1,249.72€"
-              }
-             ]
-            }
-           ]
           }
          ]
         }
        ]
       },
       {
-       "id": "3Zc6Y",
+       "id": "M8hkq",
        "type": "frame",
        "name": "Toolbar",
        "class": "flex items-center justify-between",
@@ -2127,7 +2018,7 @@
        },
        "children": [
         {
-         "id": "vup4D",
+         "id": "274gc",
          "type": "frame",
          "class": "flex items-center gap-1",
          "style": {
@@ -2138,7 +2029,7 @@
          "name": "Frame",
          "children": [
           {
-           "id": "BeVgg",
+           "id": "j47wv",
            "type": "ref",
            "ref": "UfCbf",
            "overrides": {
@@ -2152,7 +2043,7 @@
            "name": "Chip/Active"
           },
           {
-           "id": "vBPd9",
+           "id": "YXjbu",
            "type": "ref",
            "ref": "GjKS5",
            "overrides": {
@@ -2166,7 +2057,7 @@
            "name": "Chip/Default"
           },
           {
-           "id": "rUZ3G",
+           "id": "3y3kT",
            "type": "ref",
            "ref": "GjKS5",
            "overrides": {
@@ -2178,71 +2069,114 @@
             }
            },
            "name": "Chip/Default"
-          },
-          {
-           "id": "fExMT",
-           "type": "ref",
-           "ref": "GjKS5",
-           "overrides": {
-            "Label": {
-             "text": "Snoozed"
-            },
-            "Count": {
-             "text": "0"
-            }
-           },
-           "name": "Chip/Default"
           }
          ]
         },
         {
-         "id": "8PBN6",
+         "id": "FBDpJ",
          "type": "frame",
-         "class": "flex items-center gap-1",
+         "class": "flex items-center gap-2",
          "name": "Frame",
          "children": [
           {
-           "id": "htjBF",
-           "type": "ref",
-           "ref": "f5MKg",
-           "overrides": {
-            "Label": {
-             "text": "Group"
-            },
-            "Icon": {
-             "icon": "plus"
-            }
-           },
-           "name": "Button/Ghost"
-          },
-          {
-           "id": "aS38y",
-           "type": "ref",
-           "ref": "f5MKg",
-           "overrides": {
-            "Label": {
-             "text": "View"
-            },
-            "Icon": {
-             "icon": "sliders-horizontal"
-            }
-           },
-           "name": "Button/Ghost"
-          },
-          {
-           "id": "qaN3U",
-           "type": "ref",
-           "ref": "jXs6x",
+           "id": "2t2cs",
+           "type": "frame",
+           "class": "flex items-center gap-2",
            "style": {
-            "border": "none",
-            "background": "transparent"
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-secondary)"
            },
-           "overrides": {
-            "Icon": {
-             "icon": "search"
+           "name": "Frame",
+           "children": [
+            {
+             "id": "SzKek",
+             "type": "frame",
+             "style": {
+              "width": 8,
+              "height": 8,
+              "borderRadius": 2,
+              "background": "var(--progress-under)"
+             },
+             "name": "Frame"
+            },
+            {
+             "id": "Ameq9",
+             "type": "text",
+             "text": "9 need 142.06€",
+             "name": "9 need 142.06€"
             }
+           ]
+          },
+          {
+           "id": "aNBEq",
+           "type": "text",
+           "text": "·",
+           "style": {
+            "color": "var(--text-disabled)",
+            "fontSize": 13
            },
-           "name": "Button/Icon"
+           "name": "·"
+          },
+          {
+           "id": "8NfZ2",
+           "type": "frame",
+           "class": "flex items-center gap-2",
+           "style": {
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-secondary)"
+           },
+           "name": "Frame",
+           "children": [
+            {
+             "id": "gnJ3f",
+             "type": "frame",
+             "style": {
+              "width": 8,
+              "height": 8,
+              "borderRadius": 2,
+              "background": "var(--progress-over)"
+             },
+             "name": "Frame"
+            },
+            {
+             "id": "28MLG",
+             "type": "text",
+             "text": "1 overspent",
+             "name": "1 overspent"
+            }
+           ]
+          },
+          {
+           "id": "qTSRZ",
+           "type": "frame",
+           "class": "flex items-center gap-1.5",
+           "style": {
+            "fontSize": 13,
+            "fontWeight": 600,
+            "color": "var(--text-link)",
+            "marginLeft": 8
+           },
+           "name": "Frame",
+           "children": [
+            {
+             "id": "gDmgg",
+             "type": "icon",
+             "icon": "zap",
+             "style": {
+              "width": 14,
+              "height": 14
+             },
+             "name": "zap"
+            },
+            {
+             "id": "CTXVy",
+             "type": "text",
+             "text": "Fund them",
+             "name": "Fund them"
+            }
+           ]
           }
          ]
         }
@@ -2292,6 +2226,32 @@
           },
           "Available": {
            "text": "25,812.91€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 3
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "3 funded · 1 no target"
+          },
+          "None": {
+           "style": {
+            "flex": 1,
+            "borderLeftWidth": 2
+           }
           }
          },
          "name": "Plan/Group"
@@ -2502,6 +2462,32 @@
           },
           "Available": {
            "text": "12,995.10€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 4
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 2,
+            "borderLeftWidth": 2
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "4 funded · 2 need money"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -2802,6 +2788,32 @@
           },
           "Available": {
            "text": "1,175.76€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 6
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 6,
+            "borderLeftWidth": 2
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "6 funded · 6 need money"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -3346,6 +3358,32 @@
           },
           "Available": {
            "text": "1.60€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 2
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 1,
+            "borderLeftWidth": 2
+           }
+          },
+          "Summary": {
+           "text": "2 funded · 1 overspent"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -3511,8 +3549,8 @@
    "id": "84XFz",
    "type": "frame",
    "name": "Plan · Over-assigned",
-   "x": 0,
-   "y": 1600,
+   "x": 5400,
+   "y": 0,
    "class": "flex",
    "style": {
     "width": 2560,
@@ -3545,22 +3583,13 @@
      },
      "children": [
       {
-       "id": "FwHrR",
-       "type": "ref",
-       "ref": "aJJDU",
-       "style": {
-        "width": "100%"
-       },
-       "name": "App/Topbar"
-      },
-      {
        "id": "Xmq4z",
        "type": "frame",
        "name": "Month",
        "class": "flex flex-col",
        "style": {
-        "padding": "36px 40px 28px",
-        "gap": 24
+        "padding": "28px 40px 24px",
+        "gap": 20
        },
        "children": [
         {
@@ -3592,13 +3621,12 @@
            "name": "October 2026"
           },
           {
-           "id": "vAS4j",
+           "id": "M9RBq",
            "type": "frame",
            "class": "flex gap-1",
-           "name": "Frame",
            "children": [
             {
-             "id": "6zbQ5",
+             "id": "3ugui",
              "type": "ref",
              "ref": "jXs6x",
              "overrides": {
@@ -3609,7 +3637,7 @@
              "name": "Button/Icon"
             },
             {
-             "id": "mhSfq",
+             "id": "3fDCP",
              "type": "ref",
              "ref": "jXs6x",
              "overrides": {
@@ -3619,150 +3647,22 @@
              },
              "name": "Button/Icon"
             }
-           ]
-          }
-         ]
-        },
-        {
-         "id": "RZa2E",
-         "type": "frame",
-         "class": "flex items-stretch",
-         "style": {
-          "gap": 20
-         },
-         "name": "Frame",
-         "children": [
+           ],
+           "name": "Frame"
+          },
+          {
+           "id": "4icdy",
+           "type": "frame",
+           "style": {
+            "flex": 1
+           },
+           "name": "Frame"
+          },
           {
            "id": "nruhk",
            "type": "ref",
            "ref": "Lqjfu",
            "name": "Ready to Assign/Positive"
-          },
-          {
-           "id": "PSzcP",
-           "type": "ref",
-           "ref": "eacWf",
-           "style": {
-            "flex": 1,
-            "maxWidth": 640
-           },
-           "name": "Funding Meter",
-           "overrides": {
-            "Action": {
-             "ref": "58xeC",
-             "overrides": {
-              "Label": {
-               "text": "Fix over-assignment first"
-              }
-             }
-            }
-           }
-          },
-          {
-           "id": "X5vmK",
-           "type": "frame",
-           "class": "flex flex-col justify-center gap-2",
-           "style": {
-            "width": 260,
-            "paddingLeft": 20,
-            "borderLeft": "1px solid var(--border-subtle)"
-           },
-           "name": "Frame",
-           "children": [
-            {
-             "id": "B9BXC",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "name": "Frame",
-             "children": [
-              {
-               "id": "qqMdY",
-               "type": "text",
-               "text": "Left over from Sep",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Left over from Sep"
-              },
-              {
-               "id": "UjAkk",
-               "type": "text",
-               "text": "40,964.33€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "40,964.33€"
-              }
-             ]
-            },
-            {
-             "id": "eaPYP",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "name": "Frame",
-             "children": [
-              {
-               "id": "NzTnC",
-               "type": "text",
-               "text": "Assigned in Oct",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Assigned in Oct"
-              },
-              {
-               "id": "54Qe8",
-               "type": "text",
-               "text": "2,104.00€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "2,104.00€"
-              }
-             ]
-            },
-            {
-             "id": "rxG3Q",
-             "type": "frame",
-             "class": "flex justify-between gap-6",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "name": "Frame",
-             "children": [
-              {
-               "id": "XmU7X",
-               "type": "text",
-               "text": "Spent in Oct",
-               "style": {
-                "color": "var(--text-tertiary)"
-               },
-               "name": "Spent in Oct"
-              },
-              {
-               "id": "5sUSN",
-               "type": "text",
-               "text": "1,249.72€",
-               "style": {
-                "color": "var(--text-secondary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "1,249.72€"
-              }
-             ]
-            }
-           ]
           }
          ]
         },
@@ -3820,7 +3720,7 @@
        ]
       },
       {
-       "id": "Fk9Rk",
+       "id": "ptwja",
        "type": "frame",
        "name": "Toolbar",
        "class": "flex items-center justify-between",
@@ -3829,7 +3729,7 @@
        },
        "children": [
         {
-         "id": "6dQwq",
+         "id": "FGTms",
          "type": "frame",
          "class": "flex items-center gap-1",
          "style": {
@@ -3840,7 +3740,7 @@
          "name": "Frame",
          "children": [
           {
-           "id": "RCpL7",
+           "id": "rHL3M",
            "type": "ref",
            "ref": "UfCbf",
            "overrides": {
@@ -3854,7 +3754,7 @@
            "name": "Chip/Active"
           },
           {
-           "id": "ec4nc",
+           "id": "B2c3b",
            "type": "ref",
            "ref": "GjKS5",
            "overrides": {
@@ -3868,7 +3768,7 @@
            "name": "Chip/Default"
           },
           {
-           "id": "KV6Zt",
+           "id": "fhfmS",
            "type": "ref",
            "ref": "GjKS5",
            "overrides": {
@@ -3880,71 +3780,96 @@
             }
            },
            "name": "Chip/Default"
-          },
-          {
-           "id": "wURPe",
-           "type": "ref",
-           "ref": "GjKS5",
-           "overrides": {
-            "Label": {
-             "text": "Snoozed"
-            },
-            "Count": {
-             "text": "0"
-            }
-           },
-           "name": "Chip/Default"
           }
          ]
         },
         {
-         "id": "mPqBi",
+         "id": "jmjS7",
          "type": "frame",
-         "class": "flex items-center gap-1",
+         "class": "flex items-center gap-2",
          "name": "Frame",
          "children": [
           {
-           "id": "WmuFx",
-           "type": "ref",
-           "ref": "f5MKg",
-           "overrides": {
-            "Label": {
-             "text": "Group"
-            },
-            "Icon": {
-             "icon": "plus"
-            }
-           },
-           "name": "Button/Ghost"
-          },
-          {
-           "id": "UApUJ",
-           "type": "ref",
-           "ref": "f5MKg",
-           "overrides": {
-            "Label": {
-             "text": "View"
-            },
-            "Icon": {
-             "icon": "sliders-horizontal"
-            }
-           },
-           "name": "Button/Ghost"
-          },
-          {
-           "id": "dfNjb",
-           "type": "ref",
-           "ref": "jXs6x",
+           "id": "xgqBV",
+           "type": "frame",
+           "class": "flex items-center gap-2",
            "style": {
-            "border": "none",
-            "background": "transparent"
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-secondary)"
            },
-           "overrides": {
-            "Icon": {
-             "icon": "search"
+           "name": "Frame",
+           "children": [
+            {
+             "id": "FbYrQ",
+             "type": "frame",
+             "style": {
+              "width": 8,
+              "height": 8,
+              "borderRadius": 2,
+              "background": "var(--progress-under)"
+             },
+             "name": "Frame"
+            },
+            {
+             "id": "M2KTv",
+             "type": "text",
+             "text": "9 need 142.06€",
+             "name": "9 need 142.06€"
             }
+           ]
+          },
+          {
+           "id": "VtuLE",
+           "type": "text",
+           "text": "·",
+           "style": {
+            "color": "var(--text-disabled)",
+            "fontSize": 13
            },
-           "name": "Button/Icon"
+           "name": "·"
+          },
+          {
+           "id": "JCiej",
+           "type": "frame",
+           "class": "flex items-center gap-2",
+           "style": {
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-secondary)"
+           },
+           "name": "Frame",
+           "children": [
+            {
+             "id": "WXDad",
+             "type": "frame",
+             "style": {
+              "width": 8,
+              "height": 8,
+              "borderRadius": 2,
+              "background": "var(--progress-over)"
+             },
+             "name": "Frame"
+            },
+            {
+             "id": "2cYGc",
+             "type": "text",
+             "text": "1 overspent",
+             "name": "1 overspent"
+            }
+           ]
+          },
+          {
+           "id": "jCHda",
+           "type": "text",
+           "text": "Fix over-assignment first",
+           "style": {
+            "marginLeft": 8,
+            "fontSize": 13,
+            "fontWeight": 500,
+            "color": "var(--text-disabled)"
+           },
+           "name": "Fix over-assignment fir…"
           }
          ]
         }
@@ -3994,6 +3919,32 @@
           },
           "Available": {
            "text": "25,812.91€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 3
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "3 funded · 1 no target"
+          },
+          "None": {
+           "style": {
+            "flex": 1,
+            "borderLeftWidth": 2
+           }
           }
          },
          "name": "Plan/Group"
@@ -4204,6 +4155,32 @@
           },
           "Available": {
            "text": "12,995.10€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 4
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 2,
+            "borderLeftWidth": 2
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "4 funded · 2 need money"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -4504,6 +4481,32 @@
           },
           "Available": {
            "text": "1,175.76€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 6
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 6,
+            "borderLeftWidth": 2
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Summary": {
+           "text": "6 funded · 6 need money"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -5048,6 +5051,32 @@
           },
           "Available": {
            "text": "1.60€"
+          },
+          "Funded": {
+           "style": {
+            "flex": 2
+           }
+          },
+          "Under": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
+          },
+          "Over": {
+           "style": {
+            "flex": 1,
+            "borderLeftWidth": 2
+           }
+          },
+          "Summary": {
+           "text": "2 funded · 1 overspent"
+          },
+          "None": {
+           "style": {
+            "flex": 0,
+            "borderLeftWidth": 0
+           }
           }
          },
          "name": "Plan/Group"
@@ -5514,8 +5543,8 @@
    "id": "bGpRi",
    "type": "frame",
    "name": "All Accounts",
-   "x": 2700,
-   "y": 0,
+   "x": 0,
+   "y": 1600,
    "class": "flex",
    "style": {
     "width": 2560,
@@ -5548,32 +5577,12 @@
      },
      "children": [
       {
-       "id": "crxAc",
-       "type": "ref",
-       "ref": "aJJDU",
-       "style": {
-        "width": "100%"
-       },
-       "overrides": {
-        "Icon": {
-         "icon": "landmark"
-        },
-        "Title": {
-         "text": "All Accounts"
-        },
-        "Context": {
-         "text": "October 2026"
-        }
-       },
-       "name": "App/Topbar"
-      },
-      {
        "id": "piw6t",
        "type": "frame",
        "name": "Header",
        "class": "flex flex-col",
        "style": {
-        "padding": "36px 40px 24px",
+        "padding": "28px 40px 24px",
         "gap": 24
        },
        "children": [
@@ -5612,6 +5621,20 @@
               }
              },
              "name": "Button/Ghost"
+            },
+            {
+             "id": "eVzbn",
+             "type": "ref",
+             "ref": "Wszke",
+             "overrides": {
+              "Label": {
+               "text": "Sync banks"
+              },
+              "Icon": {
+               "icon": "refresh-cw"
+              }
+             },
+             "name": "Button/Secondary"
             },
             {
              "id": "vqUKa",
@@ -5867,17 +5890,6 @@
          "class": "flex items-center gap-1",
          "children": [
           {
-           "id": "QSNwQ",
-           "type": "ref",
-           "ref": "DHma8",
-           "overrides": {
-            "Label": {
-             "text": "October"
-            }
-           },
-           "name": "Dropdown"
-          },
-          {
            "id": "XkzGk",
            "type": "ref",
            "ref": "f5MKg",
@@ -5942,13 +5954,29 @@
          },
          "overrides": {
           "Date": {
-           "text": "Today, 31 October"
+           "text": "Friday, 31 October"
           },
           "Count": {
-           "text": "1"
+           "text": "1 transaction"
+          },
+          "Day": {
+           "text": "31"
+          },
+          "Chip": {
+           "style": {
+            "background": "var(--accent)",
+            "color": "#fff",
+            "boxShadow": "none"
+           }
+          },
+          "Today": {
+           "hidden": false
           },
           "Total": {
-           "text": "-64.20€"
+           "text": "−64.20€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
           }
          },
          "name": "Tx/Day"
@@ -6001,10 +6029,20 @@
            "text": "Thursday, 30 October"
           },
           "Count": {
-           "text": "4"
+           "text": "4 transactions"
+          },
+          "Day": {
+           "text": "30"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
           },
           "Total": {
-           "text": "+7.73€"
+           "text": "+7.73€",
+           "style": {
+            "color": "var(--money-inflow)"
+           }
           }
          },
          "name": "Tx/Day"
@@ -6173,10 +6211,20 @@
            "text": "Wednesday, 29 October"
           },
           "Count": {
-           "text": "3"
+           "text": "3 transactions"
+          },
+          "Day": {
+           "text": "29"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
           },
           "Total": {
-           "text": "-30.21€"
+           "text": "−30.21€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
           }
          },
          "name": "Tx/Day"
@@ -6295,10 +6343,20 @@
            "text": "Tuesday, 28 October"
           },
           "Count": {
-           "text": "3"
+           "text": "3 transactions"
+          },
+          "Day": {
+           "text": "28"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
           },
           "Total": {
-           "text": "-19.88€"
+           "text": "−19.88€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
           }
          },
          "name": "Tx/Day"
@@ -6417,10 +6475,20 @@
            "text": "Monday, 27 October"
           },
           "Count": {
-           "text": "4"
+           "text": "4 transactions"
+          },
+          "Day": {
+           "text": "27"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
           },
           "Total": {
-           "text": "+2,357.47€"
+           "text": "+2,357.47€",
+           "style": {
+            "color": "var(--money-inflow)"
+           }
           }
          },
          "name": "Tx/Day"
@@ -6914,11 +6982,11 @@
    ]
   },
   {
-   "id": "8DXhH",
+   "id": "YJMea",
    "type": "frame",
-   "name": "Reflect · earlier charts",
-   "x": 8100,
-   "y": 0,
+   "name": "Accounts · One account",
+   "x": 2700,
+   "y": 1600,
    "class": "flex",
    "style": {
     "width": 2560,
@@ -6930,18 +6998,18 @@
    },
    "children": [
     {
-     "id": "23w5B",
+     "id": "SuFBB",
      "type": "ref",
      "ref": "dwQMe",
      "overrides": {
-      "Nav Reflect": {
+      "Nav Accounts": {
        "ref": "acDBp"
       }
      },
      "name": "App/Sidebar"
     },
     {
-     "id": "hUhfv",
+     "id": "DWtJA",
      "type": "frame",
      "name": "Main",
      "class": "flex flex-col",
@@ -6951,106 +7019,408 @@
      },
      "children": [
       {
-       "id": "KadL8",
+       "id": "b8nzu",
        "type": "frame",
-       "class": "flex items-center justify-between",
+       "name": "Header",
+       "class": "flex flex-col",
        "style": {
-        "height": 52,
-        "padding": "0 40px",
-        "borderBottom": "1px solid var(--border-default)",
-        "flexShrink": 0
+        "padding": "28px 40px 24px",
+        "gap": 24
        },
        "children": [
         {
-         "id": "NA63i",
+         "id": "agwJM",
          "type": "frame",
-         "class": "flex items-center",
-         "style": {
-          "gap": 28
-         },
+         "class": "flex items-center justify-between",
+         "name": "Frame",
          "children": [
           {
-           "id": "6MxN5",
-           "type": "ref",
-           "ref": "JDnkc",
-           "overrides": {
-            "Label": {
-             "text": "Spending"
-            }
+           "id": "DPJzR",
+           "type": "frame",
+           "name": "Title",
+           "class": "flex items-center",
+           "style": {
+            "gap": 14
            },
-           "name": "Tab/Active"
+           "children": [
+            {
+             "id": "5ughp",
+             "type": "ref",
+             "ref": "et955",
+             "style": {
+              "width": 36,
+              "height": 36,
+              "borderRadius": 9
+             },
+             "overrides": {
+              "Logo": {
+               "style": {
+                "width": 36,
+                "height": 36
+               }
+              }
+             },
+             "name": "Account Mark/Revolut"
+            },
+            {
+             "id": "7SNJG",
+             "type": "text",
+             "text": "Revolut",
+             "style": {
+              "fontSize": 40,
+              "lineHeight": "44px",
+              "fontWeight": 600,
+              "letterSpacing": "-0.025em"
+             },
+             "name": "Revolut"
+            },
+            {
+             "id": "tX7sf",
+             "type": "frame",
+             "class": "flex items-center gap-1.5",
+             "style": {
+              "height": 28,
+              "padding": "0 10px",
+              "marginLeft": 6,
+              "borderRadius": 8,
+              "background": "var(--surface-sunken)",
+              "color": "var(--text-secondary)",
+              "fontSize": 12,
+              "fontWeight": 600
+             },
+             "children": [
+              {
+               "id": "Z6guK",
+               "type": "icon",
+               "icon": "x",
+               "style": {
+                "width": 13,
+                "height": 13
+               },
+               "name": "x"
+              },
+              {
+               "id": "YERbi",
+               "type": "text",
+               "text": "Show all accounts",
+               "name": "Show all accounts"
+              }
+             ],
+             "name": "Frame"
+            }
+           ]
           },
           {
-           "id": "GZEiG",
-           "type": "ref",
-           "ref": "eY54i",
-           "overrides": {
-            "Label": {
-             "text": "Trends"
+           "id": "ABuTz",
+           "type": "frame",
+           "class": "flex gap-2",
+           "name": "Frame",
+           "children": [
+            {
+             "id": "k3Nnp",
+             "type": "ref",
+             "ref": "f5MKg",
+             "overrides": {
+              "Label": {
+               "text": "Reconcile"
+              },
+              "Icon": {
+               "icon": "scale"
+              }
+             },
+             "name": "Button/Ghost"
+            },
+            {
+             "id": "t2NGp",
+             "type": "ref",
+             "ref": "Wszke",
+             "overrides": {
+              "Label": {
+               "text": "Sync banks"
+              },
+              "Icon": {
+               "icon": "refresh-cw"
+              }
+             },
+             "name": "Button/Secondary"
+            },
+            {
+             "id": "CNKHf",
+             "type": "ref",
+             "ref": "Wszke",
+             "overrides": {
+              "Label": {
+               "text": "Import"
+              },
+              "Icon": {
+               "icon": "file-up"
+              }
+             },
+             "name": "Button/Secondary"
+            },
+            {
+             "id": "CwA6D",
+             "type": "ref",
+             "ref": "w7RCk",
+             "overrides": {
+              "Label": {
+               "text": "Add transaction"
+              }
+             },
+             "name": "Button/Primary"
             }
-           },
-           "name": "Tab/Default"
-          },
-          {
-           "id": "JDgha",
-           "type": "ref",
-           "ref": "eY54i",
-           "overrides": {
-            "Label": {
-             "text": "Net worth"
-            }
-           },
-           "name": "Tab/Default"
-          },
-          {
-           "id": "3WR64",
-           "type": "ref",
-           "ref": "eY54i",
-           "overrides": {
-            "Label": {
-             "text": "Income vs expense"
-            }
-           },
-           "name": "Tab/Default"
-          },
-          {
-           "id": "577DD",
-           "type": "ref",
-           "ref": "eY54i",
-           "overrides": {
-            "Label": {
-             "text": "Age of money"
-            }
-           },
-           "name": "Tab/Default"
+           ]
           }
-         ],
-         "name": "Frame"
+         ]
         },
         {
-         "id": "fvN8d",
+         "id": "MQCaJ",
          "type": "frame",
-         "class": "flex items-center gap-2",
+         "class": "flex",
+         "style": {
+          "gap": 16
+         },
+         "name": "Frame",
          "children": [
           {
-           "id": "bHFPY",
+           "id": "iX4HN",
            "type": "ref",
-           "ref": "xSxLs",
-           "name": "Date Range"
-          },
-          {
-           "id": "gBDhr",
-           "type": "ref",
-           "ref": "DHma8",
+           "ref": "9TYtZ",
+           "style": {
+            "flex": 1.2,
+            "width": "auto"
+           },
            "overrides": {
-            "Label": {
+            "Mark": {
+             "hidden": true
+            },
+            "Name": {
              "text": "All accounts"
+            },
+            "Meta": {
+             "text": "4"
+            },
+            "Balance": {
+             "text": "41,386.09€"
+            },
+            "Note": {
+             "text": "2,241.24€ uncleared"
             }
            },
-           "name": "Dropdown"
+           "name": "Account Card"
           },
           {
-           "id": "sa6sc",
+           "id": "YjUuy",
+           "type": "ref",
+           "ref": "9TYtZ",
+           "style": {
+            "flex": 1,
+            "width": "auto"
+           },
+           "overrides": {
+            "Mark": {
+             "ref": "eP42y"
+            },
+            "Name": {
+             "text": "Illimity"
+            },
+            "Balance": {
+             "text": "41,031.75€"
+            },
+            "Note": {
+             "text": "Synced 2h ago"
+            },
+            "Meta": {
+             "text": "Checking"
+            }
+           },
+           "name": "Account Card"
+          },
+          {
+           "id": "fLnw5",
+           "type": "ref",
+           "ref": "9TYtZ",
+           "style": {
+            "flex": 1,
+            "width": "auto"
+           },
+           "overrides": {
+            "Mark": {
+             "ref": "8Pgef"
+            },
+            "Name": {
+             "text": "Tinaba"
+            },
+            "Balance": {
+             "text": "304.00€"
+            },
+            "Note": {
+             "text": "Synced 2h ago"
+            },
+            "Meta": {
+             "text": "Savings"
+            }
+           },
+           "name": "Account Card"
+          },
+          {
+           "id": "cZJbe",
+           "type": "ref",
+           "ref": "Kc5kQ",
+           "style": {
+            "flex": 1,
+            "width": "auto"
+           },
+           "overrides": {
+            "Mark": {
+             "ref": "et955"
+            },
+            "Name": {
+             "text": "Revolut"
+            },
+            "Balance": {
+             "text": "49.81€"
+            },
+            "Note": {
+             "text": "6 uncleared"
+            },
+            "Meta": {
+             "text": "Card"
+            }
+           },
+           "name": "Account Card/Active"
+          },
+          {
+           "id": "s5F4P",
+           "type": "ref",
+           "ref": "9TYtZ",
+           "style": {
+            "flex": 1,
+            "width": "auto"
+           },
+           "overrides": {
+            "Mark": {
+             "ref": "y3E9D"
+            },
+            "Name": {
+             "text": "Monzo"
+            },
+            "Balance": {
+             "text": "0.53€"
+            },
+            "Note": {
+             "text": "Synced yesterday"
+            },
+            "Meta": {
+             "text": "Card"
+            }
+           },
+           "name": "Account Card"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "B9zRW",
+       "type": "frame",
+       "name": "Toolbar",
+       "class": "flex items-center justify-between",
+       "style": {
+        "padding": "0 40px 8px"
+       },
+       "children": [
+        {
+         "id": "6YwWQ",
+         "type": "frame",
+         "class": "flex items-center gap-1",
+         "style": {
+          "padding": 3,
+          "borderRadius": 10,
+          "background": "var(--surface-sunken)"
+         },
+         "name": "Frame",
+         "children": [
+          {
+           "id": "TJXn9",
+           "type": "ref",
+           "ref": "UfCbf",
+           "overrides": {
+            "Label": {
+             "text": "All"
+            },
+            "Count": {
+             "text": ""
+            }
+           },
+           "name": "Chip/Active"
+          },
+          {
+           "id": "CyA9u",
+           "type": "ref",
+           "ref": "GjKS5",
+           "overrides": {
+            "Label": {
+             "text": "Uncleared"
+            },
+            "Count": {
+             "text": "6"
+            }
+           },
+           "name": "Chip/Default"
+          },
+          {
+           "id": "ba2BE",
+           "type": "ref",
+           "ref": "GjKS5",
+           "overrides": {
+            "Label": {
+             "text": "Needs a category"
+            },
+            "Count": {
+             "text": "2"
+            }
+           },
+           "name": "Chip/Default"
+          },
+          {
+           "id": "syW5Y",
+           "type": "ref",
+           "ref": "GjKS5",
+           "overrides": {
+            "Label": {
+             "text": "Transfers"
+            },
+            "Count": {
+             "text": ""
+            }
+           },
+           "name": "Chip/Default"
+          }
+         ]
+        },
+        {
+         "id": "GUkwb",
+         "type": "frame",
+         "class": "flex items-center gap-1",
+         "name": "Frame",
+         "children": [
+          {
+           "id": "KfcrT",
+           "type": "ref",
+           "ref": "f5MKg",
+           "overrides": {
+            "Label": {
+             "text": "View"
+            },
+            "Icon": {
+             "icon": "sliders-horizontal"
+            }
+           },
+           "name": "Button/Ghost"
+          },
+          {
+           "id": "GEDLF",
            "type": "ref",
            "ref": "jXs6x",
            "style": {
@@ -7059,1393 +7429,627 @@
            },
            "overrides": {
             "Icon": {
-             "icon": "download"
+             "icon": "search"
             }
            },
            "name": "Button/Icon"
-          }
-         ],
-         "name": "Frame"
-        }
-       ],
-       "name": "Frame"
-      },
-      {
-       "id": "G293U",
-       "type": "frame",
-       "name": "Headline",
-       "class": "flex flex-col",
-       "style": {
-        "padding": "40px 40px 28px",
-        "gap": 12
-       },
-       "children": [
-        {
-         "id": "4ab8Z",
-         "type": "text",
-         "spans": [
-          {
-           "text": "You spent "
-          },
-          {
-           "text": "1,918.16€",
-           "style": {
-            "fontVariantNumeric": "tabular-nums"
-           }
-          },
-          {
-           "text": " in October.",
-           "style": {
-            "color": "var(--text-disabled)"
-           }
-          }
-         ],
-         "style": {
-          "fontSize": 40,
-          "lineHeight": "46px",
-          "fontWeight": 600,
-          "letterSpacing": "-0.025em"
-         },
-         "name": "You spent 1,918.16€ in …"
-        },
-        {
-         "id": "jJSRN",
-         "type": "text",
-         "spans": [
-          {
-           "text": "6.2% less than September",
-           "style": {
-            "color": "var(--money-funded-fg)"
-           }
-          },
-          {
-           "text": "  ·  61.87€ a day  ·  Eating Out is the one to watch, up 38%."
-          }
-         ],
-         "style": {
-          "fontSize": 15,
-          "fontWeight": 500,
-          "color": "var(--text-secondary)"
-         },
-         "name": "6.2% less than Septembe…"
-        },
-        {
-         "id": "kKach",
-         "type": "frame",
-         "name": "Composition",
-         "class": "flex flex-col gap-3",
-         "style": {
-          "marginTop": 16
-         },
-         "children": [
-          {
-           "id": "VdVPJ",
-           "type": "frame",
-           "class": "flex",
-           "style": {
-            "gap": 3,
-            "height": 14
-           },
-           "children": [
-            {
-             "id": "ETGzk",
-             "type": "frame",
-             "style": {
-              "flex": 1029.24,
-              "minWidth": 6,
-              "borderRadius": 4,
-              "background": "var(--chart-1)"
-             },
-             "name": "Frame"
-            },
-            {
-             "id": "h8rsZ",
-             "type": "frame",
-             "style": {
-              "flex": 528.63,
-              "minWidth": 6,
-              "borderRadius": 4,
-              "background": "var(--chart-2)"
-             },
-             "name": "Frame"
-            },
-            {
-             "id": "EeD9P",
-             "type": "frame",
-             "style": {
-              "flex": 296.4,
-              "minWidth": 6,
-              "borderRadius": 4,
-              "background": "var(--chart-3)"
-             },
-             "name": "Frame"
-            },
-            {
-             "id": "MjQBp",
-             "type": "frame",
-             "style": {
-              "flex": 28.9,
-              "minWidth": 6,
-              "borderRadius": 4,
-              "background": "var(--chart-4)"
-             },
-             "name": "Frame"
-            },
-            {
-             "id": "ftCCe",
-             "type": "frame",
-             "style": {
-              "flex": 22.91,
-              "minWidth": 6,
-              "borderRadius": 4,
-              "background": "var(--chart-5)"
-             },
-             "name": "Frame"
-            },
-            {
-             "id": "AJyyJ",
-             "type": "frame",
-             "style": {
-              "flex": 12.08,
-              "minWidth": 6,
-              "borderRadius": 4,
-              "background": "var(--chart-6)"
-             },
-             "name": "Frame"
-            }
-           ],
-           "name": "Frame"
-          },
-          {
-           "id": "bcpRG",
-           "type": "frame",
-           "class": "flex flex-wrap",
-           "style": {
-            "gap": 24,
-            "fontSize": 13,
-            "fontWeight": 500
-           },
-           "children": [
-            {
-             "id": "cDE2C",
-             "type": "frame",
-             "class": "flex items-center gap-2",
-             "children": [
-              {
-               "id": "rUBNb",
-               "type": "frame",
-               "style": {
-                "width": 8,
-                "height": 8,
-                "borderRadius": 2,
-                "background": "var(--chart-1)"
-               },
-               "name": "Frame"
-              },
-              {
-               "id": "8tdEz",
-               "type": "text",
-               "text": "Bills",
-               "style": {
-                "color": "var(--text-secondary)"
-               },
-               "name": "Bills"
-              },
-              {
-               "id": "eEEyY",
-               "type": "text",
-               "text": "1,029.24€",
-               "style": {
-                "color": "var(--text-tertiary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "1,029.24€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "DGDPF",
-             "type": "frame",
-             "class": "flex items-center gap-2",
-             "children": [
-              {
-               "id": "xYm5E",
-               "type": "frame",
-               "style": {
-                "width": 8,
-                "height": 8,
-                "borderRadius": 2,
-                "background": "var(--chart-2)"
-               },
-               "name": "Frame"
-              },
-              {
-               "id": "7yRVv",
-               "type": "text",
-               "text": "Savings Goals",
-               "style": {
-                "color": "var(--text-secondary)"
-               },
-               "name": "Savings Goals"
-              },
-              {
-               "id": "GtmJ9",
-               "type": "text",
-               "text": "528.63€",
-               "style": {
-                "color": "var(--text-tertiary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "528.63€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "vhWZN",
-             "type": "frame",
-             "class": "flex items-center gap-2",
-             "children": [
-              {
-               "id": "wLGKJ",
-               "type": "frame",
-               "style": {
-                "width": 8,
-                "height": 8,
-                "borderRadius": 2,
-                "background": "var(--chart-3)"
-               },
-               "name": "Frame"
-              },
-              {
-               "id": "kNjUq",
-               "type": "text",
-               "text": "Entertainment",
-               "style": {
-                "color": "var(--text-secondary)"
-               },
-               "name": "Entertainment"
-              },
-              {
-               "id": "dffmZ",
-               "type": "text",
-               "text": "296.40€",
-               "style": {
-                "color": "var(--text-tertiary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "296.40€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "VbJ5k",
-             "type": "frame",
-             "class": "flex items-center gap-2",
-             "children": [
-              {
-               "id": "tc4Ve",
-               "type": "frame",
-               "style": {
-                "width": 8,
-                "height": 8,
-                "borderRadius": 2,
-                "background": "var(--chart-4)"
-               },
-               "name": "Frame"
-              },
-              {
-               "id": "vArvL",
-               "type": "text",
-               "text": "Health",
-               "style": {
-                "color": "var(--text-secondary)"
-               },
-               "name": "Health"
-              },
-              {
-               "id": "PT2uF",
-               "type": "text",
-               "text": "28.90€",
-               "style": {
-                "color": "var(--text-tertiary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "28.90€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "Fqkdd",
-             "type": "frame",
-             "class": "flex items-center gap-2",
-             "children": [
-              {
-               "id": "aDSvS",
-               "type": "frame",
-               "style": {
-                "width": 8,
-                "height": 8,
-                "borderRadius": 2,
-                "background": "var(--chart-5)"
-               },
-               "name": "Frame"
-              },
-              {
-               "id": "aa8GA",
-               "type": "text",
-               "text": "Subscriptions",
-               "style": {
-                "color": "var(--text-secondary)"
-               },
-               "name": "Subscriptions"
-              },
-              {
-               "id": "77Z9d",
-               "type": "text",
-               "text": "22.91€",
-               "style": {
-                "color": "var(--text-tertiary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "22.91€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "eWjrU",
-             "type": "frame",
-             "class": "flex items-center gap-2",
-             "children": [
-              {
-               "id": "iWzQP",
-               "type": "frame",
-               "style": {
-                "width": 8,
-                "height": 8,
-                "borderRadius": 2,
-                "background": "var(--chart-6)"
-               },
-               "name": "Frame"
-              },
-              {
-               "id": "BhLXE",
-               "type": "text",
-               "text": "Business",
-               "style": {
-                "color": "var(--text-secondary)"
-               },
-               "name": "Business"
-              },
-              {
-               "id": "m2DXN",
-               "type": "text",
-               "text": "12.08€",
-               "style": {
-                "color": "var(--text-tertiary)",
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "12.08€"
-              }
-             ],
-             "name": "Frame"
-            }
-           ],
-           "name": "Frame"
           }
          ]
         }
        ]
       },
       {
-       "id": "aXEfA",
+       "id": "xJkP3",
        "type": "frame",
-       "name": "Body",
-       "class": "flex",
+       "name": "Table",
+       "class": "flex flex-col",
        "style": {
         "flex": 1,
         "minHeight": 0,
-        "gap": 32,
-        "padding": "8px 28px 0 28px",
-        "overflow": "hidden"
+        "overflow": "hidden",
+        "padding": "4px 28px 0"
        },
        "children": [
         {
-         "id": "iBZ9X",
-         "type": "frame",
-         "name": "Ranked",
-         "class": "flex flex-col",
+         "id": "XiHi5",
+         "type": "ref",
+         "ref": "EQsWq",
          "style": {
-          "flex": 1,
-          "minWidth": 0
+          "width": "100%",
+          "borderBottom": "1px solid var(--border-subtle)"
          },
-         "children": [
-          {
-           "id": "e9f29",
-           "type": "ref",
-           "ref": "VxNyJ",
-           "style": {
-            "width": "100%",
-            "borderBottom": "1px solid var(--border-subtle)",
-            "marginBottom": 6
-           },
-           "name": "Report/Columns"
-          },
-          {
-           "id": "PCYsH",
-           "type": "frame",
-           "style": {
-            "borderRadius": 14,
-            "background": "var(--surface-panel)",
-            "boxShadow": "var(--shadow-card)",
-            "padding": "2px 0 10px",
-            "margin": "2px 0 6px"
-           },
-           "children": [
-            {
-             "id": "88brj",
-             "type": "ref",
-             "ref": "yfGMQ",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Swatch": {
-               "style": {
-                "background": "var(--chart-1)"
-               }
-              },
-              "Name": {
-               "text": "Bills"
-              },
-              "Count": {
-               "text": "12 categories"
-              },
-              "Bar": {
-               "style": {
-                "width": "100%",
-                "background": "var(--chart-1)"
-               }
-              },
-              "Share": {
-               "text": "53.7%"
-              },
-              "Amount": {
-               "text": "1,029.24€"
-              },
-              "DeltaIcon": {
-               "icon": "arrow-down-right"
-              },
-              "DeltaText": {
-               "text": "4.1%"
-              },
-              "Delta": {
-               "style": {
-                "color": "var(--money-funded-fg)"
-               }
-              }
-             },
-             "name": "Report/Row"
-            },
-            {
-             "id": "R5pac",
-             "type": "frame",
-             "style": {
-              "height": 1,
-              "background": "var(--border-subtle)",
-              "margin": "2px 24px 6px"
-             },
-             "name": "Frame"
-            },
-            {
-             "id": "cYNgX",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "Rent"
-              },
-              "Bar": {
-               "style": {
-                "width": "43.72158097236796%"
-               }
-              },
-              "Share": {
-               "text": "23.5%"
-              },
-              "Amount": {
-               "text": "450.00€"
-              }
-             },
-             "name": "Report/Sub Row"
-            },
-            {
-             "id": "i3eVZ",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "Auto maintenance"
-              },
-              "Bar": {
-               "style": {
-                "width": "23.827290039252265%"
-               }
-              },
-              "Share": {
-               "text": "12.8%"
-              },
-              "Amount": {
-               "text": "245.24€"
-              }
-             },
-             "name": "Report/Sub Row"
-            },
-            {
-             "id": "GtJia",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "TARI"
-              },
-              "Bar": {
-               "style": {
-                "width": "11.561929190470638%"
-               }
-              },
-              "Share": {
-               "text": "6.2%"
-              },
-              "Amount": {
-               "text": "119.00€"
-              }
-             },
-             "name": "Report/Sub Row"
-            },
-            {
-             "id": "MGLuC",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "Gas"
-              },
-              "Bar": {
-               "style": {
-                "width": "7.772725506198748%"
-               }
-              },
-              "Share": {
-               "text": "4.2%"
-              },
-              "Amount": {
-               "text": "80.00€"
-              }
-             },
-             "name": "Report/Sub Row"
-            },
-            {
-             "id": "zyjfz",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "Energy"
-              },
-              "Bar": {
-               "style": {
-                "width": "6.02386226730403%"
-               }
-              },
-              "Share": {
-               "text": "3.2%"
-              },
-              "Amount": {
-               "text": "62.00€"
-              }
-             },
-             "name": "Report/Sub Row"
-            },
-            {
-             "id": "sgrvB",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "Water"
-              },
-              "Bar": {
-               "style": {
-                "width": "3.6920446154444058%"
-               }
-              },
-              "Share": {
-               "text": "2.0%"
-              },
-              "Amount": {
-               "text": "38.00€"
-              }
-             },
-             "name": "Report/Sub Row"
-            },
-            {
-             "id": "ttsDu",
-             "type": "ref",
-             "ref": "sw5RH",
-             "style": {
-              "width": "100%"
-             },
-             "overrides": {
-              "Name": {
-               "text": "Fuel"
-              },
-              "Bar": {
-               "style": {
-                "width": "3.400567408961953%"
-               }
-              },
-              "Share": {
-               "text": "1.8%"
-              },
-              "Amount": {
-               "text": "35.00€"
-              }
-             },
-             "name": "Report/Sub Row"
-            }
-           ],
-           "name": "Frame"
-          },
-          {
-           "id": "fSixR",
-           "type": "ref",
-           "ref": "yfGMQ",
-           "style": {
-            "width": "100%"
-           },
-           "overrides": {
-            "Swatch": {
-             "style": {
-              "background": "var(--chart-2)"
-             }
-            },
-            "Name": {
-             "text": "Savings Goals"
-            },
-            "Count": {
-             "text": "2 categories"
-            },
-            "Bar": {
-             "style": {
-              "width": "51.36119855427306%",
-              "background": "var(--chart-2)"
-             }
-            },
-            "Share": {
-             "text": "27.6%"
-            },
-            "Amount": {
-             "text": "528.63€"
-            },
-            "DeltaIcon": {
-             "icon": "arrow-up-right"
-            },
-            "DeltaText": {
-             "text": "12.0%"
-            },
-            "Delta": {
-             "style": {
-              "color": "var(--text-tertiary)"
-             }
-            }
-           },
-           "name": "Report/Row"
-          },
-          {
-           "id": "XNimP",
-           "type": "ref",
-           "ref": "yfGMQ",
-           "style": {
-            "width": "100%"
-           },
-           "overrides": {
-            "Swatch": {
-             "style": {
-              "background": "var(--chart-3)"
-             }
-            },
-            "Name": {
-             "text": "Entertainment"
-            },
-            "Count": {
-             "text": "3 categories"
-            },
-            "Bar": {
-             "style": {
-              "width": "28.797948000466363%",
-              "background": "var(--chart-3)"
-             }
-            },
-            "Share": {
-             "text": "15.5%"
-            },
-            "Amount": {
-             "text": "296.40€"
-            },
-            "DeltaIcon": {
-             "icon": "arrow-up-right"
-            },
-            "DeltaText": {
-             "text": "38.2%"
-            },
-            "Delta": {
-             "style": {
-              "color": "var(--money-over-fg)"
-             }
-            }
-           },
-           "name": "Report/Row"
-          },
-          {
-           "id": "BEJpb",
-           "type": "ref",
-           "ref": "yfGMQ",
-           "style": {
-            "width": "100%"
-           },
-           "overrides": {
-            "Swatch": {
-             "style": {
-              "background": "var(--chart-4)"
-             }
-            },
-            "Name": {
-             "text": "Health"
-            },
-            "Count": {
-             "text": "1 category"
-            },
-            "Bar": {
-             "style": {
-              "width": "2.807897089114298%",
-              "background": "var(--chart-4)"
-             }
-            },
-            "Share": {
-             "text": "1.5%"
-            },
-            "Amount": {
-             "text": "28.90€"
-            },
-            "DeltaIcon": {
-             "icon": "arrow-down-right"
-            },
-            "DeltaText": {
-             "text": "10.0%"
-            },
-            "Delta": {
-             "style": {
-              "color": "var(--money-funded-fg)"
-             }
-            }
-           },
-           "name": "Report/Row"
-          },
-          {
-           "id": "ijyrb",
-           "type": "ref",
-           "ref": "yfGMQ",
-           "style": {
-            "width": "100%"
-           },
-           "overrides": {
-            "Swatch": {
-             "style": {
-              "background": "var(--chart-5)"
-             }
-            },
-            "Name": {
-             "text": "Subscriptions"
-            },
-            "Count": {
-             "text": "3 categories"
-            },
-            "Bar": {
-             "style": {
-              "width": "2.2259142668376666%",
-              "background": "var(--chart-5)"
-             }
-            },
-            "Share": {
-             "text": "1.2%"
-            },
-            "Amount": {
-             "text": "22.91€"
-            },
-            "DeltaIcon": {
-             "hidden": true
-            },
-            "DeltaText": {
-             "text": "—"
-            },
-            "Delta": {
-             "style": {
-              "color": "var(--text-disabled)"
-             }
-            }
-           },
-           "name": "Report/Row"
-          },
-          {
-           "id": "e3FAZ",
-           "type": "ref",
-           "ref": "yfGMQ",
-           "style": {
-            "width": "100%"
-           },
-           "overrides": {
-            "Swatch": {
-             "style": {
-              "background": "var(--chart-6)"
-             }
-            },
-            "Name": {
-             "text": "Business"
-            },
-            "Count": {
-             "text": "1 category"
-            },
-            "Bar": {
-             "style": {
-              "width": "1.173681551436011%",
-              "background": "var(--chart-6)"
-             }
-            },
-            "Share": {
-             "text": "0.6%"
-            },
-            "Amount": {
-             "text": "12.08€"
-            },
-            "DeltaIcon": {
-             "hidden": true
-            },
-            "DeltaText": {
-             "text": "—"
-            },
-            "Delta": {
-             "style": {
-              "color": "var(--text-disabled)"
-             }
-            }
-           },
-           "name": "Report/Row"
-          }
-         ]
+         "name": "Tx/Columns"
         },
         {
-         "id": "CJ7Nz",
-         "type": "frame",
-         "name": "Side",
-         "class": "flex flex-col gap-5",
+         "id": "5N3wG",
+         "type": "ref",
+         "ref": "jDUSq",
          "style": {
-          "width": 520,
-          "flexShrink": 0,
-          "paddingRight": 12
+          "width": "100%"
          },
-         "children": [
-          {
-           "id": "6MSRd",
-           "type": "frame",
-           "class": "flex flex-col gap-4",
-           "style": {
-            "padding": 24,
-            "borderRadius": 14,
-            "background": "var(--surface-panel)",
-            "boxShadow": "var(--shadow-card)"
-           },
-           "children": [
-            {
-             "id": "jvVhn",
-             "type": "frame",
-             "class": "flex items-baseline justify-between",
-             "children": [
-              {
-               "id": "CiMfX",
-               "type": "text",
-               "text": "Last 12 months",
-               "style": {
-                "fontSize": 14,
-                "fontWeight": 600
-               },
-               "name": "Last 12 months"
-              },
-              {
-               "id": "Fehti",
-               "type": "frame",
-               "class": "flex items-center gap-2",
-               "style": {
-                "fontSize": 12,
-                "fontWeight": 500,
-                "color": "var(--text-tertiary)"
-               },
-               "children": [
-                {
-                 "id": "ePWes",
-                 "type": "frame",
-                 "style": {
-                  "width": 14,
-                  "borderTop": "1.5px dashed var(--gray-500)"
-                 },
-                 "name": "Frame"
-                },
-                {
-                 "id": "VjvUB",
-                 "type": "text",
-                 "text": "Average 1,875€",
-                 "name": "Average 1,875€"
-                }
-               ],
-               "name": "Frame"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "JHKms",
-             "type": "svg",
-             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"472\" height=\"200\" viewBox=\"0 0 472 200\"><line x1=\"0\" x2=\"472\" y1=\"93\" y2=\"93\" stroke=\"#eeeff1\"/><line x1=\"0\" x2=\"472\" y1=\"8\" y2=\"8\" stroke=\"#eeeff1\"/><rect x=\"8.666666666666668\" y=\"72.07692307692308\" width=\"22\" height=\"105.92307692307692\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"19.666666666666668\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Nov</text><rect x=\"48\" y=\"26.96153846153848\" width=\"22\" height=\"151.03846153846152\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"59\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Dec</text><rect x=\"87.33333333333334\" y=\"81.23076923076924\" width=\"22\" height=\"96.76923076923076\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"98.33333333333334\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Jan</text><rect x=\"126.66666666666667\" y=\"87.11538461538461\" width=\"22\" height=\"90.88461538461539\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"137.66666666666669\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Feb</text><rect x=\"166\" y=\"66.1923076923077\" width=\"22\" height=\"111.8076923076923\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"177\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Mar</text><rect x=\"205.33333333333334\" y=\"44.28846153846155\" width=\"22\" height=\"133.71153846153845\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"216.33333333333334\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Apr</text><rect x=\"244.66666666666666\" y=\"52.5923076923077\" width=\"22\" height=\"125.4076923076923\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"255.66666666666666\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">May</text><rect x=\"284.00000000000006\" y=\"69.78846153846155\" width=\"22\" height=\"108.21153846153845\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"295.00000000000006\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Jun</text><rect x=\"323.33333333333337\" y=\"15.84615384615384\" width=\"22\" height=\"162.15384615384616\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"334.33333333333337\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Jul</text><rect x=\"362.6666666666667\" y=\"51.80769230769231\" width=\"22\" height=\"126.1923076923077\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"373.6666666666667\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Aug</text><rect x=\"402.00000000000006\" y=\"44.28846153846155\" width=\"22\" height=\"133.71153846153845\" rx=\"5\" fill=\"#e3e6ea\"/><text x=\"413.00000000000006\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Sep</text><rect x=\"441.33333333333337\" y=\"52.5923076923077\" width=\"22\" height=\"125.4076923076923\" rx=\"5\" fill=\"#1a1b1e\"/><text x=\"452.33333333333337\" y=\"195\" text-anchor=\"middle\" font-family=\"Inter\" font-size=\"11\" fill=\"#8e96a4\">Oct</text><line x1=\"0\" x2=\"472\" y1=\"55.40384615384616\" y2=\"55.40384615384616\" stroke=\"#8e96a4\" stroke-dasharray=\"3 4\"/></svg>",
-             "style": {
-              "width": 472,
-              "height": 200
-             },
-             "name": "Vector"
-            },
-            {
-             "id": "j2zND",
-             "type": "frame",
-             "class": "flex",
-             "style": {
-              "gap": 16,
-              "paddingTop": 16,
-              "borderTop": "1px solid var(--border-subtle)"
-             },
-             "children": [
-              {
-               "id": "Ed49Q",
-               "type": "frame",
-               "class": "flex flex-col gap-1",
-               "style": {
-                "flex": 1
-               },
-               "children": [
-                {
-                 "id": "SJne3",
-                 "type": "text",
-                 "text": "Monthly average",
-                 "style": {
-                  "fontSize": 12,
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Monthly average"
-                },
-                {
-                 "id": "jjc2S",
-                 "type": "text",
-                 "text": "1,875.08€",
-                 "style": {
-                  "fontSize": 20,
-                  "fontWeight": 600,
-                  "letterSpacing": "-0.01em",
-                  "fontVariantNumeric": "tabular-nums"
-                 },
-                 "name": "1,875.08€"
-                },
-                {
-                 "id": "xGRLa",
-                 "type": "text",
-                 "text": "Last 12 months",
-                 "style": {
-                  "fontSize": 12,
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Last 12 months"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "pFLKg",
-               "type": "frame",
-               "class": "flex flex-col gap-1",
-               "style": {
-                "flex": 1
-               },
-               "children": [
-                {
-                 "id": "LMxL5",
-                 "type": "text",
-                 "text": "Daily average",
-                 "style": {
-                  "fontSize": 12,
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Daily average"
-                },
-                {
-                 "id": "3fZRK",
-                 "type": "text",
-                 "text": "61.87€",
-                 "style": {
-                  "fontSize": 20,
-                  "fontWeight": 600,
-                  "letterSpacing": "-0.01em",
-                  "fontVariantNumeric": "tabular-nums"
-                 },
-                 "name": "61.87€"
-                },
-                {
-                 "id": "tXTd8",
-                 "type": "text",
-                 "text": "In October",
-                 "style": {
-                  "fontSize": 12,
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "In October"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "q8VTe",
-               "type": "frame",
-               "class": "flex flex-col gap-1",
-               "style": {
-                "flex": 1
-               },
-               "children": [
-                {
-                 "id": "KTfTB",
-                 "type": "text",
-                 "text": "Savings rate",
-                 "style": {
-                  "fontSize": 12,
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Savings rate"
-                },
-                {
-                 "id": "zSSiP",
-                 "type": "text",
-                 "text": "41%",
-                 "style": {
-                  "fontSize": 20,
-                  "fontWeight": 600,
-                  "letterSpacing": "-0.01em",
-                  "fontVariantNumeric": "tabular-nums"
-                 },
-                 "name": "41%"
-                },
-                {
-                 "id": "ewKpH",
-                 "type": "text",
-                 "text": "Up from 34%",
-                 "style": {
-                  "fontSize": 12,
-                  "fontWeight": 500,
-                  "color": "var(--money-funded-fg)"
-                 },
-                 "name": "Up from 34%"
-                }
-               ],
-               "name": "Frame"
-              }
-             ],
-             "name": "Frame"
-            }
-           ],
-           "name": "Frame"
+         "overrides": {
+          "Date": {
+           "text": "Friday, 31 October"
           },
-          {
-           "id": "Fyq8f",
-           "type": "frame",
-           "class": "flex flex-col gap-3",
+          "Count": {
+           "text": "1 transaction"
+          },
+          "Day": {
+           "text": "31"
+          },
+          "Chip": {
            "style": {
-            "padding": 24,
-            "borderRadius": 14,
-            "background": "var(--surface-sunken)"
-           },
-           "children": [
-            {
-             "id": "jDrDt",
-             "type": "text",
-             "text": "Biggest payees",
-             "style": {
-              "fontSize": 14,
-              "fontWeight": 600
-             },
-             "name": "Biggest payees"
-            },
-            {
-             "id": "JjmdL",
-             "type": "frame",
-             "class": "flex items-center justify-between",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "aJbtX",
-               "type": "frame",
-               "class": "flex items-baseline gap-2",
-               "children": [
-                {
-                 "id": "Ypp6F",
-                 "type": "text",
-                 "text": "Silvano Gambini",
-                 "name": "Silvano Gambini"
-                },
-                {
-                 "id": "Mz2q3",
-                 "type": "text",
-                 "text": "Rent",
-                 "style": {
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Rent"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "R7yRb",
-               "type": "text",
-               "text": "450.00€",
-               "style": {
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "450.00€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "USsNU",
-             "type": "frame",
-             "class": "flex items-center justify-between",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "NnZRg",
-               "type": "frame",
-               "class": "flex items-baseline gap-2",
-               "children": [
-                {
-                 "id": "RfLdS",
-                 "type": "text",
-                 "text": "Associazione Intento",
-                 "name": "Associazione Intento"
-                },
-                {
-                 "id": "Zb4c9",
-                 "type": "text",
-                 "text": "Experiences",
-                 "style": {
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Experiences"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "ea5y6",
-               "type": "text",
-               "text": "420.00€",
-               "style": {
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "420.00€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "36XBt",
-             "type": "frame",
-             "class": "flex items-center justify-between",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "XuPXL",
-               "type": "frame",
-               "class": "flex items-baseline gap-2",
-               "children": [
-                {
-                 "id": "5msR9",
-                 "type": "text",
-                 "text": "TARI",
-                 "name": "TARI"
-                },
-                {
-                 "id": "UTRWV",
-                 "type": "text",
-                 "text": "Bills",
-                 "style": {
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Bills"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "e3zxW",
-               "type": "text",
-               "text": "119.00€",
-               "style": {
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "119.00€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "jaw86",
-             "type": "frame",
-             "class": "flex items-center justify-between",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "9Yqmc",
-               "type": "frame",
-               "class": "flex items-baseline gap-2",
-               "children": [
-                {
-                 "id": "hjmMB",
-                 "type": "text",
-                 "text": "Amazon",
-                 "name": "Amazon"
-                },
-                {
-                 "id": "uVxJd",
-                 "type": "text",
-                 "text": "Home Improvement",
-                 "style": {
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Home Improvement"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "YrpGD",
-               "type": "text",
-               "text": "115.78€",
-               "style": {
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "115.78€"
-              }
-             ],
-             "name": "Frame"
-            },
-            {
-             "id": "Fivfx",
-             "type": "frame",
-             "class": "flex items-center justify-between",
-             "style": {
-              "fontSize": 13,
-              "fontWeight": 500
-             },
-             "children": [
-              {
-               "id": "ezaAA",
-               "type": "frame",
-               "class": "flex items-baseline gap-2",
-               "children": [
-                {
-                 "id": "qJ4wQ",
-                 "type": "text",
-                 "text": "Coop",
-                 "name": "Coop"
-                },
-                {
-                 "id": "RUP8K",
-                 "type": "text",
-                 "text": "Eating Out",
-                 "style": {
-                  "color": "var(--text-tertiary)"
-                 },
-                 "name": "Eating Out"
-                }
-               ],
-               "name": "Frame"
-              },
-              {
-               "id": "5zPTM",
-               "type": "text",
-               "text": "75.95€",
-               "style": {
-                "fontVariantNumeric": "tabular-nums"
-               },
-               "name": "75.95€"
-              }
-             ],
-             "name": "Frame"
-            }
-           ],
-           "name": "Frame"
+            "background": "var(--accent)",
+            "color": "#fff",
+            "boxShadow": "none"
+           }
+          },
+          "Today": {
+           "hidden": false
+          },
+          "Total": {
+           "text": "−64.20€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
           }
-         ]
+         },
+         "name": "Tx/Day"
+        },
+        {
+         "id": "gDGDc",
+         "type": "ref",
+         "ref": "9bRYM",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Esselunga"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-64.20€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "shopping-basket"
+          },
+          "Category": {
+           "text": "Groceries"
+          },
+          "Group": {
+           "text": "Food"
+          }
+         },
+         "name": "Tx/Row/Uncleared"
+        },
+        {
+         "id": "wnXfa",
+         "type": "ref",
+         "ref": "jDUSq",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Date": {
+           "text": "Thursday, 30 October"
+          },
+          "Count": {
+           "text": "4 transactions"
+          },
+          "Day": {
+           "text": "30"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
+          },
+          "Total": {
+           "text": "+7.73€",
+           "style": {
+            "color": "var(--money-inflow)"
+           }
+          }
+         },
+         "name": "Tx/Day"
+        },
+        {
+         "id": "SZvq8",
+         "type": "ref",
+         "ref": "kvYTB",
+         "style": {
+          "width": "100%",
+          "margin": "4px 0"
+         },
+         "overrides": {
+          "Row": {
+           "style": {
+            "width": "100%"
+           },
+           "overrides": {
+            "Payee": {
+             "text": "Coop"
+            },
+            "Memo": {
+             "text": "weekly shop"
+            },
+            "Mark": {
+             "ref": "et955"
+            },
+            "Account": {
+             "text": "Revolut"
+            },
+            "Amount": {
+             "text": "-42.27€",
+             "style": {}
+            },
+            "CatIcon": {
+             "icon": "utensils"
+            },
+            "Category": {
+             "text": "Eating Out"
+            },
+            "Group": {
+             "text": "Entertainment"
+            }
+           }
+          }
+         },
+         "name": "Tx/Row Detail"
+        },
+        {
+         "id": "PWrqN",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Bancomat"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-35.00€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "fuel"
+          },
+          "Category": {
+           "text": "Fuel"
+          },
+          "Group": {
+           "text": "Bills"
+          }
+         },
+         "name": "Tx/Row"
+        },
+        {
+         "id": "ntgSx",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Bancomat"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-15.00€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "scissors"
+          },
+          "Category": {
+           "text": "Haircuts"
+          },
+          "Group": {
+           "text": "Entertainment"
+          }
+         },
+         "name": "Tx/Row"
+        },
+        {
+         "id": "XLZBF",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Transfer from Illimity"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "+100.00€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "arrow-left-right"
+          },
+          "Category": {
+           "text": "Transfer"
+          },
+          "Group": {
+           "text": ""
+          }
+         },
+         "name": "Tx/Row"
+        },
+        {
+         "id": "r5eWZ",
+         "type": "ref",
+         "ref": "jDUSq",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Date": {
+           "text": "Wednesday, 29 October"
+          },
+          "Count": {
+           "text": "3 transactions"
+          },
+          "Day": {
+           "text": "29"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
+          },
+          "Total": {
+           "text": "−30.21€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
+          }
+         },
+         "name": "Tx/Day"
+        },
+        {
+         "id": "isn3X",
+         "type": "ref",
+         "ref": "NNfbQ",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "EasyPark"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-1.99€",
+           "style": {}
+          },
+          "Suggest": {
+           "text": "Parking?"
+          }
+         },
+         "name": "Tx/Row/Needs Category"
+        },
+        {
+         "id": "KS2gA",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Supermaven"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-8.92€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "code"
+          },
+          "Category": {
+           "text": "Supermaven"
+          },
+          "Group": {
+           "text": "Subscriptions"
+          }
+         },
+         "name": "Tx/Row"
+        },
+        {
+         "id": "6iY2T",
+         "type": "ref",
+         "ref": "9bRYM",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "KFC"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-19.30€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "utensils"
+          },
+          "Category": {
+           "text": "Eating Out"
+          },
+          "Group": {
+           "text": "Entertainment"
+          }
+         },
+         "name": "Tx/Row/Uncleared"
+        },
+        {
+         "id": "MwvhQ",
+         "type": "ref",
+         "ref": "jDUSq",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Date": {
+           "text": "Tuesday, 28 October"
+          },
+          "Count": {
+           "text": "3 transactions"
+          },
+          "Day": {
+           "text": "28"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
+          },
+          "Total": {
+           "text": "−19.88€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
+          }
+         },
+         "name": "Tx/Day"
+        },
+        {
+         "id": "ZGvZe",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "OBI"
+          },
+          "Memo": {
+           "text": "chiavi palazzuolo"
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-6.50€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "sparkles"
+          },
+          "Category": {
+           "text": "New Stuff"
+          },
+          "Group": {
+           "text": "Entertainment"
+          }
+         },
+         "name": "Tx/Row"
+        },
+        {
+         "id": "zyb8Q",
+         "type": "ref",
+         "ref": "NNfbQ",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Coop"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-1.30€",
+           "style": {}
+          },
+          "Suggest": {
+           "text": "Groceries?"
+          }
+         },
+         "name": "Tx/Row/Needs Category"
+        },
+        {
+         "id": "Lueu6",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Aruba"
+          },
+          "Memo": {
+           "text": "PEC renewal"
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-12.08€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "mail-check"
+          },
+          "Category": {
+           "text": "PEC"
+          },
+          "Group": {
+           "text": "Business"
+          }
+         },
+         "name": "Tx/Row"
+        },
+        {
+         "id": "sfEXn",
+         "type": "ref",
+         "ref": "jDUSq",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Date": {
+           "text": "Monday, 27 October"
+          },
+          "Count": {
+           "text": "1 transaction"
+          },
+          "Day": {
+           "text": "27"
+          },
+          "Chip": {},
+          "Today": {
+           "hidden": true
+          },
+          "Total": {
+           "text": "−22.53€",
+           "style": {
+            "color": "var(--money-negative)"
+           }
+          }
+         },
+         "name": "Tx/Day"
+        },
+        {
+         "id": "K2rPA",
+         "type": "ref",
+         "ref": "JKkEa",
+         "style": {
+          "width": "100%"
+         },
+         "overrides": {
+          "Payee": {
+           "text": "Coop"
+          },
+          "Memo": {
+           "text": ""
+          },
+          "Mark": {
+           "ref": "et955"
+          },
+          "Account": {
+           "text": "Revolut"
+          },
+          "Amount": {
+           "text": "-22.53€",
+           "style": {}
+          },
+          "CatIcon": {
+           "icon": "utensils"
+          },
+          "Category": {
+           "text": "Eating Out"
+          },
+          "Group": {
+           "text": "Entertainment"
+          }
+         },
+         "name": "Tx/Row"
         }
        ]
       }
      ]
     },
     {
-     "id": "2zwbu",
+     "id": "iRDCq",
      "type": "frame",
      "name": "Agent",
      "class": "flex flex-col",
@@ -8457,7 +8061,7 @@
      },
      "children": [
       {
-       "id": "2jiLx",
+       "id": "GnMjs",
        "type": "ref",
        "ref": "YqcrD",
        "style": {
@@ -8465,13 +8069,13 @@
        },
        "overrides": {
         "Status": {
-         "text": "Watching Reflect · October"
+         "text": "Watching Accounts"
         }
        },
        "name": "Agent/Header"
       },
       {
-       "id": "T2fYW",
+       "id": "PiHrP",
        "type": "frame",
        "name": "Thread",
        "class": "flex flex-col",
@@ -8484,7 +8088,7 @@
        },
        "children": [
         {
-         "id": "CcJ9c",
+         "id": "aNerj",
          "type": "text",
          "text": "Today, 09:12",
          "style": {
@@ -8496,7 +8100,7 @@
          "name": "Today, 09:12"
         },
         {
-         "id": "CSXbu",
+         "id": "tfquA",
          "type": "ref",
          "ref": "NachX",
          "style": {
@@ -8504,13 +8108,13 @@
          },
          "overrides": {
           "Text": {
-           "text": "October came in 6.2% under September. Eating Out is the outlier: 172.40€, up 38% on your 6-month average. Most of it is Coop."
+           "text": "Revolut synced 2 hours ago. Two transactions need a category, and 6 are still uncleared."
           }
          },
          "name": "Agent/Message/Assistant"
         },
         {
-         "id": "K7TaJ",
+         "id": "yiF9n",
          "type": "ref",
          "ref": "qtJCE",
          "style": {
@@ -8518,18 +8122,19 @@
          },
          "overrides": {
           "Bubble": {
-           "text": "Set a realistic target for Eating Out."
+           "text": "Categorize the two new ones."
           }
          },
          "name": "Agent/Message/User"
         },
         {
-         "id": "ftmxP",
+         "id": "vicyt",
          "type": "frame",
          "class": "flex flex-col gap-1",
+         "name": "Frame",
          "children": [
           {
-           "id": "mbPX6",
+           "id": "2pmX6",
            "type": "ref",
            "ref": "rLvgr",
            "overrides": {
@@ -8537,30 +8142,43 @@
              "icon": "brain"
             },
             "Label": {
-             "text": "Thought for 2s"
+             "text": "Thought for 1s"
             }
            },
            "name": "Agent/Tool Step"
           },
           {
-           "id": "cg8kE",
+           "id": "AWfvj",
            "type": "ref",
            "ref": "rLvgr",
            "overrides": {
             "Icon": {
-             "icon": "chart-column"
+             "icon": "history"
             },
             "Label": {
-             "text": "Compared 6 months of Eating Out"
+             "text": "Looked at 214 past transactions"
+            }
+           },
+           "name": "Agent/Tool Step"
+          },
+          {
+           "id": "yuvTC",
+           "type": "ref",
+           "ref": "rLvgr",
+           "overrides": {
+            "Icon": {
+             "icon": "map-pin"
+            },
+            "Label": {
+             "text": "Matched EasyPark and Coop"
             }
            },
            "name": "Agent/Tool Step"
           }
-         ],
-         "name": "Frame"
+         ]
         },
         {
-         "id": "ZiatV",
+         "id": "zGL7C",
          "type": "ref",
          "ref": "NachX",
          "style": {
@@ -8570,16 +8188,16 @@
           "Text": {
            "spans": [
             {
-             "text": "You averaged "
+             "text": "Based on how you usually file these. EasyPark is new, so I guessed "
             },
             {
-             "text": "141€",
+             "text": "Parking",
              "style": {
               "fontWeight": 600
              }
             },
             {
-             "text": " a month. A 150€ target would have covered 5 of the last 6 months, so it's strict but doable."
+             "text": " under Car."
             }
            ]
           }
@@ -8587,7 +8205,7 @@
          "name": "Agent/Message/Assistant"
         },
         {
-         "id": "TATn3",
+         "id": "cBFCD",
          "type": "ref",
          "ref": "CaEM2",
          "style": {
@@ -8595,89 +8213,89 @@
          },
          "overrides": {
           "Title": {
-           "text": "Set Eating Out target to 150.00€"
+           "text": "Categorize 2 transactions"
           },
           "Footnote": {
-           "text": "Starts with November"
+           "text": "From your history: Coop is Groceries 8 of 10 times"
           },
           "Lines": {
            "children": [
             {
-             "id": "G5cty",
+             "id": "exVny",
              "type": "frame",
              "class": "flex items-center gap-3",
              "children": [
               {
-               "id": "t7tp9",
+               "id": "YWvF6",
                "type": "icon",
-               "icon": "target",
+               "icon": "car",
                "style": {
                 "width": 15,
                 "height": 15,
                 "flexShrink": 0,
                 "color": "var(--text-tertiary)"
                },
-               "name": "target"
+               "name": "car"
               },
               {
-               "id": "8DpM4",
+               "id": "aMjDJ",
                "type": "text",
-               "text": "Monthly target",
+               "text": "EasyPark · 1.99€",
                "style": {
                 "flex": 1,
                 "color": "var(--text-primary)"
                },
-               "name": "Monthly target"
+               "name": "EasyPark · 1.99€"
               },
               {
-               "id": "DbMR6",
+               "id": "PwAyn",
                "type": "text",
-               "text": "120.00€ → 150.00€",
+               "text": "Car · Parking",
                "style": {
                 "color": "var(--text-secondary)",
                 "fontVariantNumeric": "tabular-nums"
                },
-               "name": "120.00€ → 150.00€"
+               "name": "Car · Parking"
               }
              ],
              "name": "Frame"
             },
             {
-             "id": "jh4gx",
+             "id": "5M7E6",
              "type": "frame",
              "class": "flex items-center gap-3",
              "children": [
               {
-               "id": "bMhMz",
+               "id": "LhHSy",
                "type": "icon",
-               "icon": "calendar",
+               "icon": "shopping-basket",
                "style": {
                 "width": 15,
                 "height": 15,
                 "flexShrink": 0,
                 "color": "var(--text-tertiary)"
                },
-               "name": "calendar"
+               "name": "shopping-basket"
               },
               {
-               "id": "Nxi7q",
+               "id": "repjb",
                "type": "text",
-               "text": "Needed this month",
+               "text": "Coop · 1.30€",
                "style": {
                 "flex": 1,
                 "color": "var(--text-primary)"
                },
-               "name": "Needed this month"
+               "name": "Coop · 1.30€"
               },
               {
-               "id": "kH68g",
+               "id": "Cw2MQ",
                "type": "text",
-               "text": "+30.00€",
+               "text": "Food · Groceries",
                "style": {
-                "color": "var(--money-funded-fg)",
+                "color": "var(--text-secondary)",
                 "fontVariantNumeric": "tabular-nums"
                },
-               "name": "+30.00€"
+               "name": "Food · Groceries"
               }
              ],
              "name": "Frame"
@@ -8690,7 +8308,7 @@
        ]
       },
       {
-       "id": "ZvvLD",
+       "id": "eWa3h",
        "type": "frame",
        "name": "Composer",
        "class": "flex flex-col gap-3",
@@ -8699,26 +8317,41 @@
        },
        "children": [
         {
-         "id": "LXtM7",
+         "id": "g2uhY",
          "type": "frame",
          "class": "flex flex-wrap gap-2",
+         "name": "Frame",
          "children": [
           {
-           "id": "btNY3",
+           "id": "68h8Q",
            "type": "ref",
            "ref": "p8qUz",
            "overrides": {
             "Icon": {
-             "icon": "chart-line"
+             "icon": "circle-dashed"
             },
             "Label": {
-             "text": "Compare to last year"
+             "text": "Clear the 6 uncleared"
             }
            },
            "name": "Agent/Suggestion"
           },
           {
-           "id": "LZYT7",
+           "id": "6da5P",
+           "type": "ref",
+           "ref": "p8qUz",
+           "overrides": {
+            "Icon": {
+             "icon": "file-up"
+            },
+            "Label": {
+             "text": "Import a bank CSV"
+            }
+           },
+           "name": "Agent/Suggestion"
+          },
+          {
+           "id": "S8uw7",
            "type": "ref",
            "ref": "p8qUz",
            "overrides": {
@@ -8726,30 +8359,15 @@
              "icon": "repeat"
             },
             "Label": {
-             "text": "Show my subscriptions"
-            }
-           },
-           "name": "Agent/Suggestion"
-          },
-          {
-           "id": "XJGke",
-           "type": "ref",
-           "ref": "p8qUz",
-           "overrides": {
-            "Icon": {
-             "icon": "piggy-bank"
-            },
-            "Label": {
-             "text": "How much can I save?"
+             "text": "Find subscriptions"
             }
            },
            "name": "Agent/Suggestion"
           }
-         ],
-         "name": "Frame"
+         ]
         },
         {
-         "id": "ZF74i",
+         "id": "FZiJu",
          "type": "ref",
          "ref": "gJNqQ",
          "style": {
@@ -8757,7 +8375,7 @@
          },
          "overrides": {
           "Context": {
-           "text": "Reflect · October"
+           "text": "Accounts · October"
           }
          },
          "name": "Agent/Composer"
@@ -8772,8 +8390,8 @@
    "id": "PVK4V",
    "type": "frame",
    "name": "Reflect",
-   "x": 5400,
-   "y": 0,
+   "x": 0,
+   "y": 3200,
    "class": "flex",
    "style": {
     "width": 2560,
@@ -8805,6 +8423,24 @@
       "minWidth": 0
      },
      "children": [
+      {
+       "id": "Ge4iN",
+       "type": "ref",
+       "ref": "aJJDU",
+       "name": "App/Topbar",
+       "style": {
+        "width": "100%",
+        "flexShrink": 0
+       },
+       "overrides": {
+        "Icon": {
+         "icon": "chart-pie"
+        },
+        "Title": {
+         "text": "Reflect"
+        }
+       }
+      },
       {
        "id": "9C93U",
        "type": "frame",
@@ -8887,12 +8523,6 @@
          "type": "frame",
          "class": "flex items-center gap-2",
          "children": [
-          {
-           "id": "kiEna",
-           "type": "ref",
-           "ref": "xSxLs",
-           "name": "Date Range"
-          },
           {
            "id": "ysS2A",
            "type": "ref",
@@ -10843,13 +10473,45 @@
              "name": "Frame"
             },
             {
-             "id": "LgdRB",
+             "id": "QVKqV",
              "type": "frame",
+             "class": "flex",
              "style": {
               "flex": 63.89,
-              "borderRadius": 2,
-              "background": "var(--chart-other)"
+              "gap": 2
              },
+             "children": [
+              {
+               "id": "n82sd",
+               "type": "frame",
+               "style": {
+                "flex": 28.9,
+                "borderRadius": 2,
+                "background": "var(--chart-7)"
+               },
+               "name": "Frame"
+              },
+              {
+               "id": "LdFS4",
+               "type": "frame",
+               "style": {
+                "flex": 22.91,
+                "borderRadius": 2,
+                "background": "var(--chart-8)"
+               },
+               "name": "Frame"
+              },
+              {
+               "id": "CM4u9",
+               "type": "frame",
+               "style": {
+                "flex": 12.08,
+                "borderRadius": 2,
+                "background": "var(--chart-9)"
+               },
+               "name": "Frame"
+              }
+             ],
              "name": "Frame"
             }
            ],
@@ -11477,7 +11139,7 @@
                   "width": 10,
                   "height": 10,
                   "borderRadius": 3,
-                  "background": "var(--chart-other)",
+                  "background": "var(--chart-7)",
                   "flexShrink": 0
                  },
                  "name": "Frame"
@@ -11646,7 +11308,7 @@
                   "width": 10,
                   "height": 10,
                   "borderRadius": 3,
-                  "background": "var(--chart-other)",
+                  "background": "var(--chart-8)",
                   "flexShrink": 0
                  },
                  "name": "Frame"
@@ -11815,7 +11477,7 @@
                   "width": 10,
                   "height": 10,
                   "borderRadius": 3,
-                  "background": "var(--chart-other)",
+                  "background": "var(--chart-9)",
                   "flexShrink": 0
                  },
                  "name": "Frame"
@@ -12283,8 +11945,8 @@
    "id": "L2ajh",
    "type": "frame",
    "name": "Reflect · No data",
-   "x": 5400,
-   "y": 1600,
+   "x": 2700,
+   "y": 3200,
    "class": "flex",
    "style": {
     "width": 2560,
@@ -12316,6 +11978,24 @@
       "minWidth": 0
      },
      "children": [
+      {
+       "id": "i9hnL",
+       "type": "ref",
+       "ref": "aJJDU",
+       "name": "App/Topbar",
+       "style": {
+        "width": "100%",
+        "flexShrink": 0
+       },
+       "overrides": {
+        "Icon": {
+         "icon": "chart-pie"
+        },
+        "Title": {
+         "text": "Reflect"
+        }
+       }
+      },
       {
        "id": "CRrrL",
        "type": "frame",
@@ -12400,12 +12080,6 @@
          "class": "flex items-center gap-2",
          "name": "Frame",
          "children": [
-          {
-           "id": "L3XDc",
-           "type": "ref",
-           "ref": "xSxLs",
-           "name": "Date Range"
-          },
           {
            "id": "P7aiE",
            "type": "ref",
@@ -13894,7 +13568,7 @@
    "type": "frame",
    "name": "Sign in",
    "x": 0,
-   "y": 3200,
+   "y": 4800,
    "class": "flex flex-col items-center justify-center",
    "style": {
     "width": 2560,
@@ -13902,8 +13576,6 @@
     "fontFamily": "Inter",
     "color": "var(--text-primary)",
     "background": "var(--surface-app)",
-    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
-    "backgroundSize": "160px 100%",
     "position": "relative"
    },
    "children": [
@@ -14020,7 +13692,7 @@
    "type": "frame",
    "name": "Sign in · Not allowed",
    "x": 2700,
-   "y": 3200,
+   "y": 4800,
    "class": "flex flex-col items-center justify-center",
    "style": {
     "width": 2560,
@@ -14028,8 +13700,6 @@
     "fontFamily": "Inter",
     "color": "var(--text-primary)",
     "background": "var(--surface-app)",
-    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
-    "backgroundSize": "160px 100%",
     "position": "relative"
    },
    "children": [
@@ -14156,7 +13826,7 @@
    "type": "frame",
    "name": "Sign in · Signed out",
    "x": 5400,
-   "y": 3200,
+   "y": 4800,
    "class": "flex flex-col items-center justify-center",
    "style": {
     "width": 2560,
@@ -14164,8 +13834,6 @@
     "fontFamily": "Inter",
     "color": "var(--text-primary)",
     "background": "var(--surface-app)",
-    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
-    "backgroundSize": "160px 100%",
     "position": "relative"
    },
    "children": [
@@ -14288,7 +13956,7 @@
    "type": "frame",
    "name": "Sign in · Checking",
    "x": 8100,
-   "y": 3200,
+   "y": 4800,
    "class": "flex flex-col items-center justify-center",
    "style": {
     "width": 2560,
@@ -14296,8 +13964,6 @@
     "fontFamily": "Inter",
     "color": "var(--text-primary)",
     "background": "var(--surface-app)",
-    "backgroundImage": "linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)",
-    "backgroundSize": "160px 100%",
     "position": "relative"
    },
    "children": [

@@ -42,6 +42,10 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  /* Gray steps the default palette lacks */
+  --color-gray-350: var(--gray-350);
+  --color-gray-850: var(--gray-850);
+
   /* Text levels */
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
@@ -84,6 +88,9 @@
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
   --color-chart-other: var(--chart-other);
   --color-seq-0: var(--seq-0);
   --color-seq-1: var(--seq-1);

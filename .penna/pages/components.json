@@ -1837,11 +1837,29 @@
                  "name": "Account Mark/Illimity",
                  "component": true,
                  "style": {
-                  "width": 16,
-                  "height": 16,
+                  "width": 18,
+                  "height": 18,
                   "borderRadius": 5,
-                  "background": "linear-gradient(135deg,#ffb36b,#f0545a)"
-                 }
+                  "background": "#fff",
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "boxShadow": "0 0 0 1px rgba(0,0,0,0.1)"
+                 },
+                 "class": "flex items-center justify-center",
+                 "children": [
+                  {
+                   "id": "GqzyD",
+                   "type": "image",
+                   "name": "Logo",
+                   "src": "assets/banks/illimity.png",
+                   "style": {
+                    "width": 18,
+                    "height": 18,
+                    "objectFit": "contain",
+                    "display": "block"
+                   }
+                  }
+                 ]
                 }
                ],
                "name": "Frame"
@@ -1883,11 +1901,29 @@
                  "name": "Account Mark/Tinaba",
                  "component": true,
                  "style": {
-                  "width": 16,
-                  "height": 16,
+                  "width": 18,
+                  "height": 18,
                   "borderRadius": 5,
-                  "background": "linear-gradient(135deg,#36d1a1,#007d53)"
-                 }
+                  "background": "#fff",
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "boxShadow": "0 0 0 1px rgba(0,0,0,0.1)"
+                 },
+                 "class": "flex items-center justify-center",
+                 "children": [
+                  {
+                   "id": "664TC",
+                   "type": "image",
+                   "name": "Logo",
+                   "src": "assets/banks/tinaba.png",
+                   "style": {
+                    "width": 18,
+                    "height": 18,
+                    "objectFit": "contain",
+                    "display": "block"
+                   }
+                  }
+                 ]
                 }
                ],
                "name": "Frame"
@@ -1929,11 +1965,29 @@
                  "name": "Account Mark/Revolut",
                  "component": true,
                  "style": {
-                  "width": 16,
-                  "height": 16,
+                  "width": 18,
+                  "height": 18,
                   "borderRadius": 5,
-                  "background": "linear-gradient(135deg,#3a3e46,#0c0c0c)"
-                 }
+                  "background": "#fff",
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "boxShadow": "0 0 0 1px rgba(0,0,0,0.1)"
+                 },
+                 "class": "flex items-center justify-center",
+                 "children": [
+                  {
+                   "id": "rHtRK",
+                   "type": "image",
+                   "name": "Logo",
+                   "src": "assets/banks/revolut.png",
+                   "style": {
+                    "width": 18,
+                    "height": 18,
+                    "objectFit": "contain",
+                    "display": "block"
+                   }
+                  }
+                 ]
                 }
                ],
                "name": "Frame"
@@ -1975,11 +2029,29 @@
                  "name": "Account Mark/Monzo",
                  "component": true,
                  "style": {
-                  "width": 16,
-                  "height": 16,
+                  "width": 18,
+                  "height": 18,
                   "borderRadius": 5,
-                  "background": "linear-gradient(135deg,#ff7a8a,#e8436b)"
-                 }
+                  "background": "#fff",
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "boxShadow": "0 0 0 1px rgba(0,0,0,0.1)"
+                 },
+                 "class": "flex items-center justify-center",
+                 "children": [
+                  {
+                   "id": "LqjwC",
+                   "type": "image",
+                   "name": "Logo",
+                   "src": "assets/banks/monzo.png",
+                   "style": {
+                    "width": 18,
+                    "height": 18,
+                    "objectFit": "contain",
+                    "display": "block"
+                   }
+                  }
+                 ]
                 }
                ],
                "name": "Frame"
@@ -3499,7 +3571,8 @@
                    "name": "Shortcut",
                    "ref": "7mb9J",
                    "overrides": {},
-                   "text": "2"
+                   "text": "2",
+                   "hidden": true
                   }
                  ]
                 }
@@ -3578,7 +3651,8 @@
                    "type": "ref",
                    "name": "Shortcut",
                    "ref": "7mb9J",
-                   "text": "1"
+                   "text": "1",
+                   "hidden": true
                   }
                  ]
                 }
@@ -4254,6 +4328,138 @@
                 "color": "var(--text-tertiary)"
                },
                "name": "Divider/Vertical"
+              }
+             ],
+             "name": "Frame"
+            },
+            {
+             "id": "Dn2Q7",
+             "type": "frame",
+             "class": "flex flex-col gap-3",
+             "children": [
+              {
+               "id": "aWuEe",
+               "type": "frame",
+               "name": "Slot",
+               "class": "flex items-center",
+               "style": {
+                "minHeight": 40
+               },
+               "children": [
+                {
+                 "id": "AQTJg",
+                 "type": "frame",
+                 "name": "Month Control",
+                 "component": true,
+                 "class": "flex items-center gap-2",
+                 "style": {
+                  "width": "max-content"
+                 },
+                 "children": [
+                  {
+                   "id": "ztusY",
+                   "type": "ref",
+                   "ref": "xSxLs",
+                   "name": "Range"
+                  },
+                  {
+                   "id": "yaNqE",
+                   "type": "frame",
+                   "name": "Reset",
+                   "hidden": true,
+                   "class": "flex items-center gap-1.5",
+                   "style": {
+                    "height": 32,
+                    "padding": "0 10px",
+                    "borderRadius": 8,
+                    "background": "var(--accent-subtle)",
+                    "color": "var(--accent-fg)",
+                    "fontSize": 12,
+                    "fontWeight": 600
+                   },
+                   "children": [
+                    {
+                     "id": "Kk8NE",
+                     "type": "icon",
+                     "icon": "undo-2",
+                     "style": {
+                      "width": 13,
+                      "height": 13
+                     },
+                     "name": "undo-2"
+                    },
+                    {
+                     "id": "HsMZ2",
+                     "type": "text",
+                     "name": "Reset Label",
+                     "text": "Back to October"
+                    }
+                   ]
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "id": "GSJd2",
+               "type": "text",
+               "text": "Month Control · shared by Plan, Reflect, Accounts",
+               "style": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": 11,
+                "lineHeight": "16px",
+                "color": "var(--text-tertiary)"
+               },
+               "name": "Month Control · shared …"
+              }
+             ],
+             "name": "Frame"
+            },
+            {
+             "id": "sySzK",
+             "type": "frame",
+             "class": "flex flex-col gap-3",
+             "children": [
+              {
+               "id": "bLbxj",
+               "type": "frame",
+               "name": "Slot",
+               "class": "flex items-center",
+               "style": {
+                "minHeight": 40
+               },
+               "children": [
+                {
+                 "id": "KJdQJ",
+                 "type": "ref",
+                 "name": "Month Control · away (instance)",
+                 "ref": "AQTJg",
+                 "overrides": {
+                  "Reset": {
+                   "hidden": false
+                  },
+                  "Range": {
+                   "overrides": {
+                    "Label": {
+                     "text": "August 2026"
+                    }
+                   }
+                  }
+                 }
+                }
+               ]
+              },
+              {
+               "id": "GCU5F",
+               "type": "text",
+               "text": "Month Control · away from current month",
+               "style": {
+                "fontFamily": "JetBrains Mono",
+                "fontSize": 11,
+                "lineHeight": "16px",
+                "color": "var(--text-tertiary)"
+               },
+               "name": "Month Control · away fr…"
               }
              ],
              "name": "Frame"
@@ -6394,80 +6600,6 @@
                  "name": "Frame"
                 },
                 {
-                 "id": "VmcyJ",
-                 "type": "frame",
-                 "name": "Age of Money",
-                 "class": "flex flex-col gap-2",
-                 "style": {
-                  "padding": 12,
-                  "marginBottom": 10,
-                  "borderRadius": 10,
-                  "background": "#fff",
-                  "boxShadow": "var(--shadow-xs)",
-                  "fontSize": 12,
-                  "fontWeight": 500
-                 },
-                 "children": [
-                  {
-                   "id": "XXp7v",
-                   "type": "frame",
-                   "class": "flex items-center justify-between",
-                   "children": [
-                    {
-                     "id": "RaZC5",
-                     "type": "text",
-                     "text": "Age of money",
-                     "name": "Age of money"
-                    },
-                    {
-                     "id": "Pti98",
-                     "type": "text",
-                     "name": "Days",
-                     "text": "142 days",
-                     "style": {
-                      "color": "var(--money-funded-fg)"
-                     }
-                    }
-                   ],
-                   "name": "Frame"
-                  },
-                  {
-                   "id": "eNw28",
-                   "type": "frame",
-                   "style": {
-                    "height": 4,
-                    "borderRadius": 9999,
-                    "background": "var(--progress-track)"
-                   },
-                   "children": [
-                    {
-                     "id": "rkr5t",
-                     "type": "frame",
-                     "style": {
-                      "width": "78%",
-                      "height": 4,
-                      "borderRadius": 9999,
-                      "background": "var(--progress-funded)"
-                     },
-                     "name": "Frame"
-                    }
-                   ],
-                   "name": "Frame"
-                  },
-                  {
-                   "id": "bBSZt",
-                   "type": "text",
-                   "text": "You're spending money that's about 4 months old.",
-                   "style": {
-                    "color": "var(--text-tertiary)",
-                    "fontSize": 11,
-                    "lineHeight": "15px"
-                   },
-                   "name": "You're spending money t…"
-                  }
-                 ]
-                },
-                {
                  "id": "KpFtL",
                  "type": "frame",
                  "class": "flex items-center justify-between",
@@ -6610,13 +6742,15 @@
                      "text": "/",
                      "style": {
                       "color": "var(--gray-400)"
-                     }
+                     },
+                     "hidden": true
                     },
                     {
                      "id": "uW6eK",
                      "type": "text",
                      "name": "Context",
-                     "text": "October 2026"
+                     "text": "October 2026",
+                     "hidden": true
                     }
                    ],
                    "name": "Frame"
@@ -6628,48 +6762,10 @@
                    "class": "flex items-center gap-2",
                    "children": [
                     {
-                     "id": "2X2NP",
-                     "type": "frame",
-                     "class": "flex",
-                     "children": [
-                      {
-                       "id": "beXVf",
-                       "type": "ref",
-                       "ref": "cW35E",
-                       "name": "Avatar"
-                      },
-                      {
-                       "id": "bXck4",
-                       "type": "ref",
-                       "ref": "cW35E",
-                       "style": {
-                        "marginLeft": -6,
-                        "background": "linear-gradient(135deg,#f5a524,#f0545a)"
-                       },
-                       "name": "Avatar"
-                      }
-                     ],
-                     "name": "Frame"
-                    },
-                    {
-                     "id": "y9Mg4",
+                     "id": "nfibi",
                      "type": "ref",
-                     "name": "Primary Action",
-                     "ref": "Wszke",
-                     "overrides": {
-                      "Label": {
-                       "text": "Share"
-                      },
-                      "Icon": {
-                       "icon": "user-plus"
-                      }
-                     }
-                    },
-                    {
-                     "id": "WMzXD",
-                     "type": "ref",
-                     "ref": "jXs6x",
-                     "name": "Button/Icon"
+                     "ref": "AQTJg",
+                     "name": "Month Control"
                     }
                    ]
                   }
@@ -7261,29 +7357,7 @@
                  "style": {
                   "flex": 1
                  },
-                 "children": [
-                  {
-                   "id": "vU6ki",
-                   "type": "text",
-                   "text": "Ledger",
-                   "style": {
-                    "fontSize": 14,
-                    "fontWeight": 600
-                   },
-                   "name": "Ledger"
-                  },
-                  {
-                   "id": "zVKU5",
-                   "type": "text",
-                   "name": "Status",
-                   "text": "Watching Plan · October",
-                   "style": {
-                    "fontSize": 12,
-                    "fontWeight": 500,
-                    "color": "var(--text-tertiary)"
-                   }
-                  }
-                 ],
+                 "children": [],
                  "name": "Frame"
                 },
                 {
@@ -9243,88 +9317,163 @@
                 "width": 1400,
                 "gridTemplateColumns": "var(--plan-cols)",
                 "columnGap": 24,
-                "height": 40,
+                "height": 48,
                 "padding": "0 12px",
-                "marginTop": 12,
-                "fontSize": 13,
+                "marginTop": 16,
+                "fontSize": 14,
                 "fontWeight": 600,
-                "flexShrink": 0
+                "flexShrink": 0,
+                "borderRadius": 10,
+                "background": "var(--surface-sunken)"
                },
                "children": [
                 {
-                 "id": "DW6JJ",
+                 "id": "bkfzX",
                  "type": "frame",
                  "class": "flex items-center gap-2",
                  "children": [
                   {
-                   "id": "zYgXg",
+                   "id": "xT5PX",
                    "type": "icon",
+                   "name": "Chevron",
                    "icon": "chevron-down",
                    "style": {
-                    "width": 14,
-                    "height": 14,
+                    "width": 16,
+                    "height": 16,
                     "flexShrink": 0,
-                    "color": "var(--text-tertiary)"
-                   },
-                   "name": "chevron-down"
+                    "color": "var(--text-secondary)"
+                   }
                   },
                   {
-                   "id": "6MMh9",
+                   "id": "JwWX7",
                    "type": "text",
                    "name": "Name",
-                   "text": "Bills"
+                   "text": "Bills",
+                   "style": {
+                    "fontSize": 15
+                   }
                   },
                   {
-                   "id": "rmXaX",
+                   "id": "YQVc4",
                    "type": "text",
                    "name": "Count",
                    "text": "12",
                    "style": {
-                    "fontWeight": 500,
-                    "color": "var(--text-tertiary)"
+                    "fontSize": 12,
+                    "fontWeight": 600,
+                    "padding": "1px 7px",
+                    "borderRadius": 99,
+                    "background": "var(--surface-panel)",
+                    "color": "var(--text-tertiary)",
+                    "fontVariantNumeric": "tabular-nums"
                    }
                   }
                  ],
                  "name": "Frame"
                 },
                 {
-                 "id": "bK9Ue",
+                 "id": "Lsz64",
                  "type": "frame",
-                 "name": "Frame"
+                 "name": "Tally",
+                 "class": "flex items-center gap-3",
+                 "children": [
+                  {
+                   "id": "VKNyX",
+                   "type": "frame",
+                   "name": "Bar",
+                   "class": "flex",
+                   "style": {
+                    "width": 96,
+                    "height": 6,
+                    "borderRadius": 99,
+                    "overflow": "hidden",
+                    "background": "var(--progress-track)",
+                    "flexShrink": 0
+                   },
+                   "children": [
+                    {
+                     "id": "Gb7aq",
+                     "type": "frame",
+                     "name": "Funded",
+                     "style": {
+                      "flex": 9,
+                      "background": "var(--progress-funded)"
+                     }
+                    },
+                    {
+                     "id": "jegYt",
+                     "type": "frame",
+                     "name": "Under",
+                     "style": {
+                      "flex": 3,
+                      "background": "var(--progress-under)",
+                      "borderLeft": "2px solid var(--surface-sunken)"
+                     }
+                    },
+                    {
+                     "id": "czWxM",
+                     "type": "frame",
+                     "name": "Over",
+                     "style": {
+                      "flex": 0,
+                      "background": "var(--progress-over)",
+                      "borderLeft": "2px solid var(--surface-sunken)"
+                     }
+                    },
+                    {
+                     "id": "MxJSc",
+                     "type": "frame",
+                     "name": "None",
+                     "style": {
+                      "flex": 0,
+                      "background": "var(--gray-300)",
+                      "borderLeft": "0px solid var(--surface-sunken)"
+                     }
+                    }
+                   ]
+                  },
+                  {
+                   "id": "QyijJ",
+                   "type": "text",
+                   "name": "Summary",
+                   "text": "9 funded · 3 need money",
+                   "style": {
+                    "fontSize": 12,
+                    "fontWeight": 500,
+                    "color": "var(--text-secondary)",
+                    "whiteSpace": "nowrap"
+                   }
+                  }
+                 ]
                 },
                 {
-                 "id": "i6BNy",
+                 "id": "cAMKy",
                  "type": "text",
                  "name": "Assigned",
                  "text": "1,214.00€",
                  "style": {
                   "textAlign": "right",
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)",
                   "fontVariantNumeric": "tabular-nums"
                  }
                 },
                 {
-                 "id": "esyRf",
+                 "id": "f2Tkt",
                  "type": "text",
                  "name": "Spent",
                  "text": "1,029.24€",
                  "style": {
                   "textAlign": "right",
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)",
                   "fontVariantNumeric": "tabular-nums"
                  }
                 },
                 {
-                 "id": "EciQs",
+                 "id": "KZ7dQ",
                  "type": "text",
                  "name": "Available",
                  "text": "1,175.76€",
                  "style": {
                   "textAlign": "right",
                   "paddingRight": 10,
-                  "color": "var(--text-secondary)",
                   "fontVariantNumeric": "tabular-nums"
                  }
                 }
@@ -9361,11 +9510,12 @@
                 "gridTemplateColumns": "var(--plan-cols)",
                 "columnGap": 24,
                 "height": 44,
-                "padding": "0 12px",
-                "borderRadius": 10,
+                "padding": "0 12px 0 40px",
+                "borderRadius": 0,
                 "fontSize": 14,
                 "fontWeight": 500,
-                "flexShrink": 0
+                "flexShrink": 0,
+                "borderBottom": "1px solid var(--border-subtle)"
                },
                "children": [
                 {
@@ -9946,6 +10096,13 @@
                     "Icon": {
                      "icon": "zap"
                     }
+                   },
+                   "style": {
+                    "border": "none",
+                    "background": "transparent",
+                    "boxShadow": "none",
+                    "color": "var(--text-link)",
+                    "padding": 0
                    }
                   }
                  ],
@@ -10318,8 +10475,8 @@
                 "width": 260,
                 "padding": "14px 16px",
                 "borderRadius": 12,
-                "background": "var(--surface-panel)",
-                "boxShadow": "0 0 0 1.5px var(--text-primary), var(--shadow-card)"
+                "background": "var(--surface-selected)",
+                "boxShadow": "0 0 0 2px var(--accent), var(--shadow-card)"
                },
                "children": [
                 {
@@ -10344,7 +10501,9 @@
                    "name": "Name",
                    "text": "All accounts",
                    "style": {
-                    "flex": 1
+                    "flex": 1,
+                    "color": "var(--text-primary)",
+                    "fontWeight": 600
                    }
                   },
                   {
@@ -10355,6 +10514,18 @@
                    "style": {
                     "fontSize": 12,
                     "color": "var(--text-tertiary)"
+                   }
+                  },
+                  {
+                   "id": "GRjRj",
+                   "type": "icon",
+                   "name": "Check",
+                   "icon": "circle-check",
+                   "style": {
+                    "width": 16,
+                    "height": 16,
+                    "flexShrink": 0,
+                    "color": "var(--accent)"
                    }
                   }
                  ],
@@ -10473,12 +10644,6 @@
                  "name": "Category"
                 },
                 {
-                 "id": "4v5HB",
-                 "type": "text",
-                 "text": "Account",
-                 "name": "Account"
-                },
-                {
                  "id": "pHysn",
                  "type": "text",
                  "text": "Amount",
@@ -10523,47 +10688,99 @@
                "style": {
                 "width": 1400,
                 "height": 36,
-                "padding": "0 12px",
+                "padding": "0 12px 0 6px",
                 "marginTop": 12,
                 "fontSize": 13,
                 "fontWeight": 600,
-                "flexShrink": 0
+                "flexShrink": 0,
+                "marginBottom": 4,
+                "borderRadius": 8,
+                "background": "var(--surface-sunken)"
                },
                "children": [
                 {
-                 "id": "vrdGz",
+                 "id": "6XGZZ",
                  "type": "frame",
-                 "class": "flex items-baseline gap-2",
+                 "class": "flex items-center gap-3",
                  "children": [
                   {
-                   "id": "4ZrF8",
-                   "type": "text",
-                   "name": "Date",
-                   "text": "Wednesday, 7 May"
+                   "id": "xUjmS",
+                   "type": "frame",
+                   "name": "Chip",
+                   "class": "flex items-center justify-center",
+                   "style": {
+                    "width": 28,
+                    "height": 28,
+                    "borderRadius": 6,
+                    "background": "var(--surface-panel)",
+                    "boxShadow": "var(--shadow-xs)",
+                    "color": "var(--text-primary)",
+                    "fontSize": 13,
+                    "fontWeight": 700,
+                    "fontVariantNumeric": "tabular-nums"
+                   },
+                   "children": [
+                    {
+                     "id": "wRG4t",
+                     "type": "text",
+                     "name": "Day",
+                     "text": "7"
+                    }
+                   ]
                   },
                   {
-                   "id": "qCYPb",
+                   "id": "A3LhG",
+                   "type": "frame",
+                   "class": "flex items-baseline gap-2",
+                   "children": [
+                    {
+                     "id": "WudZz",
+                     "type": "text",
+                     "name": "Date",
+                     "text": "Wednesday, 7 May"
+                    },
+                    {
+                     "id": "68jYP",
+                     "type": "text",
+                     "name": "Count",
+                     "text": "4 transactions",
+                     "style": {
+                      "fontSize": 12,
+                      "fontWeight": 500,
+                      "color": "var(--text-tertiary)"
+                     }
+                    }
+                   ],
+                   "name": "Frame"
+                  },
+                  {
+                   "id": "SXsAA",
                    "type": "text",
-                   "name": "Count",
-                   "text": "4",
+                   "name": "Today",
+                   "text": "Today",
+                   "hidden": true,
                    "style": {
-                    "fontWeight": 500,
-                    "color": "var(--text-tertiary)"
+                    "fontSize": 11,
+                    "fontWeight": 600,
+                    "padding": "1px 7px",
+                    "borderRadius": 99,
+                    "background": "var(--accent-subtle)",
+                    "color": "var(--accent-fg)"
                    }
                   }
                  ],
                  "name": "Frame"
                 },
                 {
-                 "id": "iawSD",
+                 "id": "hf5qf",
                  "type": "text",
                  "name": "Total",
-                 "text": "-101.12€",
+                 "text": "−101.12€",
                  "style": {
-                  "fontWeight": 500,
-                  "color": "var(--text-tertiary)",
+                  "fontWeight": 600,
+                  "color": "var(--money-negative)",
                   "fontVariantNumeric": "tabular-nums",
-                  "paddingRight": 52
+                  "paddingRight": 44
                  }
                 }
                ]
@@ -10614,6 +10831,16 @@
                   "minWidth": 0
                  },
                  "children": [
+                  {
+                   "id": "XPvR2",
+                   "type": "ref",
+                   "name": "Mark",
+                   "ref": "et955",
+                   "style": {
+                    "alignSelf": "center",
+                    "marginRight": 4
+                   }
+                  },
                   {
                    "id": "kVw7y",
                    "type": "text",
@@ -10686,30 +10913,6 @@
                  "name": "Frame"
                 },
                 {
-                 "id": "qAWjR",
-                 "type": "frame",
-                 "class": "flex items-center gap-2",
-                 "style": {
-                  "fontSize": 13,
-                  "color": "var(--text-secondary)"
-                 },
-                 "children": [
-                  {
-                   "id": "XPvR2",
-                   "type": "ref",
-                   "name": "Mark",
-                   "ref": "et955"
-                  },
-                  {
-                   "id": "RCsj9",
-                   "type": "text",
-                   "name": "Account",
-                   "text": "Revolut"
-                  }
-                 ],
-                 "name": "Frame"
-                },
-                {
                  "id": "i9mp7",
                  "type": "text",
                  "name": "Amount",
@@ -10726,12 +10929,14 @@
                  "class": "flex justify-center",
                  "children": [
                   {
-                   "id": "aMbWD",
-                   "type": "frame",
+                   "id": "JAfGq",
+                   "type": "icon",
                    "name": "Status",
+                   "icon": "check",
                    "style": {
-                    "width": 8,
-                    "height": 8
+                    "width": 14,
+                    "height": 14,
+                    "color": "var(--gray-350)"
                    }
                   }
                  ],
@@ -10785,6 +10990,16 @@
                   "minWidth": 0
                  },
                  "children": [
+                  {
+                   "id": "5ZDhL",
+                   "type": "ref",
+                   "name": "Mark",
+                   "ref": "et955",
+                   "style": {
+                    "alignSelf": "center",
+                    "marginRight": 4
+                   }
+                  },
                   {
                    "id": "CKrLY",
                    "type": "text",
@@ -10857,30 +11072,6 @@
                  "name": "Frame"
                 },
                 {
-                 "id": "btDxT",
-                 "type": "frame",
-                 "class": "flex items-center gap-2",
-                 "style": {
-                  "fontSize": 13,
-                  "color": "var(--text-secondary)"
-                 },
-                 "children": [
-                  {
-                   "id": "5ZDhL",
-                   "type": "ref",
-                   "name": "Mark",
-                   "ref": "et955"
-                  },
-                  {
-                   "id": "NN89E",
-                   "type": "text",
-                   "name": "Account",
-                   "text": "Revolut"
-                  }
-                 ],
-                 "name": "Frame"
-                },
-                {
                  "id": "Lg8TK",
                  "type": "text",
                  "name": "Amount",
@@ -10897,14 +11088,14 @@
                  "class": "flex justify-center",
                  "children": [
                   {
-                   "id": "8PrWn",
-                   "type": "frame",
+                   "id": "a2es9",
+                   "type": "icon",
                    "name": "Status",
+                   "icon": "circle-dashed",
                    "style": {
-                    "width": 8,
-                    "height": 8,
-                    "borderRadius": 9999,
-                    "boxShadow": "inset 0 0 0 1.5px var(--gray-400)"
+                    "width": 14,
+                    "height": 14,
+                    "color": "var(--text-secondary)"
                    }
                   }
                  ],
@@ -10958,6 +11149,16 @@
                   "minWidth": 0
                  },
                  "children": [
+                  {
+                   "id": "WKrXT",
+                   "type": "ref",
+                   "name": "Mark",
+                   "ref": "et955",
+                   "style": {
+                    "alignSelf": "center",
+                    "marginRight": 4
+                   }
+                  },
                   {
                    "id": "7jSKj",
                    "type": "text",
@@ -11040,30 +11241,6 @@
                  "name": "Frame"
                 },
                 {
-                 "id": "kQgGW",
-                 "type": "frame",
-                 "class": "flex items-center gap-2",
-                 "style": {
-                  "fontSize": 13,
-                  "color": "var(--text-secondary)"
-                 },
-                 "children": [
-                  {
-                   "id": "WKrXT",
-                   "type": "ref",
-                   "name": "Mark",
-                   "ref": "et955"
-                  },
-                  {
-                   "id": "FmMSU",
-                   "type": "text",
-                   "name": "Account",
-                   "text": "Revolut"
-                  }
-                 ],
-                 "name": "Frame"
-                },
-                {
                  "id": "dPGit",
                  "type": "text",
                  "name": "Amount",
@@ -11080,14 +11257,14 @@
                  "class": "flex justify-center",
                  "children": [
                   {
-                   "id": "gNit7",
-                   "type": "frame",
+                   "id": "GZ3ij",
+                   "type": "icon",
                    "name": "Status",
+                   "icon": "circle-dashed",
                    "style": {
-                    "width": 8,
-                    "height": 8,
-                    "borderRadius": 9999,
-                    "boxShadow": "inset 0 0 0 1.5px var(--gray-400)"
+                    "width": 14,
+                    "height": 14,
+                    "color": "var(--text-secondary)"
                    }
                   }
                  ],

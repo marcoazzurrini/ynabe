@@ -77,14 +77,9 @@ export const AgentPanel = () => {
   };
 
   return (
-    <aside className="border-border bg-surface-app flex w-[640px] shrink-0 flex-col border-l">
+    <aside className="border-border bg-surface-app flex w-[clamp(360px,25vw,640px)] shrink-0 flex-col border-l">
       <header className="border-border flex h-[52px] shrink-0 items-center gap-3 border-b pr-4 pl-9">
-        <p className="flex flex-1 items-baseline gap-2">
-          <span className="text-sm font-semibold">Ledger</span>
-          <span className="text-text-tertiary text-xs font-medium">
-            Watching {thread.context}
-          </span>
-        </p>
+        <span className="flex-1" />
         <Kbd>⌘J</Kbd>
         <Button
           variant="ghost"
