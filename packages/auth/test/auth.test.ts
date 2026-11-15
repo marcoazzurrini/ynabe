@@ -165,7 +165,7 @@ describe("createAuth", () => {
     });
   });
 
-  test("keeps the session for about a year", async () => {
+  test("keeps the session for thirty days", async () => {
     const { callback } = await signIn();
 
     const session = callback.headers
@@ -176,7 +176,7 @@ describe("createAuth", () => {
       /max-age=(?<seconds>\d+)/iu.exec(session ?? "")?.groups?.seconds
     );
 
-    expect(maxAge).toBeGreaterThanOrEqual(364 * 24 * 60 * 60);
+    expect(maxAge).toBe(30 * 24 * 60 * 60);
   });
 
   test("survives a new server instance with the same secret", async () => {

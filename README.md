@@ -87,4 +87,10 @@ bun run --cwd apps/web db:migrate:remote   # apply new migrations first
 bun run --cwd apps/web deploy              # build and deploy the Worker
 ```
 
-Only `marco.azzurrini.art@gmail.com` can sign in, with Google. Every server function answers 401 without that session, so the browser shell is all a stranger can load. Locally, copy `apps/web/.dev.vars.example` to `apps/web/.dev.vars` and fill in the values; the Google client lives in the `ynabe` Google Cloud project.
+Only `marco.azzurrini.art@gmail.com` can sign in, in two steps: Google, then a passkey. The first time, the app asks to create the passkey; after that, every new browser has to show it. Both steps last 30 days. Every server function answers 401 until both are passed, so the browser shell is all a stranger can load. Locally, copy `apps/web/.dev.vars.example` to `apps/web/.dev.vars` and fill in the values; the Google client lives in the `ynabe` Google Cloud project.
+
+If the passkey is lost, remove it and create a new one at the next sign-in:
+
+```sh
+cd apps/web && bunx wrangler d1 execute ynabe --remote --command "DELETE FROM passkeys; DELETE FROM second_steps;"
+```

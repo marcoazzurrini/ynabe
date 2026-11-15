@@ -1,12 +1,14 @@
 import {
   signIn as googleSignIn,
   signOut as googleSignOut,
+  passSecondStep,
 } from "@ynabe/auth/client";
 import { useSyncExternalStore } from "react";
 import { z } from "zod";
 
 const sessionSchema = z.object({
   configured: z.boolean(),
+  secondStep: z.enum(["passed", "needed", "setup"]).nullable(),
   user: z
     .object({
       email: z.string(),
@@ -23,6 +25,8 @@ export type SessionState =
   | { status: "error"; message: string }
   | { status: "unconfigured" }
   | { status: "signed-out"; expired: boolean }
+  /** Google sign-in passed; the passkey is still to show, or to create. */
+  | { status: "second-step"; account: Account; setup: boolean }
   | { status: "signed-in"; account: Account };
 
 let state: SessionState = { status: "checking" };
@@ -49,8 +53,14 @@ export const checkSession = async (): Promise<void> => {
 
     if (!session.configured) {
       set({ status: "unconfigured" });
-    } else if (session.user) {
+    } else if (session.user && session.secondStep === "passed") {
       set({ account: session.user, status: "signed-in" });
+    } else if (session.user) {
+      set({
+        account: session.user,
+        setup: session.secondStep === "setup",
+        status: "second-step",
+      });
     } else {
       set({ expired: state.status === "signed-in", status: "signed-out" });
     }
@@ -65,6 +75,12 @@ export const checkSession = async (): Promise<void> => {
 
 /** Leaves for Google, then comes back to this page. */
 export const signIn = (): Promise<void> => googleSignIn();
+
+/** Shows the passkey, or creates the first one, then opens the budget. */
+export const showPasskey = async (): Promise<void> => {
+  await passSecondStep();
+  await checkSession();
+};
 
 export const signOut = async (): Promise<void> => {
   await googleSignOut();

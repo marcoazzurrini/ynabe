@@ -100,3 +100,33 @@ export const bankLinks = sqliteTable("bank_links", {
   since: text().notNull(),
   sourceId: text("source_id").primaryKey(),
 });
+
+/** The passkeys an account can show as the step after Google sign-in. */
+export const passkeys = sqliteTable(
+  "passkeys",
+  {
+    counter: integer().notNull().default(0),
+    createdAt: createdAt(),
+    email: text().notNull(),
+    id: text().primaryKey(),
+    /** The public key, as base64url text. */
+    publicKey: text("public_key").notNull(),
+    /** A JSON list of how the passkey can be reached, such as "internal". */
+    transports: text().notNull().default("[]"),
+  },
+  (table) => [index("passkeys_email").on(table.email)]
+);
+
+/** The one passkey request an account has open, used once. */
+export const passkeyChallenges = sqliteTable("passkey_challenges", {
+  challenge: text().notNull(),
+  email: text().primaryKey(),
+  expiresAt: integer("expires_at").notNull(),
+});
+
+/** Browsers that have shown a passkey, by the hash of their cookie. */
+export const secondSteps = sqliteTable("second_steps", {
+  email: text().notNull(),
+  expiresAt: integer("expires_at").notNull(),
+  hash: text().primaryKey(),
+});

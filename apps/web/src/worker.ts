@@ -1,7 +1,7 @@
 import serverEntry from "@tanstack/react-start/server-entry";
 import { createDb, syncBanks, synciFeed } from "@ynabe/db";
 
-import { authFor, userFor } from "./server/auth";
+import { authFor, passkeyFor, sessionFor, userFor } from "./server/auth";
 import type { AuthEnv } from "./server/auth";
 
 const SERVER_FUNCTIONS = "/_serverFn/";
@@ -10,8 +10,9 @@ const noStore = { "Cache-Control": "no-store" };
 
 /**
  * Every request that can read or change the budget goes through here.
- * Server functions answer 401 unless an allowed account is signed in, so
- * the browser shell is the only thing a stranger can load.
+ * Server functions answer 401 unless an allowed account has signed in
+ * with Google and shown its passkey, so the browser shell is the only
+ * thing a stranger can load.
  *
  * The check on the address below is only a first, cheap answer. The
  * framework also accepts encoded spellings of the address, such as
@@ -29,11 +30,22 @@ export default {
       );
     }
 
+    if (pathname.startsWith("/api/passkey/")) {
+      return (
+        (await passkeyFor(env, request)) ??
+        new Response("Sign-in is not configured", { status: 503 })
+      );
+    }
+
     if (pathname === "/api/session") {
-      const user = await userFor(env, request);
+      const session = await sessionFor(env, request);
 
       return Response.json(
-        { configured: Boolean(auth), user },
+        {
+          configured: Boolean(auth),
+          secondStep: session?.secondStep ?? null,
+          user: session?.user ?? null,
+        },
         { headers: noStore }
       );
     }
