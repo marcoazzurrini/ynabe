@@ -1,11 +1,11 @@
 import { ACCOUNT_NOT_ALLOWED } from "@ynabe/auth/client";
 import { cn } from "@ynabe/ui/lib/utils";
-import { Clock, Lock, ShieldAlert } from "lucide-react";
+import { Clock, KeyRound, Lock, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
 
-import { signIn } from "../../data/session";
-import type { SessionState } from "../../data/session";
+import { showPasskey, signIn, signOut } from "../../data/session";
+import type { Account, SessionState } from "../../data/session";
 
 const GoogleLogo = () => (
   <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden>
@@ -93,8 +93,113 @@ const Notice = ({
 const notAllowed = () =>
   new URLSearchParams(location.search).get("error") === ACCOUNT_NOT_ALLOWED;
 
-/** The only thing a signed-out visitor sees. */
-export const SignInScreen = ({ session }: { session: SessionState }) => {
+/** The page and card both sign-in steps sit in. */
+const Frame = ({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle: string;
+  children: ReactNode;
+}) => (
+  <main className="bg-surface-app relative flex h-dvh flex-col items-center justify-center bg-[linear-gradient(90deg,rgb(0_0_0/0.035)_1px,transparent_1px)] bg-[length:160px_100%]">
+    <section className="shadow-window flex w-[440px] flex-col items-center gap-6 rounded-2xl bg-white px-10 pt-10 pb-8">
+      <Mark />
+      <div className="flex flex-col items-center gap-2 text-center">
+        <h1 className="text-[28px] leading-8 font-semibold tracking-tight">
+          {title}
+        </h1>
+        <p className="text-text-tertiary text-sm font-medium">{subtitle}</p>
+      </div>
+      {children}
+      <p className="text-text-tertiary flex items-center gap-2 text-xs font-medium">
+        <Lock className="size-3" aria-hidden />
+        Private budget. Only its owner can sign in.
+      </p>
+    </section>
+    <p className="text-text-disabled absolute bottom-8 text-xs font-medium">
+      © 2026 ynabe
+    </p>
+  </main>
+);
+
+/** The step after Google: show the passkey, or create the first one. */
+const PasskeyStep = ({
+  account,
+  setup,
+}: {
+  account: Account;
+  setup: boolean;
+}) => {
+  const [asking, setAsking] = useState(false);
+  const [failure, setFailure] = useState<string | null>(null);
+
+  const ask = async () => {
+    setAsking(true);
+    setFailure(null);
+
+    try {
+      await showPasskey();
+    } catch (error) {
+      setFailure(
+        error instanceof Error ? error.message : "The passkey step failed."
+      );
+      setAsking(false);
+    }
+  };
+
+  return (
+    <Frame
+      title={setup ? "Create your passkey" : "Show your passkey"}
+      subtitle={`Signed in with Google as ${account.email}.`}
+    >
+      {failure ? (
+        <Notice
+          tone="error"
+          icon={<ShieldAlert className="size-4 shrink-0" aria-hidden />}
+          title="That didn’t work"
+        >
+          {failure}
+        </Notice>
+      ) : (
+        <Notice
+          tone="info"
+          icon={
+            <KeyRound
+              className="text-text-tertiary size-4 shrink-0"
+              aria-hidden
+            />
+          }
+          title={setup ? "One more step, once" : "One more step"}
+        >
+          {setup
+            ? "A passkey keeps the budget closed to anyone who gets into your Google account. Save it in your password manager."
+            : "The budget opens after your passkey confirms it is you."}
+        </Notice>
+      )}
+      <button
+        type="button"
+        onClick={ask}
+        disabled={asking}
+        className="bg-text-primary shadow-button flex h-11 w-full items-center justify-center gap-3 rounded-xl text-sm font-medium text-white disabled:opacity-50"
+      >
+        <KeyRound className="size-4" aria-hidden />
+        {setup ? "Create a passkey" : "Use your passkey"}
+      </button>
+      <button
+        type="button"
+        onClick={signOut}
+        className="text-text-tertiary hover:text-text-primary text-[13px] font-medium"
+      >
+        Use another Google account
+      </button>
+    </Frame>
+  );
+};
+
+/** The first step: Google sign-in. */
+const GoogleStep = ({ session }: { session: SessionState }) => {
   const [starting, setStarting] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const rejected = notAllowed();
@@ -158,45 +263,38 @@ export const SignInScreen = ({ session }: { session: SessionState }) => {
   }
 
   return (
-    <main className="bg-surface-app relative flex h-dvh flex-col items-center justify-center bg-[linear-gradient(90deg,rgb(0_0_0/0.035)_1px,transparent_1px)] bg-[length:160px_100%]">
-      <section className="shadow-window flex w-[440px] flex-col items-center gap-6 rounded-2xl bg-white px-10 pt-10 pb-8">
-        <Mark />
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-[28px] leading-8 font-semibold tracking-tight">
-            Sign in to ynabe
-          </h1>
-          <p className="text-text-tertiary text-sm font-medium">
-            Your budget, planned with Ledger.
-          </p>
-        </div>
-        {notice}
-        {checking ? (
-          <p className="bg-surface-sunken text-text-tertiary flex h-11 w-full items-center justify-center gap-3 rounded-xl text-sm font-medium">
-            <span
-              className="border-t-text-primary size-4 animate-spin rounded-full border-2 border-gray-300"
-              aria-hidden
-            />
-            Checking your session…
-          </p>
-        ) : (
-          <button
-            type="button"
-            onClick={start}
-            disabled={starting || session.status === "unconfigured"}
-            className="border-border-control hover:bg-surface-app flex h-11 w-full items-center justify-center gap-3 rounded-xl border bg-white text-sm font-medium shadow-[0_1px_2px_rgb(0_0_0/0.05)] disabled:opacity-50"
-          >
-            <GoogleLogo />
-            {rejected ? "Use another Google account" : "Continue with Google"}
-          </button>
-        )}
-        <p className="text-text-tertiary flex items-center gap-2 text-xs font-medium">
-          <Lock className="size-3" aria-hidden />
-          Private budget. Only its owner can sign in.
+    <Frame
+      title="Sign in to ynabe"
+      subtitle="Your budget, planned with Ledger."
+    >
+      {notice}
+      {checking ? (
+        <p className="bg-surface-sunken text-text-tertiary flex h-11 w-full items-center justify-center gap-3 rounded-xl text-sm font-medium">
+          <span
+            className="border-t-text-primary size-4 animate-spin rounded-full border-2 border-gray-300"
+            aria-hidden
+          />
+          Checking your session…
         </p>
-      </section>
-      <p className="text-text-disabled absolute bottom-8 text-xs font-medium">
-        © 2026 ynabe
-      </p>
-    </main>
+      ) : (
+        <button
+          type="button"
+          onClick={start}
+          disabled={starting || session.status === "unconfigured"}
+          className="border-border-control hover:bg-surface-app flex h-11 w-full items-center justify-center gap-3 rounded-xl border bg-white text-sm font-medium shadow-[0_1px_2px_rgb(0_0_0/0.05)] disabled:opacity-50"
+        >
+          <GoogleLogo />
+          {rejected ? "Use another Google account" : "Continue with Google"}
+        </button>
+      )}
+    </Frame>
   );
 };
+
+/** The only thing a visitor sees until both sign-in steps are passed. */
+export const SignInScreen = ({ session }: { session: SessionState }) =>
+  session.status === "second-step" ? (
+    <PasskeyStep account={session.account} setup={session.setup} />
+  ) : (
+    <GoogleStep session={session} />
+  );

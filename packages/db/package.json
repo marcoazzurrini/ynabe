@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ynabe/auth": "workspace:*",
     "@ynabe/budget": "workspace:*",
     "@ynabe/import": "workspace:*",
     "drizzle-orm": "0.45.4",

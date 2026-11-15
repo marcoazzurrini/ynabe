@@ -8,6 +8,15 @@ export { ACCOUNT_NOT_ALLOWED } from "./shared.ts";
 
 export type { User } from "./shared.ts";
 
+export { createSecondStep } from "./passkey.ts";
+
+export type {
+  PasskeyStore,
+  SecondStep,
+  SecondStepStatus,
+  StoredPasskey,
+} from "./passkey.ts";
+
 export interface AuthOptions {
   /** Public origin of the app, such as `https://example.com`. */
   readonly baseUrl: string;
@@ -28,8 +37,8 @@ export interface Auth {
   user: (request: Request) => Promise<User | null>;
 }
 
-// Signing in again is rare; each use extends the session.
-const SESSION_SECONDS = 365 * 24 * 60 * 60;
+// A session ends this long after sign-in, used or not.
+const SESSION_SECONDS = 30 * 24 * 60 * 60;
 
 /**
  * Google sign-in for a fixed list of accounts, with no database: the
