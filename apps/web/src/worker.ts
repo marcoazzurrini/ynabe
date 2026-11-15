@@ -5,8 +5,6 @@ import { createDb, syncBanks, synciFeed } from "@ynabe/db";
 import { serveAgentTools, setupFor } from "./server/assistant";
 import { authFor, passkeyFor, sessionFor, userFor } from "./server/auth";
 
-export { AgentRunner } from "./server/runner";
-
 const SERVER_FUNCTIONS = "/_serverFn/";
 
 const noStore = { "Cache-Control": "no-store" };

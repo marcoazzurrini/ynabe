@@ -4,5 +4,6 @@ BETTER_AUTH_SECRET=at-least-32-random-characters
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-your-secret
 SYNCI_API_TOKEN=a-read-only-synci-personal-access-token
-# The assistant: `bun run --cwd apps/agent dev` serves the runner here.
+# The assistant: the runner on this machine, and the secret from apps/agent/.env.
 AGENT_URL=http://localhost:8787
+AGENT_SECRET=the-same-secret-as-in-apps-agent-env
