@@ -5,14 +5,14 @@ import {
   Check,
   ChevronRight,
   CircleCheck,
-  Pencil,
+  X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 /** The assistant speaks on the shared left edge, without an avatar. */
 export const AssistantMessage = ({ children }: { children: ReactNode }) => (
-  <p className="text-text-primary text-sm leading-[22px] font-medium">
+  <p className="text-text-primary text-sm leading-[22px] font-medium whitespace-pre-wrap">
     {children}
   </p>
 );
@@ -45,6 +45,8 @@ export const Steps = ({ steps }: { steps: readonly Step[] }) => (
 );
 
 export interface ProposalLine {
+  /** Tells apart two lines with the same label. */
+  id?: string;
   icon: ReactNode;
   label: string;
   value: ReactNode;
@@ -57,7 +59,10 @@ interface ProposalProps {
   footnote: string;
   applied: boolean;
   appliedLabel: string;
+  /** Set aside without applying: shown as one quiet line. */
+  dismissed?: boolean;
   onApply: () => void;
+  onDismiss?: () => void;
 }
 
 /** A change the assistant proposes. Nothing happens until it is applied. */
@@ -67,8 +72,19 @@ export const Proposal = ({
   footnote,
   applied,
   appliedLabel,
+  dismissed = false,
   onApply,
+  onDismiss,
 }: ProposalProps) => {
+  if (dismissed) {
+    return (
+      <p className="text-text-tertiary ring-border flex items-center gap-2 rounded-[10px] px-3 py-2 text-xs font-medium ring-1 ring-inset">
+        <X className="size-[13px]" aria-hidden />
+        Dismissed · {title}
+      </p>
+    );
+  }
+
   if (applied) {
     return (
       <p className="bg-funded-bg text-funded ring-funded-border flex items-center gap-2 rounded-[10px] px-3 py-2 text-xs font-medium ring-1 ring-inset">
@@ -91,7 +107,7 @@ export const Proposal = ({
       </header>
       <ul className="flex flex-col gap-2 px-3.5 py-3 text-[13px] font-medium">
         {lines.map((line) => (
-          <li key={line.label} className="flex items-center gap-3">
+          <li key={line.id ?? line.label} className="flex items-center gap-3">
             <span className="flex w-[15px] justify-center">{line.icon}</span>
             <span className="flex-1">{line.label}</span>
             <span
@@ -109,10 +125,12 @@ export const Proposal = ({
         <span className="text-text-tertiary flex-1 text-xs font-medium">
           {footnote}
         </span>
-        <Button variant="ghost">
-          <Pencil />
-          Edit
-        </Button>
+        {onDismiss ? (
+          <Button variant="ghost" onClick={onDismiss}>
+            <X />
+            Dismiss
+          </Button>
+        ) : null}
         <Button onClick={onApply}>
           <Check />
           Apply

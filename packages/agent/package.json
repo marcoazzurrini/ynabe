@@ -1,0 +1,27 @@
+{
+  "name": "@ynabe/agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./events": "./src/events.ts"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@ynabe/budget": "workspace:*",
+    "@ynabe/db": "workspace:*",
+    "@ynabe/reports": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261001.1",
+    "bun-types": "1.4.2",
+    "drizzle-orm": "0.45.4",
+    "typescript": "7.0.2"
+  }
+}

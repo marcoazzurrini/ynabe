@@ -130,3 +130,54 @@ export const secondSteps = sqliteTable("second_steps", {
   expiresAt: integer("expires_at").notNull(),
   hash: text().primaryKey(),
 });
+
+/** The one conversation with the assistant, in the order it happened. */
+export const agentMessages = sqliteTable(
+  "agent_messages",
+  {
+    /** Milliseconds since 1970, which also orders the conversation. */
+    at: integer().notNull(),
+    id: text().primaryKey(),
+    role: text({ enum: ["user", "assistant"] }).notNull(),
+    /** A JSON list of what the assistant looked at, as `{ kind, label }`. */
+    steps: text().notNull().default("[]"),
+    text: text().notNull(),
+    /** What started it: a message typed in the app, or a bank sync. */
+    trigger: text({ enum: ["chat", "sync"] })
+      .notNull()
+      .default("chat"),
+  },
+  (table) => [index("agent_messages_at").on(table.at)]
+);
+
+/** A set of changes the assistant suggested. Nothing changes until applied. */
+export const agentProposals = sqliteTable(
+  "agent_proposals",
+  {
+    at: integer().notNull(),
+    /** A JSON list of the changes to make. */
+    changes: text().notNull(),
+    footnote: text().notNull(),
+    id: text().primaryKey(),
+    /** A JSON list of the lines the app shows, as `{ icon, label, value }`. */
+    lines: text().notNull(),
+    /** The assistant message the proposal belongs under. */
+    messageId: text("message_id").notNull(),
+    status: text({ enum: ["open", "applied", "dismissed"] })
+      .notNull()
+      .default("open"),
+    title: text().notNull(),
+  },
+  (table) => [index("agent_proposals_message").on(table.messageId)]
+);
+
+/**
+ * What the assistant carries between runs: `memory`, the note it keeps
+ * about its owner, and `summary`, the older conversation folded down.
+ */
+export const agentNotes = sqliteTable("agent_notes", {
+  content: text().notNull(),
+  id: text({ enum: ["memory", "summary"] }).primaryKey(),
+  /** For the summary: the `at` of the last message it covers. */
+  upTo: integer("up_to").notNull().default(0),
+});

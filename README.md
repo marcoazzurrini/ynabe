@@ -7,7 +7,9 @@ A calm, AI-assisted envelope budgeting app, in the spirit of YNAB.
 | Path | What it is |
 | --- | --- |
 | `apps/web` | TanStack Start app on Cloudflare Workers, with D1, TanStack DB and Charts |
+| `apps/agent` | The assistant's runner: Claude Code behind a small server, in a container |
 | `apps/demo` | Storybook for the design system |
+| `packages/agent` | The assistant: its tools, its prompt, and one run from question to answer |
 | `packages/budget` | The budget engine: one month of the budget from categories and money |
 | `packages/reports` | Spending insights for Reflect: pace, day levels, usual ranges |
 | `packages/import` | Reads a YNAB export into the rows ynabe stores |
@@ -72,6 +74,40 @@ The app can fetch new bank rows by itself through [Synci](https://synci.io), a p
 
 The Worker then syncs every six hours, and **Sync banks** on the Accounts screen does it at once. A bank row the budget already holds, from a statement or typed in, is tied to it instead of added again, so the statements and the sync can overlap. A new row takes the category or transfer that the same bank words had before. A pending payment comes in uncleared. It turns cleared, with the final amount, when the bank books it, and it is removed when the bank drops it, since the payment was then cancelled.
 
+## The assistant
+
+Ledger, the assistant in the right-hand panel, is one conversation that never ends. It answers questions from the budget, and it suggests changes: filing transactions under categories, assigning money, and setting targets. A suggestion shows up as a proposal, and nothing changes until you apply it. After a bank sync brings new rows, the assistant looks at them by itself and leaves a note in the conversation.
+
+It runs on a Claude subscription, through Claude Code and the Claude Agent SDK, so it draws from the same allowance as Claude Code. Anthropic allows this for personal use. Serving other people from one subscription is not allowed.
+
+How a run works:
+
+1. The Worker builds the prompt from D1: the assistant's notes, a summary of the older conversation, the recent messages, and the new one.
+2. The runner (`apps/agent`) hands it to Claude Code. Claude Code has no files, shell, or web access, only the budget tools.
+3. Claude Code calls the tools on the Worker, at `/api/agent/mcp`, with a pass that is good for that one run.
+4. The answer streams to the panel and is stored in D1. The runner keeps nothing, so its container can stop when it is idle.
+
+### Running it locally
+
+Local development needs no Docker. Start the runner by hand, and it uses your own Claude Code login:
+
+```sh
+bun run --cwd apps/agent dev   # the runner on http://localhost:8787
+```
+
+Set `AGENT_URL=http://localhost:8787` in `apps/web/.dev.vars`, as in `.dev.vars.example`. Set `PORT` to move the runner, and `AGENT_MODEL` to change the model from `claude-opus-5-5`. It thinks at medium effort.
+
+### Running it on Cloudflare
+
+Deployed, the runner is a [Cloudflare Container](https://developers.cloudflare.com/containers/) that the Worker starts when a run needs it and that stops after five idle minutes. To set it up once:
+
+```sh
+claude setup-token                                    # prints a token for your subscription, good for a year
+cd apps/web && bunx wrangler secret put CLAUDE_CODE_OAUTH_TOKEN
+```
+
+`wrangler deploy` builds the runner's image, so Docker has to be running when you deploy. After the first deploy, Cloudflare takes a few minutes to make the container ready.
+
 ## Checks
 
 `bun run check` runs formatting, lint (oxlint with Ultracite and anti-slop), types, tests, and builds. Lefthook formats and lints staged files before each commit and runs the full check on a clean copy before each push.
@@ -84,7 +120,7 @@ The app runs on Cloudflare Workers at <https://ynabe.marcoazzurrini.com>, with i
 
 ```sh
 bun run --cwd apps/web db:migrate:remote   # apply new migrations first
-bun run --cwd apps/web deploy              # build and deploy the Worker
+bun run --cwd apps/web deploy              # build and deploy the Worker and the runner's image
 ```
 
 Only `marco.azzurrini.art@gmail.com` can sign in, in two steps: Google, then a passkey. The first time, the app asks to create the passkey; after that, every new browser has to show it. Both steps last 30 days. Every server function answers 401 until both are passed, so the browser shell is all a stranger can load. Locally, copy `apps/web/.dev.vars.example` to `apps/web/.dev.vars` and fill in the values; the Google client lives in the `ynabe` Google Cloud project.

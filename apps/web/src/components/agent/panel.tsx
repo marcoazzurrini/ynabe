@@ -8,13 +8,22 @@ import {
 import { Kbd } from "@ynabe/ui/components/ui/kbd";
 import {
   ArrowUp,
+  Brain,
+  CalendarDays,
+  ChartPie,
+  LayoutList,
   PanelRightClose,
   PanelRightOpen,
   Plus,
+  Search,
   Sparkles,
 } from "lucide-react";
-import { useState } from "react";
+import type { LucideIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
+import { decide } from "../../data/thread";
+import type { ThreadMessage } from "../../data/thread";
+import { CategoryIcon } from "../category-icon";
 import {
   AssistantMessage,
   Proposal,
@@ -25,12 +34,78 @@ import {
 import { useAgent } from "./state";
 import { useThread } from "./use-thread";
 
-const time = () =>
-  new Date().toLocaleTimeString("en-US", {
+const stepIcons = {
+  memory: Brain,
+  overview: LayoutList,
+  plan: CalendarDays,
+  report: ChartPie,
+  search: Search,
+} satisfies Record<ThreadMessage["steps"][number]["kind"], LucideIcon>;
+
+const iconsFor = (steps: ThreadMessage["steps"]) =>
+  steps.map(({ kind, label }) => ({ icon: stepIcons[kind], label }));
+
+const dayOf = (at: number) => new Date(at).toDateString();
+
+const dayLabel = (at: number) => {
+  const time = new Date(at).toLocaleTimeString("en-US", {
     hour: "2-digit",
     hour12: false,
     minute: "2-digit",
   });
+
+  const day =
+    dayOf(at) === dayOf(Date.now())
+      ? "Today"
+      : new Date(at).toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "short",
+        });
+
+  return `${day}, ${time}`;
+};
+
+/** One message of the conversation, with what the assistant did for it. */
+const Message = ({ message }: { message: ThreadMessage }) => {
+  if (message.role === "user") {
+    return <UserMessage>{message.text}</UserMessage>;
+  }
+
+  return (
+    <>
+      {message.trigger === "sync" ? (
+        <p className="text-text-tertiary text-xs font-medium">
+          After a bank sync
+        </p>
+      ) : null}
+      {message.steps.length > 0 ? (
+        <Steps steps={iconsFor(message.steps)} />
+      ) : null}
+      <AssistantMessage>{message.text}</AssistantMessage>
+      {message.proposals.map((proposal) => (
+        <Proposal
+          key={proposal.id}
+          title={proposal.title}
+          footnote={proposal.footnote}
+          lines={proposal.lines.map((line, index) => ({
+            ...line,
+            icon: <CategoryIcon name={line.icon} />,
+            id: String(index),
+          }))}
+          applied={proposal.status === "applied"}
+          appliedLabel={`Applied · ${proposal.title}`}
+          dismissed={proposal.status === "dismissed"}
+          onApply={() => {
+            void decide(proposal.id, true);
+          }}
+          onDismiss={() => {
+            void decide(proposal.id, false);
+          }}
+        />
+      ))}
+    </>
+  );
+};
 
 /** The collapsed assistant: a thin strip that reopens with ⌘J. */
 export const AgentRail = () => {
@@ -66,12 +141,20 @@ export const AgentPanel = () => {
   const { toggle } = useAgent();
   const thread = useThread();
   const [draft, setDraft] = useState("");
+  const scroller = useRef<HTMLDivElement>(null);
+  const { messages, pending } = thread;
+
+  // Keep the newest words in view as they arrive.
+  useEffect(() => {
+    scroller.current?.scrollTo({ top: scroller.current.scrollHeight });
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies -- these are what make the thread grow
+  }, [messages.length, pending?.text, pending?.steps.length]);
 
   const submit = () => {
     const text = draft.trim();
 
-    if (text !== "") {
-      thread.send(text);
+    if (text !== "" && !pending) {
+      void thread.send(text);
       setDraft("");
     }
   };
@@ -90,37 +173,48 @@ export const AgentPanel = () => {
           <PanelRightClose />
         </Button>
       </header>
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-9 py-7">
-        <p className="text-text-tertiary self-center text-xs font-medium">
-          Today, {time()}
-        </p>
-        {thread.insight ? (
-          <AssistantMessage>{thread.insight}</AssistantMessage>
-        ) : null}
-        {thread.exchanges.map((exchange) => (
-          <div key={exchange.id} className="flex flex-col gap-5">
-            <UserMessage>{exchange.user}</UserMessage>
-            {exchange.steps.length > 0 ? (
-              <Steps steps={exchange.steps} />
-            ) : null}
-            <AssistantMessage>{exchange.reply}</AssistantMessage>
-            {exchange.proposal ? (
-              <Proposal
-                title={exchange.proposal.title}
-                lines={exchange.proposal.lines}
-                footnote={exchange.proposal.footnote}
-                applied={thread.applied.includes(exchange.id)}
-                appliedLabel={exchange.proposal.appliedLabel}
-                onApply={() => {
-                  exchange.proposal?.apply();
-                  thread.markApplied(exchange.id);
-                }}
-              />
-            ) : null}
+      <div
+        ref={scroller}
+        className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-9 py-7"
+      >
+        {messages.map((message, index) => (
+          <div key={message.id} className="flex flex-col gap-5">
+            {dayOf(message.at) ===
+            dayOf(messages[index - 1]?.at ?? 0) ? null : (
+              <p className="text-text-tertiary self-center text-xs font-medium">
+                {dayLabel(message.at)}
+              </p>
+            )}
+            <Message message={message} />
           </div>
         ))}
+        {pending ? (
+          <div className="flex flex-col gap-5">
+            <UserMessage>{pending.user}</UserMessage>
+            {pending.steps.length > 0 ? (
+              <Steps steps={iconsFor(pending.steps)} />
+            ) : null}
+            {pending.text === "" ? (
+              <p className="text-text-tertiary text-sm leading-[22px] font-medium">
+                Thinking…
+              </p>
+            ) : (
+              <AssistantMessage>{pending.text}</AssistantMessage>
+            )}
+          </div>
+        ) : null}
+        {thread.notice ? (
+          <output className="text-text-secondary text-[13px] font-medium">
+            {thread.notice}
+          </output>
+        ) : null}
       </div>
       <div className="flex flex-col gap-3 px-9 pb-7">
+        <p className="text-text-secondary text-[13px] leading-5 font-medium">
+          {thread.connected
+            ? thread.insight
+            : "The assistant is not set up yet, so it cannot answer."}
+        </p>
         <Suggestions suggestions={thread.suggestions} />
         <InputGroup className="rounded-2xl bg-white">
           <InputGroupTextarea
@@ -152,6 +246,7 @@ export const AgentPanel = () => {
               size="icon-sm"
               className="rounded-full"
               aria-label="Send"
+              disabled={pending !== null}
               onClick={submit}
             >
               <ArrowUp />

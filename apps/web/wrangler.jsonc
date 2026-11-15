@@ -16,8 +16,9 @@
   // The bank sync. Synci refreshes from the banks every six hours on
   // the Basic plan, so asking more often brings nothing new.
   "triggers": { "crons": ["15 */6 * * *"] },
-  // GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET and SYNCI_API_TOKEN are
-  // Worker secrets, set with `wrangler secret put`. Local development
+  // GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, SYNCI_API_TOKEN and
+  // CLAUDE_CODE_OAUTH_TOKEN are Worker secrets, set with
+  // `wrangler secret put`. Local development
   // reads them, and the vars below, from .dev.vars (see .dev.vars.example).
   "vars": {
     "AUTH_ALLOWED_EMAILS": "marco.azzurrini.art@gmail.com",
@@ -32,4 +33,22 @@
       "migrations_dir": "../../packages/db/migrations",
     },
   ],
+  // The assistant's runner: Claude Code in a container, started when a
+  // run needs it. Workers cannot run Claude Code themselves.
+  "containers": [
+    {
+      "class_name": "AgentRunner",
+      "scheduling_policy": "durable_object",
+      "images": { "runner": { "dockerfile": "../agent/Dockerfile" } },
+    },
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "AGENT_RUNNER", "class_name": "AgentRunner" }],
+  },
+  "exports": {
+    "AgentRunner": { "type": "durable-object", "storage": "sqlite" },
+  },
+  // Local development needs no Docker: start the runner by hand and
+  // point AGENT_URL at it (see the README).
+  "dev": { "enable_containers": false },
 }
