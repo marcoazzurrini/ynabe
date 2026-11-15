@@ -6,48 +6,39 @@ type Env = Cloudflare.Env;
 
 const TOOLS = "/api/agent/mcp";
 
-const init = (input: RunnerInput) => ({
-  body: JSON.stringify(input),
-  headers: { "Content-Type": "application/json" },
-  method: "POST",
-});
-
-const runnerFor = (env: Env): Setup["runner"] | null => {
-  // A runner started by hand, for local development.
-  if (env.AGENT_URL) {
-    const url = `${env.AGENT_URL}/run`;
-
-    return (input) => fetch(url, init(input));
-  }
-
-  const runners = env.AGENT_RUNNER;
-
-  return runners
-    ? (input) =>
-        runners.getByName("ledger").fetch("http://runner/run", init(input))
-    : null;
-};
-
-/**
- * Starts the runner's container ahead of the first message. A stopped
- * container takes a while to start, so the app calls this when it opens.
- */
-export const wakeRunner = async (env: Env): Promise<void> => {
-  // A runner started by hand is always up.
-  if (env.AGENT_URL || !env.AGENT_RUNNER) {
-    return;
-  }
+/** Sends a run to the runner, which lives on a Mac behind a tunnel. */
+const sendRun = async (
+  address: string,
+  secret: string,
+  input: RunnerInput
+): Promise<Response> => {
+  let response: Response | null = null;
 
   try {
-    const response = await env.AGENT_RUNNER.getByName("ledger").fetch(
-      "http://runner/health"
-    );
-
-    await response.body?.cancel();
-  } catch (error) {
-    // The first message starts it instead.
-    console.error("Could not wake the runner", error);
+    response = await fetch(new URL("/run", address), {
+      body: JSON.stringify(input),
+      headers: {
+        Authorization: `Bearer ${secret}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+  } catch {
+    // Handled below, like an answer from the tunnel alone.
   }
+
+  // The tunnel answers 5xx by itself when the Mac is off or asleep.
+  if (!response || response.status >= 500) {
+    throw new Error("the Mac that runs it cannot be reached");
+  }
+
+  return response;
+};
+
+const runnerFor = (env: Env): Setup["runner"] | null => {
+  const { AGENT_SECRET: secret, AGENT_URL: address } = env;
+
+  return address && secret ? (input) => sendRun(address, secret, input) : null;
 };
 
 /**

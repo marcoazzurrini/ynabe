@@ -4,18 +4,14 @@ import type { AgentEvent } from "@ynabe/agent";
 import { createDb, findProposal, loadThread, markProposal } from "@ynabe/db";
 import { z } from "zod";
 
-import { setupFor, wakeRunner } from "./assistant";
+import { setupFor } from "./assistant";
 
 /** The app shows this many messages; older ones stay in the database. */
 const SHOWN = 100;
 
 /** The conversation with the assistant, and whether it is set up. */
 export const getThread = createServerFn({ method: "GET" }).handler(async () => {
-  const { env, waitUntil } = await import("cloudflare:workers");
-
-  // The app just opened: have the runner ready before the first message.
-  waitUntil(wakeRunner(env));
-
+  const { env } = await import("cloudflare:workers");
   const thread = await loadThread(createDb(env.DB));
 
   return {

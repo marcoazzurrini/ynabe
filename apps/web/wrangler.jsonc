@@ -17,10 +17,12 @@
   // the Basic plan, so asking more often brings nothing new.
   "triggers": { "crons": ["15 */6 * * *"] },
   // GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, SYNCI_API_TOKEN and
-  // CLAUDE_CODE_OAUTH_TOKEN are Worker secrets, set with
-  // `wrangler secret put`. Local development
+  // AGENT_SECRET are Worker secrets, set with `wrangler secret put`.
+  // Local development
   // reads them, and the vars below, from .dev.vars (see .dev.vars.example).
   "vars": {
+    // The assistant's runner, on a Mac behind a Cloudflare Tunnel.
+    "AGENT_URL": "https://ynabe-agent.marcoazzurrini.com",
     "AUTH_ALLOWED_EMAILS": "marco.azzurrini.art@gmail.com",
     "BETTER_AUTH_URL": "https://ynabe.marcoazzurrini.com",
     "GOOGLE_CLIENT_ID": "462635110749-7d3uhf6kuundauhq2p6aiufib9jnaltv.apps.googleusercontent.com",
@@ -33,22 +35,9 @@
       "migrations_dir": "../../packages/db/migrations",
     },
   ],
-  // The assistant's runner: Claude Code in a container, started when a
-  // run needs it. Workers cannot run Claude Code themselves.
-  "containers": [
-    {
-      "class_name": "AgentRunner",
-      "scheduling_policy": "durable_object",
-      "images": { "runner": { "dockerfile": "../agent/Dockerfile" } },
-    },
-  ],
-  "durable_objects": {
-    "bindings": [{ "name": "AGENT_RUNNER", "class_name": "AgentRunner" }],
-  },
+  // The container that used to run the assistant is gone: the runner
+  // now lives on a Mac, behind the tunnel in AGENT_URL.
   "exports": {
-    "AgentRunner": { "type": "durable-object", "storage": "sqlite" },
+    "AgentRunner": { "type": "durable-object", "state": "deleted" },
   },
-  // Local development needs no Docker: start the runner by hand and
-  // point AGENT_URL at it (see the README).
-  "dev": { "enable_containers": false },
 }

@@ -7,7 +7,7 @@ A calm, AI-assisted envelope budgeting app, in the spirit of YNAB.
 | Path | What it is |
 | --- | --- |
 | `apps/web` | TanStack Start app on Cloudflare Workers, with D1, TanStack DB and Charts |
-| `apps/agent` | The assistant's runner: Claude Code behind a small server, in a container |
+| `apps/agent` | The assistant's runner: Claude Code behind a small server, on an always-on Mac |
 | `apps/demo` | Storybook for the design system |
 | `packages/agent` | The assistant: its tools, its prompt, and one run from question to answer |
 | `packages/budget` | The budget engine: one month of the budget from categories and money |
@@ -83,30 +83,33 @@ It runs on a Claude subscription, through Claude Code and the Claude Agent SDK, 
 How a run works:
 
 1. The Worker builds the prompt from D1: the assistant's notes, a summary of the older conversation, the recent messages, and the new one.
-2. The runner (`apps/agent`) hands it to Claude Code. Claude Code has no files, shell, or web access, only the budget tools.
+2. The Worker sends it to the runner (`apps/agent`), which hands it to Claude Code. Claude Code has no files, shell, or web access, only the budget tools.
 3. Claude Code calls the tools on the Worker, at `/api/agent/mcp`, with a pass that is good for that one run.
-4. The answer streams to the panel and is stored in D1. The runner keeps nothing, so its container can stop when it is idle.
+4. The answer streams to the panel and is stored in D1. The runner keeps nothing.
 
-### Running it locally
+### Where the runner lives
 
-Local development needs no Docker. Start the runner by hand, and it uses your own Claude Code login:
+Workers cannot run Claude Code, so the runner lives on a Mac that is always on. It uses that Mac's own Claude Code login, and it costs nothing to run. The deployed app reaches it through a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/), which connects outward from the Mac, so no port is open to the internet.
 
-```sh
-bun run --cwd apps/agent dev   # the runner on http://localhost:8787
-```
+The runner listens on this machine only, and refuses a run that does not show the secret it shares with the app. When the Mac is off or offline, the assistant says it cannot be reached, and the rest of the app works as usual.
 
-Set `AGENT_URL=http://localhost:8787` in `apps/web/.dev.vars`, as in `.dev.vars.example`. Set `PORT` to move the runner, and `AGENT_MODEL` to change the model from `claude-opus-5-5`. It thinks at medium effort.
+To set it up on a Mac:
 
-### Running it on Cloudflare
+1. Put a secret of at least 32 characters in `apps/agent/.env` as `AGENT_SECRET`, as in `.env.example`. Give the Worker the same one with `wrangler secret put AGENT_SECRET`, and local development the same one in `apps/web/.dev.vars`.
+2. Create the tunnel and point a hostname at it:
 
-Deployed, the runner is a [Cloudflare Container](https://developers.cloudflare.com/containers/) that the Worker starts when the app opens and that stops after ten idle minutes, so it costs nothing while nobody uses the app. The first answer waits for the container if it is still starting, which can take most of a minute after a deploy. To set it up once:
+   ```sh
+   cloudflared tunnel login
+   cloudflared tunnel create ynabe-agent
+   cloudflared tunnel route dns ynabe-agent ynabe-agent.marcoazzurrini.com
+   ```
 
-```sh
-claude setup-token                                    # prints a token for your subscription, good for a year
-cd apps/web && bunx wrangler secret put CLAUDE_CODE_OAUTH_TOKEN
-```
+   Its config, `~/.cloudflared/ynabe-agent.yml`, sends that hostname to `http://localhost:8787`. `AGENT_URL` in `wrangler.jsonc` is the same hostname.
 
-`wrangler deploy` builds the runner's image, so Docker has to be running when you deploy. After the first deploy, Cloudflare takes a few minutes to make the container ready.
+3. Start both at login with two launch agents in `~/Library/LaunchAgents`: `com.marcoazzurrini.ynabe.runner` runs `node --env-file=.env src/server.ts` in `apps/agent`, and `com.marcoazzurrini.ynabe.tunnel` runs `cloudflared tunnel --config ~/.cloudflared/ynabe-agent.yml run`. Their logs are `~/Library/Logs/ynabe-runner.log` and `ynabe-tunnel.log`.
+4. Keep the Mac awake: `sudo pmset -c sleep 0`. The display can still turn off.
+
+The runner runs the code in this checkout, so a change to `apps/agent` is live after `launchctl kickstart -k gui/$(id -u)/com.marcoazzurrini.ynabe.runner`. Local development uses the same runner, at `http://localhost:8787`. Set `AGENT_MODEL` in `apps/agent/.env` to change the model from `claude-opus-5-5`. It thinks at medium effort.
 
 ## Checks
 
@@ -120,7 +123,7 @@ The app runs on Cloudflare Workers at <https://ynabe.marcoazzurrini.com>, with i
 
 ```sh
 bun run --cwd apps/web db:migrate:remote   # apply new migrations first
-bun run --cwd apps/web deploy              # build and deploy the Worker and the runner's image
+bun run --cwd apps/web deploy              # build and deploy the Worker
 ```
 
 Only `marco.azzurrini.art@gmail.com` can sign in, in two steps: Google, then a passkey. The first time, the app asks to create the passkey; after that, every new browser has to show it. Both steps last 30 days. Every server function answers 401 until both are passed, so the browser shell is all a stranger can load. Locally, copy `apps/web/.dev.vars.example` to `apps/web/.dev.vars` and fill in the values; the Google client lives in the `ynabe` Google Cloud project.

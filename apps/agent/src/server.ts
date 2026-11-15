@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { mkdtempSync } from "node:fs";
 import { createServer } from "node:http";
 import type { IncomingMessage, ServerResponse } from "node:http";
@@ -13,12 +14,15 @@ import { z } from "zod";
  *
  * It knows nothing about the budget. Each request brings the prompt and
  * the address of the tools, and gets back what happens, one JSON object
- * per line. It signs in with the Claude subscription in
- * CLAUDE_CODE_OAUTH_TOKEN, or with the login of whoever starts it.
+ * per line. It uses the Claude subscription of whoever starts it.
+ *
+ * It listens on this machine only. The app reaches it through a tunnel,
+ * so every run has to show the secret the two share.
  */
 
-const PORT = Number(process.env.PORT ?? 8080);
+const PORT = Number(process.env.PORT ?? 8787);
 const MODEL = process.env.AGENT_MODEL ?? "claude-opus-5-5";
+const SECRET = process.env.AGENT_SECRET ?? "";
 
 /** How hard the model thinks before it answers. */
 const EFFORT = "medium";
@@ -53,9 +57,11 @@ const emptyFolder = mkdtempSync(path.join(tmpdir(), "ynabe-agent-"));
 
 // Started from inside a Claude Code session, these would make the child
 // think it is part of that session.
+// Claude Code has no use for the runner's own secret either.
 const {
-  CLAUDECODE: _,
-  CLAUDE_CODE_ENTRYPOINT: __,
+  AGENT_SECRET: _,
+  CLAUDECODE: __,
+  CLAUDE_CODE_ENTRYPOINT: ___,
   ...environment
 } = process.env;
 
@@ -130,6 +136,14 @@ const run = async function* run(
   }
 };
 
+/** Whether a request shows the secret, compared in constant time. */
+const allowed = (request: IncomingMessage): boolean => {
+  const shown = Buffer.from(request.headers.authorization ?? "");
+  const wanted = Buffer.from(`Bearer ${SECRET}`);
+
+  return shown.length === wanted.length && timingSafeEqual(shown, wanted);
+};
+
 /** The run a request asks for, or null when it does not make sense. */
 const runFrom = async (request: IncomingMessage): Promise<RunInput | null> => {
   try {
@@ -151,6 +165,12 @@ const answer = async (
 
   if (request.method !== "POST" || request.url !== "/run") {
     response.writeHead(404).end();
+
+    return;
+  }
+
+  if (!allowed(request)) {
+    response.writeHead(401).end("Unauthorized");
 
     return;
   }
@@ -203,8 +223,15 @@ const answer = async (
   response.end();
 };
 
+if (SECRET.length < 32) {
+  console.error(
+    "Set AGENT_SECRET, at least 32 characters, in apps/agent/.env. The app sends it with every run."
+  );
+  process.exit(1);
+}
+
 createServer((request, response) => {
   void answer(request, response);
-}).listen(PORT, () => {
+}).listen(PORT, "127.0.0.1", () => {
   console.log(`The runner listens on port ${PORT}`);
 });
