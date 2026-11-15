@@ -12,6 +12,10 @@ const noStore = { "Cache-Control": "no-store" };
  * Every request that can read or change the budget goes through here.
  * Server functions answer 401 unless an allowed account is signed in, so
  * the browser shell is the only thing a stranger can load.
+ *
+ * The check on the address below is only a first, cheap answer. The
+ * framework also accepts encoded spellings of the address, such as
+ * `/%5FserverFn/`, so the check that counts is the one in start.ts.
  */
 export default {
   async fetch(request: Request, env: AuthEnv): Promise<Response> {
