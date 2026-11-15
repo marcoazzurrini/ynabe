@@ -80,7 +80,7 @@ The Worker then syncs every six hours, and **Sync banks** on the Accounts screen
 
 ## Deploying
 
-The app runs on Cloudflare Workers at <https://ynabe.marco-azzurrini-art.workers.dev>, with its data in the `ynabe` D1 database (Western Europe).
+The app runs on Cloudflare Workers at <https://ynabe.marcoazzurrini.com>, with its data in the `ynabe` D1 database (Western Europe).
 
 ```sh
 bun run --cwd apps/web db:migrate:remote   # apply new migrations first
