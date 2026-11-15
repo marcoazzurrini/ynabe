@@ -29,6 +29,29 @@ const runnerFor = (env: Env): Setup["runner"] | null => {
 };
 
 /**
+ * Starts the runner's container ahead of the first message. A stopped
+ * container takes most of a minute to start, and it stops again when it
+ * has been idle, so the app calls this as soon as it opens.
+ */
+export const wakeRunner = async (env: Env): Promise<void> => {
+  // A runner started by hand is always up.
+  if (env.AGENT_URL || !env.AGENT_RUNNER) {
+    return;
+  }
+
+  try {
+    const response = await env.AGENT_RUNNER.getByName("ledger").fetch(
+      "http://runner/health"
+    );
+
+    await response.body?.cancel();
+  } catch (error) {
+    // The first message starts it instead.
+    console.error("Could not wake the runner", error);
+  }
+};
+
+/**
  * What the assistant runs with, or null when it is not set up. `origin`
  * is the address the app is being used on, which is where the runner
  * finds the tools. A timed run has none and uses the app's own address.
