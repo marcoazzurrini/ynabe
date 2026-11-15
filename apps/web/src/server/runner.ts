@@ -2,8 +2,11 @@ import { DurableObject } from "cloudflare:workers";
 
 const PORT = 8080;
 
-/** How long the container stays up after the last run. */
-const IDLE = 5 * 60 * 1000;
+/**
+ * How long the container stays up after the last run. Starting it again
+ * takes most of a minute, so it outlasts a pause in the conversation.
+ */
+const IDLE = 15 * 60 * 1000;
 
 /**
  * Starts the runner's container when a run needs it and passes the run

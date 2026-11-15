@@ -99,7 +99,7 @@ Set `AGENT_URL=http://localhost:8787` in `apps/web/.dev.vars`, as in `.dev.vars.
 
 ### Running it on Cloudflare
 
-Deployed, the runner is a [Cloudflare Container](https://developers.cloudflare.com/containers/) that the Worker starts when a run needs it and that stops after five idle minutes. To set it up once:
+Deployed, the runner is a [Cloudflare Container](https://developers.cloudflare.com/containers/) that the Worker starts when the app opens and that stops after fifteen idle minutes. A stopped container takes most of a minute to start, so the first answer after a long pause is slow. To set it up once:
 
 ```sh
 claude setup-token                                    # prints a token for your subscription, good for a year
