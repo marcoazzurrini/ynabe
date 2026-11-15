@@ -3,9 +3,9 @@ import { DurableObject } from "cloudflare:workers";
 const PORT = 8080;
 
 /**
- * The container's size. It is always on, and memory is what that costs,
- * so it has little: a run peaks near 440 MB. A whole CPU keeps Claude
- * Code quick to start, and is only paid for while it works.
+ * The container's size. Memory is what an idle container costs, so it
+ * has little: a run peaks near 440 MB. A whole CPU keeps Claude Code
+ * quick to start, and is only paid for while it works.
  */
 const SIZE = { diskMb: 4000, memoryMib: 1536, vcpu: 1 };
 
@@ -13,10 +13,10 @@ const SIZE = { diskMb: 4000, memoryMib: 1536, vcpu: 1 };
 const SIZE_LABEL = `${SIZE.vcpu}-${SIZE.memoryMib}-${SIZE.diskMb}`;
 
 /**
- * How long the container stays up after the last run. Starting it again
- * takes most of a minute, so it outlasts a pause in the conversation.
+ * How long the container stays up after the last run. It then stops, so
+ * it costs nothing while nobody uses the app.
  */
-const IDLE = 15 * 60 * 1000;
+const IDLE = 10 * 60 * 1000;
 
 /**
  * Starts the runner's container when a run needs it and passes the run
@@ -40,10 +40,18 @@ export class AgentRunner extends DurableObject<Cloudflare.Env> {
   }
 
   override async fetch(request: Request): Promise<Response> {
+    const began = Date.now();
+    const asleep = !this.ctx.container?.running;
+
     this.starting ??= this.start().finally(() => {
       this.starting = undefined;
     });
     await this.starting;
+
+    // How long a stopped container takes to start is worth knowing.
+    if (asleep) {
+      console.log("Runner woke up", { ms: Date.now() - began });
+    }
 
     const { container } = this.ctx;
 
@@ -61,8 +69,8 @@ export class AgentRunner extends DurableObject<Cloudflare.Env> {
       throw new Error("The runner has no container");
     }
 
-    // An always-on container outlives a deploy. One that was started
-    // with another size is replaced, or the new size would never apply.
+    // A container can outlive a deploy. One that was started with
+    // another size is replaced, so a new size applies at once.
     if (container.running) {
       const info = await container.inspect();
 
