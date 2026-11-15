@@ -15,7 +15,9 @@
   "observability": { "enabled": true },
   // The bank sync. Synci refreshes from the banks every six hours on
   // the Basic plan, so asking more often brings nothing new.
-  "triggers": { "crons": ["15 */6 * * *"] },
+  // The second one keeps the assistant's runner awake, so no message
+  // waits for its container to start.
+  "triggers": { "crons": ["15 */6 * * *", "*/5 * * * *"] },
   // GOOGLE_CLIENT_SECRET, BETTER_AUTH_SECRET, SYNCI_API_TOKEN and
   // CLAUDE_CODE_OAUTH_TOKEN are Worker secrets, set with
   // `wrangler secret put`. Local development

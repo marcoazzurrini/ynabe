@@ -3,6 +3,16 @@ import { DurableObject } from "cloudflare:workers";
 const PORT = 8080;
 
 /**
+ * The container's size. It is always on, and memory is what that costs,
+ * so it has little: a run peaks near 440 MB. A whole CPU keeps Claude
+ * Code quick to start, and is only paid for while it works.
+ */
+const SIZE = { diskMb: 4000, memoryMib: 1536, vcpu: 1 };
+
+/** Marks a container with the size it was started with. */
+const SIZE_LABEL = `${SIZE.vcpu}-${SIZE.memoryMib}-${SIZE.diskMb}`;
+
+/**
  * How long the container stays up after the last run. Starting it again
  * takes most of a minute, so it outlasts a pause in the conversation.
  */
@@ -51,6 +61,16 @@ export class AgentRunner extends DurableObject<Cloudflare.Env> {
       throw new Error("The runner has no container");
     }
 
+    // An always-on container outlives a deploy. One that was started
+    // with another size is replaced, or the new size would never apply.
+    if (container.running) {
+      const info = await container.inspect();
+
+      if (info?.labels.size !== SIZE_LABEL) {
+        await container.destroy();
+      }
+    }
+
     if (!container.running) {
       const token = {
         CLAUDE_CODE_OAUTH_TOKEN: this.env.CLAUDE_CODE_OAUTH_TOKEN ?? "",
@@ -66,8 +86,8 @@ export class AgentRunner extends DurableObject<Cloudflare.Env> {
         enableInternet: true,
         env,
         image: container.images.runner,
-        // Claude Code needs more memory than the smallest size has.
-        instance: "standard-1",
+        instance: SIZE,
+        labels: { size: SIZE_LABEL },
       });
     }
 
