@@ -2,18 +2,12 @@ import serverEntry from "@tanstack/react-start/server-entry";
 import { afterSync, foldThread, runAssistant } from "@ynabe/agent";
 import { createDb, syncBanks, synciFeed } from "@ynabe/db";
 
-import { serveAgentTools, setupFor, wakeRunner } from "./server/assistant";
+import { serveAgentTools, setupFor } from "./server/assistant";
 import { authFor, passkeyFor, sessionFor, userFor } from "./server/auth";
 
 export { AgentRunner } from "./server/runner";
 
 const SERVER_FUNCTIONS = "/_serverFn/";
-
-/**
- * The timed run that only keeps the assistant's runner awake. It has to
- * match the second entry of `triggers.crons` in wrangler.jsonc.
- */
-const KEEP_AWAKE = "*/5 * * * *";
 
 const noStore = { "Cache-Control": "no-store" };
 
@@ -79,20 +73,13 @@ export default {
   },
 
   /**
-   * The timed runs. Every five minutes: keep the runner awake. Every six
-   * hours: bring every linked bank account up to date, let the assistant
-   * look at what is new, and tidy its conversation.
+   * The timed run: brings every linked bank account up to date, lets the
+   * assistant look at what is new, and tidies its conversation.
    */
   async scheduled(
-    controller: ScheduledController,
+    _controller: ScheduledController,
     env: Cloudflare.Env
   ): Promise<void> {
-    if (controller.cron === KEEP_AWAKE) {
-      await wakeRunner(env);
-
-      return;
-    }
-
     const assistant = setupFor(env);
 
     if (env.SYNCI_API_TOKEN) {

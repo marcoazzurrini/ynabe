@@ -29,9 +29,8 @@ const runnerFor = (env: Env): Setup["runner"] | null => {
 };
 
 /**
- * Starts the runner's container, or keeps it from going idle. A stopped
- * container takes most of a minute to start, so a timed run calls this
- * every few minutes, and the app calls it when it opens.
+ * Starts the runner's container ahead of the first message. A stopped
+ * container takes a while to start, so the app calls this when it opens.
  */
 export const wakeRunner = async (env: Env): Promise<void> => {
   // A runner started by hand is always up.
