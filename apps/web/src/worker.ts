@@ -1,4 +1,5 @@
 import serverEntry from "@tanstack/react-start/server-entry";
+import { createDb, syncBanks, synciFeed } from "@ynabe/db";
 
 import { authFor, userFor } from "./server/auth";
 import type { AuthEnv } from "./server/auth";
@@ -44,5 +45,21 @@ export default {
     }
 
     return serverEntry.fetch(request);
+  },
+
+  /** The timed run: brings every linked bank account up to date. */
+  async scheduled(
+    _controller: ScheduledController,
+    env: Cloudflare.Env
+  ): Promise<void> {
+    if (env.SYNCI_API_TOKEN) {
+      const report = await syncBanks(
+        createDb(env.DB),
+        synciFeed(env.SYNCI_API_TOKEN)
+      );
+
+      // Counts only: bank rows are private.
+      console.log("Bank sync", report);
+    }
   },
 };

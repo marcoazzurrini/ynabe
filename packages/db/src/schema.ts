@@ -5,6 +5,7 @@ import {
   primaryKey,
   sqliteTable,
   text,
+  uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
 const createdAt = () =>
@@ -77,6 +78,8 @@ export const transactions = sqliteTable(
     id: text().primaryKey(),
     memo: text(),
     payee: text().notNull(),
+    /** The bank's id for this row, so a sync never adds it twice. */
+    sourceId: text("source_id"),
     transferAccountId: text("transfer_account_id").references(
       () => accounts.id
     ),
@@ -84,5 +87,16 @@ export const transactions = sqliteTable(
   (table) => [
     index("transactions_date").on(table.date),
     index("transactions_account").on(table.accountId),
+    uniqueIndex("transactions_source").on(table.sourceId),
   ]
 );
+
+/** Which bank account, as the sync service names it, feeds which account. */
+export const bankLinks = sqliteTable("bank_links", {
+  accountId: text("account_id")
+    .notNull()
+    .references(() => accounts.id, { onDelete: "cascade" }),
+  /** Bank rows before this day are left out: statements cover them. */
+  since: text().notNull(),
+  sourceId: text("source_id").primaryKey(),
+});
