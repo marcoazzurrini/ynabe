@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { addMonths, planMonth } from "@ynabe/budget";
+import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
-import { LayoutGrid, Plus, Search, SlidersHorizontal } from "lucide-react";
+import { Zap } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import type { AutoAssignOption } from "../components/plan/month-header";
@@ -9,16 +10,10 @@ import { MonthHeader } from "../components/plan/month-header";
 import type { PlanGroup, PlanRow } from "../components/plan/table";
 import { PlanTable } from "../components/plan/table";
 import { Segmented } from "../components/segmented";
-import { Topbar } from "../components/topbar";
 import { setAssigned } from "../data/actions";
-import {
-  monthFromSearch,
-  monthName,
-  monthYear,
-  useBudget,
-} from "../data/use-budget";
+import { monthFromSearch, useBudget } from "../data/use-budget";
 
-type Filter = "all" | "attention" | "funded" | "snoozed";
+type Filter = "all" | "attention" | "funded";
 
 const matches = (row: PlanRow, filter: Filter) => {
   if (filter === "attention") {
@@ -144,63 +139,70 @@ const PlanScreen = () => {
 
   const attention = rows.filter((row) => matches(row, "attention")).length;
 
+  const under = rows.filter((row) => row.status === "underfunded").length;
+  const over = rows.filter((row) => row.status === "overspent").length;
+
   return (
-    <>
-      <Topbar
-        icon={LayoutGrid}
-        title="Plan"
-        context={`${monthName(month)} ${monthYear(month)}`}
-      />
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        <MonthHeader
-          month={month}
-          plan={plan}
-          options={options}
-          onFundAll={fundUnderfunded}
+    <div className="min-h-0 flex-1 overflow-y-auto">
+      <MonthHeader month={month} plan={plan} options={options} />
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-10 pb-2">
+        <Segmented
+          label="Filter categories"
+          value={filter}
+          onChange={setFilter}
+          options={[
+            { count: rows.length, label: "All", value: "all" },
+            {
+              count: attention,
+              label: "Needs attention",
+              value: "attention",
+            },
+            {
+              count: rows.filter((row) => matches(row, "funded")).length,
+              label: "Funded",
+              value: "funded",
+            },
+          ]}
         />
-        <div className="flex items-center justify-between px-10 pb-2">
-          <Segmented
-            label="Filter categories"
-            value={filter}
-            onChange={setFilter}
-            options={[
-              { count: rows.length, label: "All", value: "all" },
-              {
-                count: attention,
-                label: "Needs attention",
-                value: "attention",
-              },
-              {
-                count: rows.filter((row) => matches(row, "funded")).length,
-                label: "Funded",
-                value: "funded",
-              },
-              { count: 0, label: "Snoozed", value: "snoozed" },
-            ]}
-          />
-          <div className="flex items-center gap-1">
-            <Button variant="ghost">
-              <Plus />
-              Group
+        <p className="text-text-secondary flex items-center gap-2 text-[13px] font-medium">
+          {under > 0 ? (
+            <span className="flex items-center gap-2">
+              <span className="bg-progress-under size-2 rounded-[2px]" />
+              {under} need <Money cents={plan.attention.needed} />
+            </span>
+          ) : null}
+          {under > 0 && over > 0 ? (
+            <span className="text-text-disabled">·</span>
+          ) : null}
+          {over > 0 ? (
+            <span className="flex items-center gap-2">
+              <span className="bg-progress-over size-2 rounded-[2px]" />
+              {over} overspent
+            </span>
+          ) : null}
+          {under > 0 ? (
+            <Button
+              variant="link"
+              className="ml-2 h-auto px-0 font-semibold text-(--blue-ink)"
+              disabled={plan.readyToAssign < 0}
+              onClick={fundUnderfunded}
+            >
+              <Zap />
+              {plan.readyToAssign < 0
+                ? "Fix over-assignment first"
+                : "Fund them"}
             </Button>
-            <Button variant="ghost">
-              <SlidersHorizontal />
-              View
-            </Button>
-            <Button variant="ghost" size="icon" aria-label="Search categories">
-              <Search />
-            </Button>
-          </div>
-        </div>
-        <PlanTable
-          month={month}
-          groups={visible}
-          onAssign={(categoryId, amount) =>
-            setAssigned(categoryId, month, amount)
-          }
-        />
+          ) : null}
+        </p>
       </div>
-    </>
+      <PlanTable
+        month={month}
+        groups={visible}
+        onAssign={(categoryId, amount) =>
+          setAssigned(categoryId, month, amount)
+        }
+      />
+    </div>
   );
 };
 

@@ -6,7 +6,10 @@ import {
   ArrowLeftRight,
   ArrowDownLeft,
   CalendarDays,
+  Check,
   ChevronDown,
+  CircleDashed,
+  Lock,
   Split,
   Tag,
   Trash2,
@@ -19,7 +22,7 @@ import { AccountMark } from "../account-mark";
 import { CategoryIcon } from "../category-icon";
 
 const COLUMNS =
-  "grid grid-cols-[minmax(0,1fr)_300px_170px_150px_16px] items-center gap-x-6";
+  "grid grid-cols-[minmax(0,1fr)_300px_150px_20px] items-center gap-x-6";
 
 export interface LedgerRow extends LedgerTransaction {
   accountName: string;
@@ -31,17 +34,93 @@ export interface LedgerRow extends LedgerTransaction {
   guess: string | null;
 }
 
-const dayTitle = (date: string) => {
-  const today = new Date().toISOString().slice(0, 10);
-
-  const label = new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
+const dayTitle = (date: string) =>
+  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     timeZone: "UTC",
     weekday: "long",
   });
 
-  return date === today ? `Today, ${label.split(", ")[1] ?? label}` : label;
+const isToday = (date: string) =>
+  date === new Date().toISOString().slice(0, 10);
+
+const totalTone = (cents: number) => {
+  if (cents < 0) {
+    return "text-over";
+  }
+
+  return cents > 0 ? "text-inflow" : "text-text-secondary";
+};
+
+const ClearedMark = ({ cleared }: { cleared: LedgerRow["cleared"] }) => {
+  if (cleared === "uncleared") {
+    return (
+      <CircleDashed
+        className="text-text-secondary size-3.5 justify-self-center"
+        aria-label="Uncleared"
+      />
+    );
+  }
+
+  return cleared === "reconciled" ? (
+    <Lock
+      className="size-3.5 justify-self-center text-gray-400"
+      aria-label="Reconciled"
+    />
+  ) : (
+    <Check
+      className="text-gray-350 size-3.5 justify-self-center"
+      aria-label="Cleared"
+    />
+  );
+};
+
+/** The tinted band that opens a day: its date, how many rows, and the net. */
+const DayBand = ({
+  date,
+  entries,
+}: {
+  date: string;
+  entries: readonly LedgerRow[];
+}) => {
+  const today = isToday(date);
+
+  return (
+    <h2 className="bg-surface-sunken mb-1 flex h-9 items-center justify-between rounded-lg pr-3 pl-1.5 text-[13px] font-semibold">
+      <span className="flex items-center gap-3">
+        <span
+          className={cn(
+            "tabular flex size-7 items-center justify-center rounded-md font-bold",
+            today ? "bg-(--blue) text-white" : "bg-white shadow-xs"
+          )}
+          aria-hidden
+        >
+          {Number(date.slice(8))}
+        </span>
+        <span className="flex items-baseline gap-2">
+          {dayTitle(date)}
+          <span className="text-text-tertiary text-xs font-medium">
+            {entries.length}{" "}
+            {entries.length === 1 ? "transaction" : "transactions"}
+          </span>
+        </span>
+        {today ? (
+          <span className="rounded-full bg-(--blue-tint) px-[7px] py-px text-[11px] text-(--blue-ink)">
+            Today
+          </span>
+        ) : null}
+      </span>
+      <Money
+        cents={entries.reduce((sum, row) => sum + row.amount, 0)}
+        sign
+        className={cn(
+          "pr-11",
+          totalTone(entries.reduce((sum, row) => sum + row.amount, 0))
+        )}
+      />
+    </h2>
+  );
 };
 
 const Category = ({ row }: { row: LedgerRow }) => {
@@ -104,11 +183,16 @@ const Line = ({
     aria-expanded={selected}
     className={cn(
       COLUMNS,
-      "h-11 w-full rounded-[10px] px-3 text-left text-sm font-medium",
+      "focus-visible:outline-ring h-11 w-full cursor-pointer rounded-[10px] px-3 text-left text-sm font-medium focus-visible:outline-2 focus-visible:-outline-offset-2",
       !selected && "hover:bg-surface-app"
     )}
   >
     <span className="flex min-w-0 items-baseline gap-2">
+      <AccountMark
+        id={row.accountId}
+        name={row.accountName}
+        className="mr-1 self-center"
+      />
       <span className="whitespace-nowrap">{row.payee}</span>
       {row.memo ? (
         <span className="text-text-tertiary truncate text-[13px]">
@@ -117,10 +201,6 @@ const Line = ({
       ) : null}
     </span>
     <Category row={row} />
-    <span className="text-text-secondary flex items-center gap-2 text-[13px]">
-      <AccountMark id={row.accountId} />
-      {row.accountName}
-    </span>
     <Money
       cents={row.amount}
       sign
@@ -129,13 +209,7 @@ const Line = ({
         row.amount > 0 && !row.transferAccountId && "text-inflow"
       )}
     />
-    <span
-      title={row.cleared}
-      className={cn(
-        "size-2 justify-self-center rounded-full",
-        row.cleared === "uncleared" && "ring-[1.5px] ring-gray-400 ring-inset"
-      )}
-    />
+    <ClearedMark cleared={row.cleared} />
   </button>
 );
 
@@ -243,7 +317,6 @@ export const Ledger = ({ rows }: { rows: readonly LedgerRow[] }) => {
       >
         <span>Payee</span>
         <span>Category</span>
-        <span>Account</span>
         <span className="text-right">Amount</span>
         <span />
       </div>
@@ -254,19 +327,7 @@ export const Ledger = ({ rows }: { rows: readonly LedgerRow[] }) => {
       ) : null}
       {[...days].map(([date, entries]) => (
         <div key={date} className="mt-3">
-          <h2 className="flex h-9 items-center justify-between px-3 text-[13px] font-semibold">
-            <span className="flex items-baseline gap-2">
-              {dayTitle(date)}
-              <span className="text-text-tertiary font-medium">
-                {entries.length}
-              </span>
-            </span>
-            <Money
-              cents={entries.reduce((sum, row) => sum + row.amount, 0)}
-              sign
-              className="text-text-tertiary pr-[52px] font-medium"
-            />
-          </h2>
+          <DayBand date={date} entries={entries} />
           {entries.map((row) =>
             selected === row.id ? (
               <div

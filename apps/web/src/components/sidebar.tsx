@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ageOfMoney } from "@ynabe/reports";
 import { LogoTile } from "@ynabe/ui/components/logo";
 import { Money } from "@ynabe/ui/components/money";
 import {
@@ -58,7 +57,7 @@ const SectionLabel = ({ label, total }: { label: string; total: number }) => (
   </p>
 );
 
-/** Navigation, accounts and balances, and the age of money. */
+/** Navigation, accounts and balances. */
 const Avatar = ({ image }: { image: string | null }) =>
   image ? (
     <img
@@ -87,7 +86,6 @@ export const Sidebar = () => {
     return totals;
   }, [ledger]);
 
-  const age = useMemo(() => ageOfMoney(ledger), [ledger]);
   const open = accounts.filter((account) => !account.closed);
   const cash = open.filter((account) => account.kind !== "tracking");
   const tracking = open.filter((account) => account.kind === "tracking");
@@ -134,7 +132,9 @@ export const Sidebar = () => {
             aria-hidden
           />
           <span className="flex-1">{label}</span>
-          <Kbd>{shortcut}</Kbd>
+          <Kbd className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100">
+            {shortcut}
+          </Kbd>
         </Link>
       ))}
       <SectionLabel label="Cash" total={total(cash)} />
@@ -145,7 +145,7 @@ export const Sidebar = () => {
           search={{ account: account.id }}
           className="text-gray-850 flex h-[30px] items-center gap-2 rounded-lg px-2 text-[13px] font-medium hover:bg-white/60"
         >
-          <AccountMark id={account.id} />
+          <AccountMark id={account.id} name={account.name} />
           <span className="flex-1">{account.name}</span>
           <Money
             cents={balances.get(account.id) ?? 0}
@@ -176,25 +176,6 @@ export const Sidebar = () => {
         </button>
       </div>
       <div className="flex-1" />
-      <section className="mb-2.5 flex flex-col gap-2 rounded-[10px] bg-white p-3 text-xs font-medium shadow-xs">
-        <p className="flex items-center justify-between">
-          Age of money
-          <span className="text-funded">
-            {age === null ? "—" : `${age} days`}
-          </span>
-        </p>
-        <div className="bg-progress-track h-1 rounded-full">
-          <div
-            className="bg-progress-funded h-1 rounded-full"
-            style={{ width: `${Math.min(100, ((age ?? 0) / 180) * 100)}%` }}
-          />
-        </div>
-        <p className="text-text-tertiary text-[11px] leading-[15px]">
-          {age === null
-            ? "Shows once you have income and spending."
-            : `You’re spending money that’s about ${Math.max(1, Math.round(age / 30))} months old.`}
-        </p>
-      </section>
       <div className="border-border flex items-center justify-between border-t px-2 pt-2 text-[13px] font-medium text-gray-600">
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:text-text-primary flex items-center gap-2 rounded-md py-0.5 pr-1.5">

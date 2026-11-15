@@ -3,13 +3,14 @@ import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
 import { cn } from "@ynabe/ui/lib/utils";
 import {
+  CircleCheck,
   FileUp,
-  Landmark,
   Plus,
   RefreshCw,
   Scale,
   Search,
   SlidersHorizontal,
+  X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -17,7 +18,6 @@ import { AccountMark } from "../components/account-mark";
 import type { LedgerRow } from "../components/accounts/ledger";
 import { Ledger } from "../components/accounts/ledger";
 import { Segmented } from "../components/segmented";
-import { Topbar } from "../components/topbar";
 import { syncBanks } from "../data/actions";
 import { useBudget } from "../data/use-budget";
 
@@ -146,6 +146,10 @@ const SyncButton = () => {
   );
 };
 
+const ActiveCheck = () => (
+  <CircleCheck className="size-4 shrink-0 text-(--blue)" aria-hidden />
+);
+
 const AccountsScreen = () => {
   const { account: accountFilter } = Route.useSearch();
   const { accounts, categories, groups, ledger } = useBudget();
@@ -182,137 +186,170 @@ const AccountsScreen = () => {
 
   const visible = inAccount.filter((row) => matchesFilter(row, filter, search));
 
+  const selected = accounts.find((account) => account.id === accountFilter);
+
   const card =
     "flex flex-1 flex-col gap-2 rounded-xl bg-white px-4 py-3.5 shadow-card";
 
+  // The card whose transactions are listed: outlined, tinted, and checked.
+  const active =
+    "bg-surface-selected shadow-[0_0_0_2px_var(--blue),var(--elevation-card)]";
+
+  const activeName = "text-text-primary font-semibold";
+
   return (
-    <>
-      <Topbar
-        icon={Landmark}
-        title="All Accounts"
-        context={`${accounts.length} accounts · ${ledger.length} transactions`}
-      />
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        <section className="flex flex-col gap-6 px-10 pt-9 pb-6">
-          <div className="flex items-center justify-between">
+    <div className="min-h-0 flex-1 overflow-y-auto">
+      <section className="flex flex-col gap-6 px-10 pt-7 pb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3.5">
+            {selected ? (
+              <AccountMark
+                id={selected.id}
+                name={selected.name}
+                className="size-9 rounded-[9px] text-xl"
+              />
+            ) : null}
             <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
-              Accounts
+              {selected?.name ?? "Accounts"}
             </h1>
-            <div className="flex gap-2">
-              <Button variant="ghost">
-                <Scale />
-                Reconcile
-              </Button>
-              <SyncButton />
-              <Button variant="outline">
-                <FileUp />
-                Import
-              </Button>
-              <Button>
-                <Plus />
-                Add transaction
-              </Button>
-            </div>
+            {selected ? (
+              <Link
+                to="/accounts"
+                search={{}}
+                className="bg-surface-sunken text-text-secondary ml-1.5 flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold whitespace-nowrap"
+              >
+                <X className="size-[13px]" aria-hidden />
+                Show all accounts
+              </Link>
+            ) : null}
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-2">
+            <Button variant="ghost">
+              <Scale />
+              Reconcile
+            </Button>
+            <SyncButton />
+            <Button variant="outline">
+              <FileUp />
+              Import
+            </Button>
+            <Button>
+              <Plus />
+              Add transaction
+            </Button>
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <Link
+            to="/accounts"
+            search={{}}
+            aria-current={accountFilter === undefined ? "true" : undefined}
+            className={cn(
+              card,
+              "flex-[1.2]",
+              accountFilter === undefined && active
+            )}
+          >
+            <span className="text-text-secondary flex items-center gap-2 text-[13px] font-medium">
+              <span
+                className={cn(
+                  "flex-1",
+                  accountFilter === undefined && activeName
+                )}
+              >
+                All accounts
+              </span>
+              <span className="text-text-tertiary text-xs">
+                {accounts.length}
+              </span>
+              {accountFilter === undefined ? <ActiveCheck /> : null}
+            </span>
+            <Money
+              cents={balance()}
+              className="text-xl leading-6 font-semibold tracking-tight"
+            />
+            <span className="text-text-tertiary text-xs font-medium">
+              <Money
+                cents={uncleared().reduce((sum, row) => sum + row.amount, 0)}
+              />{" "}
+              uncleared
+            </span>
+          </Link>
+          {open.map((account) => (
             <Link
+              key={account.id}
               to="/accounts"
-              search={{}}
-              className={cn(
-                card,
-                "flex-[1.2]",
-                accountFilter === undefined &&
-                  "shadow-[0_0_0_1.5px_var(--text-primary),var(--elevation-card)]"
-              )}
+              search={{ account: account.id }}
+              aria-current={accountFilter === account.id ? "true" : undefined}
+              className={cn(card, accountFilter === account.id && active)}
             >
               <span className="text-text-secondary flex items-center gap-2 text-[13px] font-medium">
-                <span className="flex-1">All accounts</span>
-                <span className="text-text-tertiary text-xs">
-                  {accounts.length}
+                <AccountMark id={account.id} name={account.name} />
+                <span
+                  className={cn(
+                    "flex-1",
+                    accountFilter === account.id && activeName
+                  )}
+                >
+                  {account.name}
                 </span>
+                <span className="text-text-tertiary text-xs">
+                  {kindLabel.get(account.kind) ?? account.kind}
+                </span>
+                {accountFilter === account.id ? <ActiveCheck /> : null}
               </span>
               <Money
-                cents={balance()}
+                cents={balance(account.id)}
                 className="text-xl leading-6 font-semibold tracking-tight"
               />
               <span className="text-text-tertiary text-xs font-medium">
-                <Money
-                  cents={uncleared().reduce((sum, row) => sum + row.amount, 0)}
-                />{" "}
-                uncleared
+                {uncleared(account.id).length === 0
+                  ? "All cleared"
+                  : `${uncleared(account.id).length} uncleared`}
               </span>
             </Link>
-            {open.map((account) => (
-              <Link
-                key={account.id}
-                to="/accounts"
-                search={{ account: account.id }}
-                className={cn(
-                  card,
-                  accountFilter === account.id &&
-                    "shadow-[0_0_0_1.5px_var(--text-primary),var(--elevation-card)]"
-                )}
-              >
-                <span className="text-text-secondary flex items-center gap-2 text-[13px] font-medium">
-                  <AccountMark id={account.id} />
-                  <span className="flex-1">{account.name}</span>
-                  <span className="text-text-tertiary text-xs">
-                    {kindLabel.get(account.kind) ?? account.kind}
-                  </span>
-                </span>
-                <Money
-                  cents={balance(account.id)}
-                  className="text-xl leading-6 font-semibold tracking-tight"
-                />
-                <span className="text-text-tertiary text-xs font-medium">
-                  {uncleared(account.id).length === 0
-                    ? "All cleared"
-                    : `${uncleared(account.id).length} uncleared`}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-        <div className="flex items-center justify-between px-10 pb-2">
-          <Segmented
-            label="Filter transactions"
-            value={filter}
-            onChange={setFilter}
-            options={[
-              { label: "All", value: "all" },
-              {
-                count: inAccount.filter((row) => row.cleared === "uncleared")
-                  .length,
-                label: "Uncleared",
-                value: "uncleared",
-              },
-              {
-                count: needsCategory.length,
-                label: "Needs a category",
-                value: "uncategorized",
-              },
-              { label: "Transfers", value: "transfers" },
-            ]}
-          />
-          <div className="flex items-center gap-1">
-            <Button variant="ghost">
-              <SlidersHorizontal />
-              View
-            </Button>
-            <label className="border-border-control text-text-tertiary flex h-8 w-[280px] items-center gap-2 rounded-[10px] border bg-white px-2.5 text-[13px] font-medium">
-              <Search className="size-3.5" aria-hidden />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search transactions"
-                className="text-text-primary placeholder:text-text-tertiary flex-1 bg-transparent outline-none"
-              />
-            </label>
-          </div>
+          ))}
         </div>
-        <Ledger rows={visible} />
+      </section>
+      <div className="flex items-center justify-between px-10 pb-2">
+        <Segmented
+          label="Filter transactions"
+          value={filter}
+          onChange={setFilter}
+          options={[
+            { label: "All", value: "all" },
+            {
+              count: inAccount.filter((row) => row.cleared === "uncleared")
+                .length,
+              label: "Uncleared",
+              value: "uncleared",
+            },
+            {
+              count: needsCategory.length,
+              label: "Needs a category",
+              value: "uncategorized",
+            },
+            { label: "Transfers", value: "transfers" },
+          ]}
+        />
+        <div className="flex items-center gap-1">
+          <Button variant="ghost">
+            <SlidersHorizontal />
+            View
+          </Button>
+          <label className="border-border-control text-text-tertiary flex h-8 w-[280px] items-center gap-2 rounded-[10px] border bg-white px-2.5 text-[13px] font-medium">
+            <Search className="size-3.5" aria-hidden />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search transactions"
+              className="text-text-primary placeholder:text-text-tertiary flex-1 bg-transparent outline-none"
+            />
+          </label>
+        </div>
       </div>
-    </>
+      <Ledger rows={visible} />
+    </div>
   );
 };
 

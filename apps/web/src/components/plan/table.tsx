@@ -263,8 +263,10 @@ const Row = ({
       aria-expanded={selected}
       className={cn(
         COLUMNS,
-        "h-11 w-full rounded-[10px] px-3 text-left text-sm font-medium",
-        !selected && "hover:bg-surface-app"
+        "focus-visible:outline-ring h-11 w-full cursor-pointer pr-3 pl-10 text-left text-sm font-medium focus-visible:outline-2 focus-visible:-outline-offset-2",
+        selected
+          ? "rounded-[10px]"
+          : "border-border-subtle hover:bg-surface-app border-b"
       )}
     >
       <span className="flex min-w-0 items-center gap-3">
@@ -293,6 +295,53 @@ const Row = ({
       {line}
       <Detail row={row} onAssign={onAssign} />
     </div>
+  );
+};
+
+/** How a group's categories stand: a segmented bar and the same in words. */
+const Tally = ({ rows }: { rows: readonly PlanRow[] }) => {
+  const count = (...statuses: CategoryPlan["status"][]) =>
+    rows.filter((row) => statuses.includes(row.status)).length;
+
+  const segments = [
+    {
+      color: "bg-progress-funded",
+      count: count("funded", "available"),
+      label: "funded",
+    },
+    {
+      color: "bg-progress-under",
+      count: count("underfunded"),
+      label: "need money",
+    },
+    {
+      color: "bg-progress-over",
+      count: count("overspent"),
+      label: "overspent",
+    },
+    { color: "bg-gray-300", count: count("empty"), label: "no target" },
+  ].filter((segment) => segment.count > 0);
+
+  return (
+    <span className="flex items-center gap-3">
+      <span
+        className="bg-progress-track flex h-1.5 w-24 shrink-0 gap-0.5 overflow-hidden rounded-full"
+        aria-hidden
+      >
+        {segments.map((segment) => (
+          <span
+            key={segment.label}
+            className={segment.color}
+            style={{ flex: segment.count }}
+          />
+        ))}
+      </span>
+      <span className="text-text-secondary text-xs font-medium whitespace-nowrap">
+        {segments
+          .map((segment) => `${segment.count} ${segment.label}`)
+          .join(" · ")}
+      </span>
+    </span>
   );
 };
 
@@ -330,7 +379,7 @@ export const PlanTable = ({ month, groups, onAssign }: PlanTableProps) => {
         const closed = collapsed.includes(group.id);
 
         return (
-          <div key={group.id} className="mt-3">
+          <div key={group.id} className="mt-4">
             <button
               type="button"
               aria-expanded={!closed}
@@ -343,38 +392,38 @@ export const PlanTable = ({ month, groups, onAssign }: PlanTableProps) => {
               }
               className={cn(
                 COLUMNS,
-                "h-10 w-full px-3 text-left text-[13px] font-semibold"
+                "group bg-surface-sunken focus-visible:outline-ring h-12 w-full cursor-pointer rounded-[10px] px-3 text-left text-sm font-semibold transition-colors hover:bg-(--gray-150) focus-visible:outline-2 focus-visible:outline-offset-2"
               )}
             >
               <span className="flex items-center gap-2">
                 {closed ? (
                   <ChevronRight
-                    className="text-text-tertiary size-3.5"
+                    className="text-text-secondary group-hover:text-text-primary size-4"
                     aria-hidden
                   />
                 ) : (
                   <ChevronDown
-                    className="text-text-tertiary size-3.5"
+                    className="text-text-secondary group-hover:text-text-primary size-4"
                     aria-hidden
                   />
                 )}
-                {group.name}
-                <span className="text-text-tertiary font-medium">
+                <span className="text-[15px]">{group.name}</span>
+                <span className="text-text-tertiary tabular rounded-full bg-white px-[7px] py-px text-xs">
                   {group.rows.length}
                 </span>
               </span>
-              <span />
+              <Tally rows={group.rows} />
               <Money
                 cents={group.rows.reduce((sum, row) => sum + row.assigned, 0)}
-                className="text-text-tertiary text-right font-medium"
+                className="text-right"
               />
               <Money
                 cents={-group.rows.reduce((sum, row) => sum + row.activity, 0)}
-                className="text-text-tertiary text-right font-medium"
+                className="text-right"
               />
               <Money
                 cents={group.rows.reduce((sum, row) => sum + row.available, 0)}
-                className="text-text-secondary pr-2.5 text-right"
+                className="pr-2.5 text-right"
               />
             </button>
             {closed

@@ -18,7 +18,6 @@ import {
   ChevronRight,
   CircleAlert,
   Wrench,
-  Zap,
 } from "lucide-react";
 
 import {
@@ -28,6 +27,7 @@ import {
   previousMonth,
 } from "../../data/use-budget";
 import { useAgent } from "../agent/state";
+import { BackToToday } from "../month-control";
 
 export interface AutoAssignOption {
   label: string;
@@ -40,10 +40,10 @@ interface MonthHeaderProps {
   month: string;
   plan: MonthPlan;
   options: readonly AutoAssignOption[];
-  onFundAll: () => void;
 }
 
-const MonthNav = ({ month }: { month: string }) => (
+/** The month as the page title, with arrows to step through months. */
+const MonthTitle = ({ month }: { month: string }) => (
   <div className="flex items-center gap-4">
     <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
       {monthName(month)}{" "}
@@ -82,6 +82,7 @@ const MonthNav = ({ month }: { month: string }) => (
         <ChevronRight />
       </Button>
     </div>
+    <BackToToday month={month} />
   </div>
 );
 
@@ -178,146 +179,25 @@ const ReadyToAssign = ({
   );
 };
 
-const FundingMeter = ({
-  month,
-  plan,
-  onFundAll,
-}: {
-  month: string;
-  plan: MonthPlan;
-  onFundAll: () => void;
-}) => {
-  const withTargets = plan.categories.filter(
-    (category) =>
-      category.status !== "empty" &&
-      (category.needed > 0 ||
-        category.status === "funded" ||
-        category.status === "overspent")
-  );
-
-  const under = plan.categories.filter(
-    (category) => category.status === "underfunded"
-  ).length;
-
-  const over = plan.categories.filter(
-    (category) => category.status === "overspent"
-  ).length;
-
-  const onTrack = Math.max(0, withTargets.length - under - over);
-  const negative = plan.readyToAssign < 0;
-
-  const segments = [
-    {
-      color: "bg-progress-funded",
-      count: onTrack,
-      label: `${onTrack} on track`,
-    },
-    { color: "bg-progress-under", count: under, label: `${under} need ` },
-    { color: "bg-progress-over", count: over, label: `${over} overspent` },
-  ];
-
-  return (
-    <div className="shadow-card flex max-w-[640px] flex-1 flex-col gap-3 rounded-[14px] bg-white px-5 py-4">
-      <div className="flex items-baseline justify-between gap-4">
-        <p>
-          <span className="text-[22px] font-semibold tracking-tight">
-            {Math.round(plan.funded * 100)}%
-          </span>
-          <span className="text-text-tertiary text-[13px] font-medium">
-            {" "}
-            of {monthName(month)}’s targets funded
-          </span>
-        </p>
-        <Button
-          variant="outline"
-          disabled={under === 0 || negative}
-          onClick={onFundAll}
-        >
-          <Zap />
-          {negative ? (
-            "Fix over-assignment first"
-          ) : (
-            <>
-              Fund {under} {under === 1 ? "category" : "categories"} ·{" "}
-              <Money cents={plan.attention.needed} />
-            </>
-          )}
-        </Button>
-      </div>
-      <div className="flex h-1.5 gap-1">
-        {segments.map((segment) =>
-          segment.count > 0 ? (
-            <div
-              key={segment.color}
-              className={cn("rounded-full", segment.color)}
-              style={{ flex: segment.count }}
-            />
-          ) : null
-        )}
-      </div>
-      <ul className="text-text-tertiary flex gap-5 text-xs font-medium">
-        {segments.map((segment, index) => (
-          <li key={segment.color} className="flex items-center gap-2">
-            <span className={cn("size-2 rounded-[2px]", segment.color)} />
-            {segment.label}
-            {index === 1 ? <Money cents={plan.attention.needed} /> : null}
-          </li>
-        ))}
-      </ul>
+/** The month title with its arrows, and Ready to Assign. */
+export const MonthHeader = ({ month, plan, options }: MonthHeaderProps) => (
+  <section className="flex flex-col gap-5 px-10 pt-7 pb-6">
+    <div className="flex items-center justify-between gap-6">
+      <MonthTitle month={month} />
+      <ReadyToAssign plan={plan} options={options} />
     </div>
-  );
-};
-
-const Stat = ({ label, cents }: { label: string; cents: number }) => (
-  <p className="flex justify-between gap-6 text-[13px] font-medium">
-    <span className="text-text-tertiary">{label}</span>
-    <Money cents={cents} className="text-text-secondary" />
-  </p>
+    {plan.readyToAssign < 0 ? (
+      <p className="bg-over-bg text-over ring-over-border flex items-center gap-3 rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium ring-1 ring-inset">
+        <CircleAlert className="size-[15px]" aria-hidden />
+        <span className="flex-1">
+          You’ve assigned <Money cents={-plan.readyToAssign} /> more than you
+          have. Take it back from a category to fix it.
+        </span>
+        <Button variant="outline">
+          Show where it went
+          <ArrowRight />
+        </Button>
+      </p>
+    ) : null}
+  </section>
 );
-
-/** Month picker, Ready to Assign, target funding, and the month in numbers. */
-export const MonthHeader = ({
-  month,
-  plan,
-  options,
-  onFundAll,
-}: MonthHeaderProps) => {
-  const leftOver = plan.available - plan.assigned - plan.activity;
-
-  return (
-    <section className="flex flex-col gap-6 px-10 pt-9 pb-7">
-      <MonthNav month={month} />
-      <div className="flex items-stretch gap-5">
-        <ReadyToAssign plan={plan} options={options} />
-        <FundingMeter month={month} plan={plan} onFundAll={onFundAll} />
-        <div className="border-border-subtle flex w-[260px] flex-col justify-center gap-2 border-l pl-5">
-          <Stat
-            label={`Left over from ${monthName(previousMonth(month)).slice(0, 3)}`}
-            cents={leftOver}
-          />
-          <Stat
-            label={`Assigned in ${monthName(month).slice(0, 3)}`}
-            cents={plan.assigned}
-          />
-          <Stat
-            label={`Spent in ${monthName(month).slice(0, 3)}`}
-            cents={-plan.activity}
-          />
-        </div>
-      </div>
-      {plan.readyToAssign < 0 ? (
-        <p className="bg-over-bg text-over ring-over-border flex items-center gap-3 rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium ring-1 ring-inset">
-          <CircleAlert className="size-[15px]" aria-hidden />
-          <span className="flex-1">
-            You’ve assigned <Money cents={-plan.readyToAssign} /> more than you
-            have. Take it back from a category to fix it.
-          </span>
-          <Button variant="outline">
-            Show where it went
-            <ArrowRight />
-          </Button>
-        </p>
-      ) : null}
-    </section>
-  );
-};

@@ -77,7 +77,7 @@ const Frame = ({
   subtitle: string;
   children: ReactNode;
 }) => (
-  <main className="bg-surface-app relative flex h-dvh flex-col items-center justify-center bg-[linear-gradient(90deg,rgb(0_0_0/0.035)_1px,transparent_1px)] bg-[length:160px_100%]">
+  <main className="bg-surface-app relative flex h-dvh flex-col items-center justify-center">
     <section className="shadow-window flex w-[440px] flex-col items-center gap-6 rounded-2xl bg-white px-10 pt-10 pb-8">
       <LogoTile size={40} className="shadow-button rounded-[11px]" />
       <div className="flex flex-col items-center gap-2 text-center">

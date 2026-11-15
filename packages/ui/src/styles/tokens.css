@@ -31,8 +31,9 @@
   /* Text */
   --text-primary: var(--ink);
   --text-secondary: var(--gray-700);
-  --text-tertiary: var(--gray-500);
-  --text-disabled: var(--gray-400);
+  /* Tertiary stays at 4.5:1 on white so small labels remain readable. */
+  --text-tertiary: var(--gray-600);
+  --text-disabled: var(--gray-500);
 
   /* Surfaces and borders */
   --surface-app: var(--gray-25);
@@ -69,8 +70,9 @@
   --chart-2: #eb6834;
   --chart-3: #1baf7a;
   --chart-other: #b5bcc7;
-  --chart-4: #b5bcc7;
-  --chart-5: #8e96a4;
+  --chart-4: #9b69ff;
+  --chart-5: #d99a00;
+  --chart-6: #e0559b;
   --seq-0: #f2f3f5;
   --seq-1: #e6effc;
   --seq-2: #bcd5f6;

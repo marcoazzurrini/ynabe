@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { READY_TO_ASSIGN } from "@ynabe/budget";
 import { spendingReport } from "@ynabe/reports";
 import type { SpendingReport } from "@ynabe/reports";
@@ -6,11 +6,9 @@ import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
 import { cn } from "@ynabe/ui/lib/utils";
 import {
-  CalendarDays,
   ChartLine,
+  ChartPie,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Download,
   FileUp,
 } from "lucide-react";
@@ -27,16 +25,22 @@ import {
   percent,
 } from "../components/reflect/parts";
 import { Segmented } from "../components/segmented";
+import { Topbar } from "../components/topbar";
 import {
   monthFromSearch,
   monthName,
-  monthYear,
-  nextMonth,
   previousMonth,
   useBudget,
 } from "../data/use-budget";
 
-const PALETTE = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)"];
+const PALETTE = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-6)",
+];
 
 const TABS = [
   "Spending",
@@ -140,31 +144,6 @@ const kpisFor = ({
   ];
 };
 
-const MonthPicker = ({ month }: { month: string }) => (
-  <div className="border-border-control flex overflow-hidden rounded-[10px] border bg-white">
-    <Link
-      to="."
-      search={(previous) => ({ ...previous, month: previousMonth(month) })}
-      aria-label="Previous month"
-      className="flex size-8 items-center justify-center border-r border-gray-200"
-    >
-      <ChevronLeft className="size-[15px]" />
-    </Link>
-    <span className="flex h-8 items-center gap-2 px-3 text-[13px] font-medium">
-      <CalendarDays className="size-3.5" aria-hidden />
-      {monthName(month)} {monthYear(month)}
-    </span>
-    <Link
-      to="."
-      search={(previous) => ({ ...previous, month: nextMonth(month) })}
-      aria-label="Next month"
-      className="flex size-8 items-center justify-center border-l border-gray-200"
-    >
-      <ChevronRight className="size-[15px]" />
-    </Link>
-  </div>
-);
-
 const SpendingTable = ({ report }: { report: SpendingReport }) => (
   <Card
     title="Spending table"
@@ -204,15 +183,15 @@ const SpendingTable = ({ report }: { report: SpendingReport }) => (
 );
 
 const Charts = ({ report, name }: { report: SpendingReport; name: string }) => {
-  // The three biggest groups keep their colors; the rest share "Other".
+  // The biggest groups each get a color; any beyond the palette share "Other".
   const colors = new Map(
     report.groups
-      .slice(0, 3)
+      .slice(0, PALETTE.length)
       .map((group, index) => [group.id, PALETTE[index] ?? "var(--chart-other)"])
   );
 
   const other = report.groups
-    .slice(3)
+    .slice(PALETTE.length)
     .reduce((sum, group) => sum + group.spent, 0);
 
   const empty = report.spent === 0;
@@ -304,7 +283,7 @@ const Charts = ({ report, name }: { report: SpendingReport; name: string }) => {
         ) : (
           <>
             <div className="flex h-2 gap-0.5" aria-hidden>
-              {report.groups.slice(0, 3).map((group) => (
+              {report.groups.slice(0, PALETTE.length).map((group) => (
                 <span
                   key={group.id}
                   className="rounded-sm"
@@ -375,6 +354,7 @@ const ReflectScreen = () => {
 
   return (
     <>
+      <Topbar icon={ChartPie} title="Reflect" month={month} />
       <div className="border-border flex h-[52px] shrink-0 items-center justify-between border-b px-10">
         <nav className="flex items-center gap-7" aria-label="Reports">
           {TABS.map((tab, index) => (
@@ -394,7 +374,6 @@ const ReflectScreen = () => {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <MonthPicker month={month} />
           <Button variant="outline">
             All accounts
             <ChevronDown />
