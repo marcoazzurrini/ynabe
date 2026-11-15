@@ -97,7 +97,18 @@ export const Route = createRootRoute({
   component: App,
   errorComponent: ErrorScreen,
   head: () => ({
-    links: [{ href: globals, rel: "stylesheet" }],
+    links: [
+      { href: globals, rel: "stylesheet" },
+      { href: "/favicon.svg", rel: "icon", type: "image/svg+xml" },
+      {
+        href: "/favicon-32.png",
+        rel: "icon",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      { href: "/apple-touch-icon.png", rel: "apple-touch-icon" },
+      { href: "/site.webmanifest", rel: "manifest" },
+    ],
     meta: [
       { charSet: "utf-8" },
       { content: "width=device-width, initial-scale=1", name: "viewport" },

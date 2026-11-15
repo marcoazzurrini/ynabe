@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ageOfMoney } from "@ynabe/reports";
+import { LogoTile } from "@ynabe/ui/components/logo";
 import { Money } from "@ynabe/ui/components/money";
 import {
   DropdownMenu,
@@ -101,10 +102,7 @@ export const Sidebar = () => {
         type="button"
         className="flex h-11 items-center gap-2 rounded-lg px-1.5 text-left hover:bg-white/60"
       >
-        <span className="bg-text-primary relative size-6 shrink-0 rounded-[7px]">
-          <span className="absolute top-[6px] left-[7px] h-[11px] w-[2.5px] rounded-full bg-white" />
-          <span className="absolute top-[14px] left-[7px] h-[2.5px] w-[9px] rounded-full bg-white" />
-        </span>
+        <LogoTile size={24} />
         <span className="flex min-w-0 flex-1 flex-col">
           <span className="text-sm font-semibold tracking-tight">
             {firstName ? `${firstName}’s Budget` : "Budget"}

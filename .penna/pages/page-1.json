@@ -6149,6 +6149,356 @@
      ]
     }
    ]
+  },
+  {
+   "id": "H47Xa",
+   "type": "frame",
+   "name": "Brand",
+   "style": {
+    "borderBottom": "1px solid var(--border-default)"
+   },
+   "children": [
+    {
+     "id": "nq6uL",
+     "type": "frame",
+     "class": "flex flex-col gap-3",
+     "style": {
+      "padding": "56px 64px 32px"
+     },
+     "children": [
+      {
+       "id": "bW4jW",
+       "type": "text",
+       "text": "08 · Brand",
+       "style": {
+        "alignSelf": "flex-start",
+        "height": 24,
+        "padding": "0 6px",
+        "display": "flex",
+        "alignItems": "center",
+        "borderRadius": 8,
+        "background": "var(--accent-subtle)",
+        "color": "var(--accent-fg)",
+        "fontSize": 13,
+        "fontWeight": 500
+       },
+       "name": "08 · Brand"
+      },
+      {
+       "id": "FnHwG",
+       "type": "text",
+       "spans": [
+        {
+         "text": "One ring, one gap, one coin landing in it. "
+        },
+        {
+         "text": "Zero-based: every euro gets a job, and the circle closes. Ink ring, funded-green coin.",
+         "style": {
+          "color": "var(--gray-600)"
+         }
+        }
+       ],
+       "style": {
+        "fontSize": 32,
+        "lineHeight": "38px",
+        "fontWeight": 500,
+        "letterSpacing": "-0.01em",
+        "maxWidth": 860
+       },
+       "name": "One ring, one gap, one …"
+      }
+     ],
+     "name": "Frame"
+    },
+    {
+     "id": "sckJG",
+     "type": "frame",
+     "class": "flex flex-wrap gap-8",
+     "style": {
+      "padding": "0 64px 56px"
+     },
+     "children": [
+      {
+       "id": "FU2Uw",
+       "type": "frame",
+       "name": "Mark card",
+       "class": "flex flex-col gap-3",
+       "children": [
+        {
+         "id": "9xkUU",
+         "type": "frame",
+         "class": "flex items-center justify-center gap-6",
+         "style": {
+          "width": 280,
+          "height": 200,
+          "borderRadius": 12,
+          "background": "var(--surface-sunken)"
+         },
+         "children": [
+          {
+           "id": "5x4K9",
+           "type": "svg",
+           "name": "Brand/Logo",
+           "component": true,
+           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"96\" height=\"96\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#1a1b1e\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></svg>",
+           "style": {
+            "width": 96,
+            "height": 96,
+            "flexShrink": 0
+           }
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "6NMhk",
+         "type": "text",
+         "text": "Brand/Logo · bare mark, ring takes text color",
+         "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": 11,
+          "lineHeight": "16px",
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Brand/Logo · bare mark,…"
+        }
+       ]
+      },
+      {
+       "id": "hEsKH",
+       "type": "frame",
+       "name": "Tile card",
+       "class": "flex flex-col gap-3",
+       "children": [
+        {
+         "id": "Gudz9",
+         "type": "frame",
+         "class": "flex items-center justify-center gap-6",
+         "style": {
+          "width": 280,
+          "height": 200,
+          "borderRadius": 12,
+          "background": "var(--surface-sunken)"
+         },
+         "children": [
+          {
+           "id": "AAUeT",
+           "type": "svg",
+           "name": "Brand/Logo Tile",
+           "component": true,
+           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"96\" height=\"96\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" rx=\"28\" fill=\"#1a1b1e\"/><g transform=\"translate(50 50) scale(0.8) translate(-50 -50)\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></g></svg>",
+           "style": {
+            "width": 96,
+            "height": 96,
+            "flexShrink": 0,
+            "borderRadius": 27,
+            "boxShadow": "var(--shadow-btn)"
+           }
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "ywdex",
+         "type": "text",
+         "text": "Brand/Logo Tile · app icon, favicon, sign-in",
+         "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": 11,
+          "lineHeight": "16px",
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Brand/Logo Tile · app i…"
+        }
+       ]
+      },
+      {
+       "id": "iqZuB",
+       "type": "frame",
+       "name": "Sizes card",
+       "class": "flex flex-col gap-3",
+       "children": [
+        {
+         "id": "2BxrD",
+         "type": "frame",
+         "class": "flex items-center justify-center gap-6",
+         "style": {
+          "width": 280,
+          "height": 200,
+          "borderRadius": 12,
+          "background": "var(--surface-sunken)"
+         },
+         "children": [
+          {
+           "id": "ysdW6",
+           "type": "svg",
+           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" rx=\"28\" fill=\"#1a1b1e\"/><g transform=\"translate(50 50) scale(0.8) translate(-50 -50)\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></g></svg>",
+           "style": {
+            "width": 40,
+            "height": 40,
+            "borderRadius": 11
+           },
+           "name": "Vector"
+          },
+          {
+           "id": "9USCF",
+           "type": "svg",
+           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" rx=\"28\" fill=\"#1a1b1e\"/><g transform=\"translate(50 50) scale(0.8) translate(-50 -50)\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></g></svg>",
+           "style": {
+            "width": 24,
+            "height": 24,
+            "borderRadius": 7
+           },
+           "name": "Vector"
+          },
+          {
+           "id": "9deDM",
+           "type": "svg",
+           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" rx=\"28\" fill=\"#1a1b1e\"/><g transform=\"translate(50 50) scale(0.8) translate(-50 -50)\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></g></svg>",
+           "style": {
+            "width": 16,
+            "height": 16,
+            "borderRadius": 4.5
+           },
+           "name": "Vector"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "XWAkV",
+         "type": "text",
+         "text": "40 sign-in · 24 sidebar · 16 favicon",
+         "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": 11,
+          "lineHeight": "16px",
+          "color": "var(--text-tertiary)"
+         },
+         "name": "40 sign-in · 24 sidebar…"
+        }
+       ]
+      },
+      {
+       "id": "4rhyP",
+       "type": "frame",
+       "name": "Wordmark card",
+       "class": "flex flex-col gap-3",
+       "children": [
+        {
+         "id": "fwUjB",
+         "type": "frame",
+         "class": "flex items-center justify-center gap-6",
+         "style": {
+          "width": 280,
+          "height": 200,
+          "borderRadius": 12,
+          "background": "var(--surface-sunken)"
+         },
+         "children": [
+          {
+           "id": "pmRa9",
+           "type": "frame",
+           "name": "Brand/Wordmark",
+           "component": true,
+           "class": "flex items-center",
+           "style": {
+            "gap": 11
+           },
+           "children": [
+            {
+             "id": "TNi72",
+             "type": "svg",
+             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#1a1b1e\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></svg>",
+             "style": {
+              "width": 32,
+              "height": 32,
+              "flexShrink": 0
+             },
+             "name": "Vector"
+            },
+            {
+             "id": "zeG7B",
+             "type": "text",
+             "text": "ynabe",
+             "style": {
+              "fontSize": 24,
+              "lineHeight": 1,
+              "fontWeight": 600,
+              "letterSpacing": "-0.035em",
+              "color": "var(--ink)"
+             },
+             "name": "ynabe"
+            }
+           ]
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "B3hwd",
+         "type": "text",
+         "text": "Brand/Wordmark · Inter 600, −3.5% tracking",
+         "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": 11,
+          "lineHeight": "16px",
+          "color": "var(--text-tertiary)"
+         },
+         "name": "Brand/Wordmark · Inter …"
+        }
+       ]
+      },
+      {
+       "id": "uKceN",
+       "type": "frame",
+       "name": "Dark card",
+       "class": "flex flex-col gap-3",
+       "children": [
+        {
+         "id": "hhzBa",
+         "type": "frame",
+         "class": "flex items-center justify-center gap-6",
+         "style": {
+          "width": 280,
+          "height": 200,
+          "borderRadius": 12,
+          "background": "#0c0c0c"
+         },
+         "children": [
+          {
+           "id": "jqXfE",
+           "type": "svg",
+           "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"96\" height=\"96\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"50\" r=\"27\" fill=\"none\" stroke=\"#f9f9fa\" stroke-width=\"12\" stroke-linecap=\"round\" pathLength=\"100\" stroke-dasharray=\"82 18\"/><circle cx=\"72.8\" cy=\"35.53\" r=\"7\" fill=\"#2bbd7e\"/></svg>",
+           "style": {
+            "width": 96,
+            "height": 96
+           },
+           "name": "Vector"
+          }
+         ],
+         "name": "Frame"
+        },
+        {
+         "id": "eAcV6",
+         "type": "text",
+         "text": "On dark · ring flips to light",
+         "style": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": 11,
+          "lineHeight": "16px",
+          "color": "var(--text-tertiary)"
+         },
+         "name": "On dark · ring flips to…"
+        }
+       ]
+      }
+     ],
+     "name": "Frame"
+    }
+   ],
+   "x": 1560,
+   "y": 0
   }
  ]
 }
