@@ -1,4 +1,5 @@
 import { ACCOUNT_NOT_ALLOWED } from "@ynabe/auth/client";
+import { LogoTile } from "@ynabe/ui/components/logo";
 import { cn } from "@ynabe/ui/lib/utils";
 import { Clock, KeyRound, Lock, ShieldAlert } from "lucide-react";
 import { useState } from "react";
@@ -29,33 +30,6 @@ const GoogleLogo = () => (
 );
 
 /** The app's mark: a dark tile with a white L. */
-export const Mark = ({ size = 36 }: { size?: number }) => (
-  <span
-    aria-hidden
-    className="bg-text-primary shadow-button relative block shrink-0 rounded-[10px]"
-    style={{ height: size, width: size }}
-  >
-    <span
-      className="absolute rounded-full bg-white"
-      style={{
-        height: size * 0.44,
-        left: size * 0.3,
-        top: size * 0.25,
-        width: size * 0.1,
-      }}
-    />
-    <span
-      className="absolute rounded-full bg-white"
-      style={{
-        height: size * 0.1,
-        left: size * 0.3,
-        top: size * 0.61,
-        width: size * 0.36,
-      }}
-    />
-  </span>
-);
-
 const Notice = ({
   tone,
   icon,
@@ -105,7 +79,7 @@ const Frame = ({
 }) => (
   <main className="bg-surface-app relative flex h-dvh flex-col items-center justify-center bg-[linear-gradient(90deg,rgb(0_0_0/0.035)_1px,transparent_1px)] bg-[length:160px_100%]">
     <section className="shadow-window flex w-[440px] flex-col items-center gap-6 rounded-2xl bg-white px-10 pt-10 pb-8">
-      <Mark />
+      <LogoTile size={40} className="shadow-button rounded-[11px]" />
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-[28px] leading-8 font-semibold tracking-tight">
           {title}
