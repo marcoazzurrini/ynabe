@@ -1,6 +1,6 @@
 export { formatMoney, parseMoney } from "./money.ts";
 
-export { addMonths, monthOf, monthsBetween } from "./month.ts";
+export { addMonths, compareMonths, monthOf, monthsBetween } from "./month.ts";
 
 export { planMonth } from "./plan.ts";
 

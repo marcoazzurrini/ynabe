@@ -1,5 +1,5 @@
 import { useLiveQuery } from "@tanstack/react-db";
-import { addMonths } from "@ynabe/budget";
+import { addMonths, compareMonths } from "@ynabe/budget";
 import type { BudgetData } from "@ynabe/budget";
 import { useMemo } from "react";
 
@@ -90,3 +90,22 @@ export const monthFromSearch = (search: { month?: string }): string =>
   search.month !== undefined && MONTH.test(search.month)
     ? search.month
     : currentMonth();
+
+const valid = (month?: string) =>
+  month !== undefined && MONTH.test(month) ? month : undefined;
+
+/**
+ * Reads `?from=` and `?to=` from the URL as a range of months. Without
+ * them the range is the single month from `?month=`.
+ */
+export const rangeFromSearch = (search: {
+  from?: string;
+  to?: string;
+  month?: string;
+}): { from: string; to: string } => {
+  const fallback = monthFromSearch(search);
+  const from = valid(search.from) ?? valid(search.to) ?? fallback;
+  const to = valid(search.to) ?? from;
+
+  return compareMonths(from, to) <= 0 ? { from, to } : { from: to, to: from };
+};

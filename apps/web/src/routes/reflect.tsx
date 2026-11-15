@@ -1,413 +1,395 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { READY_TO_ASSIGN } from "@ynabe/budget";
-import { spendingReport } from "@ynabe/reports";
-import type { SpendingReport } from "@ynabe/reports";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { addMonths, monthsBetween } from "@ynabe/budget";
+import { rangeReport } from "@ynabe/reports";
 import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
-import { cn } from "@ynabe/ui/lib/utils";
 import {
-  ChartLine,
-  ChartPie,
-  ChevronDown,
-  Download,
-  FileUp,
-} from "lucide-react";
-import { useMemo, useState } from "react";
-import type { ReactNode } from "react";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@ynabe/ui/components/ui/dropdown-menu";
+import { cn } from "@ynabe/ui/lib/utils";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useMemo } from "react";
 
-import { PaceChart } from "../components/reflect/pace-chart";
 import {
   Card,
-  GroupRanges,
-  Heatmap,
-  Key,
-  KpiStrip,
-  percent,
+  DailySpending,
+  HeatmapKey,
+  MonthlySpending,
+  NetWorth,
+  SpendingDonut,
 } from "../components/reflect/parts";
-import { Segmented } from "../components/segmented";
-import { Topbar } from "../components/topbar";
+import { RangeSlider } from "../components/reflect/range-slider";
 import {
-  monthFromSearch,
+  currentMonth,
   monthName,
-  previousMonth,
+  monthShort,
+  monthYear,
+  rangeFromSearch,
   useBudget,
 } from "../data/use-budget";
 
-const PALETTE = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-  "var(--chart-6)",
-];
+const ALL = "all";
+const GROUP = "group:";
 
-const TABS = [
-  "Spending",
-  "Trends",
-  "Net worth",
-  "Income vs expense",
-  "Age of money",
-];
-
-interface Figures {
-  name: string;
-  previousName: string;
-  report: SpendingReport;
-  previousIncome: number;
-  typicalDaily: number;
+interface Range {
+  from: string;
+  to: string;
 }
 
-const headlineFor = ({ name, previousName, report }: Figures): ReactNode => {
-  if (report.spent === 0) {
-    return (
-      <>
-        Nothing to reflect on yet.{" "}
-        <span className="text-text-tertiary">
-          Add or import {name}’s transactions to see where your money goes.
-        </span>
-      </>
-    );
+/** `October 2026`, `Aug – Oct 2026` or `Nov 2025 – Oct 2026`, year in grey. */
+const RangeTitle = ({ from, to }: Range) => {
+  let text = `${monthShort(from)} ${monthYear(from)} – ${monthShort(to)}`;
+
+  if (from === to) {
+    text = monthName(to);
+  } else if (monthYear(from) === monthYear(to)) {
+    text = `${monthShort(from)} – ${monthShort(to)}`;
   }
 
-  const exception = report.groups.find(
-    (group) => group.unusual?.direction === "above"
-  );
-
-  const opening =
-    report.change === null
-      ? `${name} is your first month with spending.`
-      : `${name} was ${percent.format(Math.abs(report.change))} ${report.change < 0 ? "lighter" : "heavier"} than ${previousName}.`;
-
   return (
-    <>
-      {opening}{" "}
-      <span className="text-text-tertiary">
-        {exception
-          ? `${exception.name} is the exception.`
-          : "Every group stayed within its usual range."}
-      </span>
-    </>
+    <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
+      {text} <span className="text-text-disabled">{monthYear(to)}</span>
+    </h1>
   );
 };
 
-const kpisFor = ({
-  previousName,
-  report,
-  previousIncome,
-  typicalDaily,
-}: Figures) => {
-  const empty = report.spent === 0;
-  const kept = report.income - report.spent;
-  const noIncome = report.income === 0;
-  const sameIncome = report.income === previousIncome;
-
-  const incomeChange =
-    previousIncome === 0 ? 1 : report.income / previousIncome - 1;
-
-  return [
-    {
-      delta:
-        report.change === null
-          ? "No earlier month"
-          : `${percent.format(Math.abs(report.change))} vs ${previousName}`,
-      good: report.change === null ? null : report.change <= 0,
-      label: "Spent",
-      trend: report.months.map((entry) => entry.spent),
-      value: empty ? null : report.spent,
-    },
-    {
-      delta:
-        typicalDaily === 0
-          ? "No history yet"
-          : `${percent.format(Math.abs(report.dailyAverage / typicalDaily - 1))} vs 6-month average`,
-      good: typicalDaily === 0 ? null : report.dailyAverage <= typicalDaily,
-      label: "Daily average",
-      value: empty ? null : report.dailyAverage,
-    },
-    {
-      delta: sameIncome
-        ? `Same as ${previousName}`
-        : `${percent.format(Math.abs(incomeChange))} vs ${previousName}`,
-      good: sameIncome ? null : report.income > previousIncome,
-      label: "Income",
-      value: noIncome ? null : report.income,
-    },
-    {
-      delta: noIncome
-        ? "No income yet"
-        : `${percent.format(kept / report.income)} of income`,
-      good: noIncome ? null : kept >= 0,
-      label: "Kept",
-      value: noIncome ? null : kept,
-    },
-  ];
-};
-
-const SpendingTable = ({ report }: { report: SpendingReport }) => (
-  <Card
-    title="Spending table"
-    subtitle="Every category this month, with its usual range"
+const Step = ({
+  range,
+  label,
+  children,
+}: {
+  range: Range;
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <Button
+    variant="outline"
+    size="icon"
+    aria-label={label}
+    nativeButton={false}
+    render={
+      <Link to="." search={(previous) => ({ ...previous, ...range })} replace />
+    }
   >
-    <table className="w-full text-left text-sm font-medium">
-      <thead className="text-text-tertiary text-xs">
-        <tr>
-          <th className="py-2">Category</th>
-          <th className="py-2 text-right">Spent</th>
-          <th className="py-2 text-right">Share</th>
-          <th className="py-2 text-right">Usual low</th>
-          <th className="py-2 text-right">Usual high</th>
-        </tr>
-      </thead>
-      <tbody>
-        {report.categories.map((category) => (
-          <tr key={category.id} className="border-border-subtle border-t">
-            <td className="py-2.5">{category.name}</td>
-            <td className="text-right">
-              <Money cents={category.spent} />
-            </td>
-            <td className="tabular text-right">
-              {percent.format(category.share)}
-            </td>
-            <td className="text-right">
-              {category.usual ? <Money cents={category.usual.low} /> : "—"}
-            </td>
-            <td className="text-right">
-              {category.usual ? <Money cents={category.usual.high} /> : "—"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </Card>
+    {children}
+  </Button>
 );
 
-const Charts = ({ report, name }: { report: SpendingReport; name: string }) => {
-  // The biggest groups each get a color; any beyond the palette share "Other".
-  const colors = new Map(
-    report.groups
-      .slice(0, PALETTE.length)
-      .map((group, index) => [group.id, PALETTE[index] ?? "var(--chart-other)"])
-  );
+const Figure = ({ label, cents }: { label: string; cents: number }) => (
+  <div className="flex flex-col items-end">
+    <Money
+      cents={cents}
+      className="text-xl leading-7 font-semibold tracking-tight"
+    />
+    <span className="text-text-tertiary text-xs font-medium">{label}</span>
+  </div>
+);
 
-  const other = report.groups
-    .slice(PALETTE.length)
-    .reduce((sum, group) => sum + group.spent, 0);
+const Operator = ({ children }: { children: string }) => (
+  <span className="text-text-disabled self-start text-xl leading-7" aria-hidden>
+    {children}
+  </span>
+);
 
-  const empty = report.spent === 0;
+/** Income minus spending is what was kept. A category filter hides income. */
+const Statement = ({
+  income,
+  spent,
+  filtered,
+}: {
+  income: number;
+  spent: number;
+  filtered: boolean;
+}) => {
+  if (filtered) {
+    return <Figure label="Spent" cents={spent} />;
+  }
+
+  const kept = income - spent;
 
   return (
-    <>
-      <div className="flex gap-5">
-        <Card
-          className="min-w-0 flex-[1.7]"
-          title="Spending pace"
-          subtitle="Cumulative spending through the month, against a typical month"
-          legend={
-            <div className="flex gap-4">
-              <Key
-                swatch="h-0.5 w-3.5 rounded-sm bg-text-primary"
-                label={name}
-              />
-              <Key
-                swatch="h-0.5 w-3.5 rounded-sm bg-gray-400"
-                label="Typical"
-              />
-              <Key
-                swatch="h-2.5 w-3.5 rounded-sm bg-[rgb(142_150_164/0.18)]"
-                label="Usual range"
-              />
-            </div>
-          }
-        >
-          {empty ? (
-            <div className="flex h-[300px] flex-col items-center justify-center gap-3 text-center">
-              <span className="shadow-card flex size-12 items-center justify-center rounded-[14px] bg-white">
-                <ChartLine
-                  className="text-text-tertiary size-[22px]"
-                  aria-hidden
-                />
-              </span>
-              <p className="text-[15px] font-semibold">
-                No spending in {name} yet
-              </p>
-              <p className="text-text-tertiary max-w-[360px] text-[13px] leading-5 font-medium">
-                Import a bank file or add a transaction. The pace chart fills in
-                as the month goes.
-              </p>
-              <Button variant="outline">
-                <FileUp />
-                Import transactions
-              </Button>
-            </div>
-          ) : (
-            <PaceChart pace={report.pace} />
-          )}
-        </Card>
-        <Card
-          className="min-w-[420px] flex-1"
-          title="Daily spending"
-          subtitle="Darker days cost more"
-        >
-          <Heatmap
-            days={report.days}
-            weekendRatio={empty ? null : report.weekendRatio}
-          />
-        </Card>
-      </div>
-      <Card
-        title="By group"
-        subtitle={`${name} against each group’s last 6 months`}
-        legend={
-          <div className="flex gap-4">
-            <Key
-              swatch="h-2 w-3.5 rounded-full bg-gray-200"
-              label="Usual range"
-            />
-            <Key
-              swatch="h-3 w-0.5 rounded-sm bg-text-tertiary"
-              label="Average"
-            />
-            <Key
-              swatch="size-[9px] rounded-full bg-text-primary"
-              label={name}
-            />
-          </div>
-        }
-      >
-        {empty ? (
-          <p className="text-text-tertiary py-6 text-center text-[13px] font-medium">
-            Groups appear here once {name} has spending. Ranges need at least 2
-            months of history.
-          </p>
-        ) : (
-          <>
-            <div className="flex h-2 gap-0.5" aria-hidden>
-              {report.groups.slice(0, PALETTE.length).map((group) => (
-                <span
-                  key={group.id}
-                  className="rounded-sm"
-                  style={{
-                    background: colors.get(group.id),
-                    flex: group.spent,
-                  }}
-                />
-              ))}
-              {other > 0 ? (
-                <span
-                  className="bg-chart-other rounded-sm"
-                  style={{ flex: other }}
-                />
-              ) : null}
-            </div>
-            <GroupRanges report={report} colors={colors} />
-          </>
+    <div className="flex items-center gap-5">
+      <Figure label="Income" cents={income} />
+      <Operator>−</Operator>
+      <Figure label="Spent" cents={spent} />
+      <Operator>=</Operator>
+      <div
+        className={cn(
+          "flex flex-col rounded-[14px] border px-5 py-2.5",
+          kept < 0
+            ? "border-over-border bg-[linear-gradient(180deg,#fff5f5,#ffe6e7)]"
+            : "border-funded-border bg-[linear-gradient(180deg,#f2fdf7,#e0fced)]"
         )}
-      </Card>
-    </>
+      >
+        <Money
+          cents={kept}
+          className={cn(
+            "text-[28px] leading-8 font-semibold tracking-tight",
+            kept < 0 ? "text-over" : "text-[#005c3d]"
+          )}
+        />
+        <span
+          className={cn(
+            "text-xs font-medium",
+            kept < 0 ? "text-over" : "text-funded"
+          )}
+        >
+          {kept < 0 || income <= 0
+            ? "Kept"
+            : `Kept · ${Math.round((kept / income) * 100)}% of income`}
+        </span>
+      </div>
+    </div>
   );
+};
+
+interface Option {
+  value: string;
+  label: string;
+  /** Indented under the option before it. */
+  nested?: boolean;
+}
+
+const Filter = ({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: readonly Option[];
+  value: string;
+  onChange: (value: string) => void;
+}) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger
+      render={<Button variant="outline" size="lg" aria-label={label} />}
+    >
+      <span className="max-w-[180px] truncate">
+        {options.find((option) => option.value === value)?.label ??
+          options[0]?.label}
+      </span>
+      <ChevronDown />
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end" className="max-h-96 w-64 overflow-y-auto">
+      <DropdownMenuRadioGroup
+        value={value}
+        onValueChange={(next) => onChange(String(next))}
+      >
+        {options.map((option) => (
+          <DropdownMenuRadioItem
+            key={option.value}
+            value={option.value}
+            className={cn(
+              option.nested ? "text-text-secondary pl-5" : "font-medium"
+            )}
+          >
+            <span className="truncate">{option.label}</span>
+          </DropdownMenuRadioItem>
+        ))}
+      </DropdownMenuRadioGroup>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
+const PRESETS = ["1M", "3M", "6M", "1Y", "YTD", "All"] as const;
+
+const presetRange = (
+  preset: (typeof PRESETS)[number],
+  today: string,
+  first: string
+): Range => {
+  const back = { "1M": 0, "1Y": 11, "3M": 2, "6M": 5 } as const;
+
+  if (preset === "YTD") {
+    return { from: `${monthYear(today)}-01`, to: today };
+  }
+
+  if (preset === "All") {
+    return { from: first, to: today };
+  }
+
+  return { from: addMonths(today, -back[preset]), to: today };
 };
 
 const ReflectScreen = () => {
-  const month = monthFromSearch(Route.useSearch());
-  const { data, groups } = useBudget();
-  const [view, setView] = useState<"charts" | "table">("charts");
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const { from, to } = rangeFromSearch(search);
+  const { accounts, categories, groups, ledger } = useBudget();
+  const today = currentMonth();
+
+  const accountId = accounts.some((account) => account.id === search.account)
+    ? search.account
+    : undefined;
+
+  const category = search.category ?? ALL;
+
+  const categoryIds = useMemo(() => {
+    if (category.startsWith(GROUP)) {
+      const groupId = category.slice(GROUP.length);
+
+      return new Set(
+        categories
+          .filter((entry) => entry.groupId === groupId)
+          .map((entry) => entry.id)
+      );
+    }
+
+    return categories.some((entry) => entry.id === category)
+      ? new Set([category])
+      : undefined;
+  }, [categories, category]);
 
   const report = useMemo(
-    () => spendingReport({ ...data, groups }, month),
-    [data, groups, month]
-  );
-
-  const previousIncome = useMemo(
     () =>
-      data.transactions
-        .filter(
-          (row) =>
-            row.categoryId === READY_TO_ASSIGN &&
-            !row.transfer &&
-            row.date.startsWith(previousMonth(month))
-        )
-        .reduce((sum, row) => sum + row.amount, 0),
-    [data, month]
+      rangeReport(
+        { categories, groups, transactions: ledger },
+        { accountId, categoryIds, from, to, today }
+      ),
+    [accountId, categories, categoryIds, from, groups, ledger, to, today]
   );
 
-  const pastMonths = report.months
-    .slice(-7, -1)
-    .filter((entry) => entry.spent > 0);
+  const setRange = (range: Range) =>
+    navigate({
+      replace: true,
+      search: (previous) => ({ ...previous, ...range }),
+    });
 
-  const typicalDaily =
-    pastMonths.length === 0
-      ? 0
-      : pastMonths.reduce((sum, entry) => sum + entry.spent, 0) /
-        pastMonths.length /
-        30.4;
+  const setFilter = (key: "account" | "category", value: string) =>
+    navigate({
+      replace: true,
+      search: (previous) => ({
+        ...previous,
+        [key]: value === ALL ? undefined : value,
+      }),
+    });
 
-  const name = monthName(month);
+  const length = monthsBetween(from, to) + 1;
+  const first = report.history[0]?.month ?? from;
 
-  const figures: Figures = {
-    name,
-    previousIncome,
-    previousName: monthName(previousMonth(month)),
-    report,
-    typicalDaily,
-  };
+  const accountOptions: Option[] = [
+    { label: "All accounts", value: ALL },
+    ...accounts.map((account) => ({ label: account.name, value: account.id })),
+  ];
+
+  const categoryOptions: Option[] = [
+    { label: "All categories", value: ALL },
+    ...groups.flatMap((group) => [
+      { label: group.name, value: `${GROUP}${group.id}` },
+      ...categories
+        .filter((entry) => entry.groupId === group.id)
+        .map((entry) => ({ label: entry.name, nested: true, value: entry.id })),
+    ]),
+  ];
 
   return (
-    <>
-      <Topbar icon={ChartPie} title="Reflect" month={month} />
-      <div className="border-border flex h-[52px] shrink-0 items-center justify-between border-b px-10">
-        <nav className="flex items-center gap-7" aria-label="Reports">
-          {TABS.map((tab, index) => (
-            <span
-              key={tab}
-              aria-current={index === 0 ? "page" : undefined}
-              title={index === 0 ? undefined : "Coming soon"}
-              className={cn(
-                "flex h-[52px] items-center text-sm font-medium",
-                index === 0
-                  ? "shadow-[inset_0_-2px_0_var(--text-primary)]"
-                  : "text-text-tertiary"
-              )}
-            >
-              {tab}
-            </span>
-          ))}
-        </nav>
-        <div className="flex items-center gap-2">
-          <Button variant="outline">
-            All accounts
-            <ChevronDown />
-          </Button>
-          <Button variant="outline">
-            Compare: last 6 months
-            <ChevronDown />
-          </Button>
-          <Segmented
-            label="View"
-            value={view}
-            onChange={setView}
-            options={[
-              { label: "Charts", value: "charts" },
-              { label: "Table", value: "table" },
-            ]}
+    <div className="bg-surface-app flex min-h-0 flex-1 flex-col overflow-y-auto">
+      <section className="flex flex-col gap-4 px-10 pt-7 pb-5">
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <RangeTitle from={from} to={to} />
+            <div className="flex gap-1">
+              <Step
+                label="Earlier"
+                range={{
+                  from: addMonths(from, -length),
+                  to: addMonths(to, -length),
+                }}
+              >
+                <ChevronLeft />
+              </Step>
+              <Step
+                label="Later"
+                range={{
+                  from: addMonths(from, length),
+                  to: addMonths(to, length),
+                }}
+              >
+                <ChevronRight />
+              </Step>
+            </div>
+          </div>
+          <Statement
+            income={report.income}
+            spent={report.spent}
+            filtered={categoryIds !== undefined}
           />
-          <Button variant="ghost" size="icon" aria-label="Export">
-            <Download />
-          </Button>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <fieldset className="bg-surface-sunken m-0 flex h-10 items-center gap-0.5 rounded-[10px] border-0 p-[3px]">
+            <legend className="sr-only">Quick ranges</legend>
+            {PRESETS.map((preset) => {
+              const range = presetRange(preset, today, first);
+              const active = range.from === from && range.to === to;
+
+              return (
+                <button
+                  key={preset}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setRange(range)}
+                  className={cn(
+                    "focus-visible:ring-ring/50 h-[34px] cursor-pointer rounded-lg px-3 text-[13px] outline-none focus-visible:ring-3",
+                    active
+                      ? "bg-white font-semibold shadow-xs"
+                      : "text-text-secondary hover:text-text-primary font-medium"
+                  )}
+                >
+                  {preset}
+                </button>
+              );
+            })}
+          </fieldset>
+          <RangeSlider
+            history={report.history}
+            from={from}
+            to={to}
+            onChange={(nextFrom, nextTo) =>
+              setRange({ from: nextFrom, to: nextTo })
+            }
+          />
+          <Filter
+            label="Account"
+            options={accountOptions}
+            value={accountId ?? ALL}
+            onChange={(value) => setFilter("account", value)}
+          />
+          <Filter
+            label="Category"
+            options={categoryOptions}
+            value={categoryIds === undefined ? ALL : category}
+            onChange={(value) => setFilter("category", value)}
+          />
+        </div>
+      </section>
+      <div className="flex flex-col gap-5 px-10 pb-10">
+        <Card title="Monthly spending">
+          <MonthlySpending months={report.months} />
+        </Card>
+        <Card title="Daily spending" aside={<HeatmapKey />}>
+          <DailySpending calendar={report.calendar} />
+        </Card>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(480px,1fr))] gap-5">
+          <Card
+            title={
+              categoryIds === undefined
+                ? "Spending by group"
+                : "Spending by category"
+            }
+          >
+            <SpendingDonut slices={report.slices} spent={report.spent} />
+          </Card>
+          <Card title="Net worth">
+            <NetWorth months={report.months} />
+          </Card>
         </div>
       </div>
-      <div className="bg-surface-app flex min-h-0 flex-1 flex-col gap-7 overflow-y-auto px-10 py-9">
-        <h1 className="max-w-[1200px] text-[32px] leading-[38px] font-semibold tracking-tight">
-          {headlineFor(figures)}
-        </h1>
-        <KpiStrip kpis={kpisFor(figures)} />
-        {view === "table" ? (
-          <SpendingTable report={report} />
-        ) : (
-          <Charts report={report} name={name} />
-        )}
-      </div>
-    </>
+    </div>
   );
 };
 
