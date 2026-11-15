@@ -72,7 +72,10 @@ const App = () => (
 
 const search = z.object({
   account: z.string().optional(),
+  category: z.string().optional(),
+  from: z.string().optional(),
   month: z.string().optional(),
+  to: z.string().optional(),
 });
 
 const ErrorScreen = ({ error }: ErrorComponentProps) => (

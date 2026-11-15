@@ -128,13 +128,13 @@ interface ReportOptions {
   compare?: number;
 }
 
-const daysIn = (month: Month): number => {
+export const daysIn = (month: Month): number => {
   const [year, index] = month.split("-").map(Number);
 
   return new Date(Date.UTC(year, index, 0)).getUTCDate();
 };
 
-const isSpending = (transaction: Transaction): boolean =>
+export const isSpending = (transaction: Transaction): boolean =>
   !transaction.transfer &&
   transaction.categoryId !== null &&
   transaction.categoryId !== READY_TO_ASSIGN;
@@ -168,7 +168,7 @@ const cumulative = (days: readonly Cents[]): Cents[] => {
 };
 
 /** Ranks days with spending into four levels; the dearest day is always 4. */
-const levels = (days: readonly Cents[]): SpendingDay["level"][] => {
+export const levels = (days: readonly Cents[]): SpendingDay["level"][] => {
   const spending = days.filter((spent) => spent > 0).toSorted((a, b) => a - b);
 
   return days.map((spent) => {
