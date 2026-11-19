@@ -1,13 +1,12 @@
 # Dependencies
 node_modules/
 
-# TanStack Start, Vite, Storybook, and build output
+# TanStack Start, Vite, and build output
 .tanstack/
 .output/
 .vite/
 dist/
 build/
-storybook-static/
 *.tsbuildinfo
 
 # Cloudflare local state

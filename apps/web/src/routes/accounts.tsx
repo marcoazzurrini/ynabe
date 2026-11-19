@@ -2,9 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
 import { cn } from "@ynabe/ui/lib/utils";
+import { inLedgerFilter, ledgerRows } from "@ynabe/views";
+import type { LedgerFilter } from "@ynabe/views";
 import {
   CircleCheck,
   FileUp,
+  LogOut,
   Plus,
   RefreshCw,
   Scale,
@@ -15,13 +18,13 @@ import {
 import { useMemo, useState } from "react";
 
 import { AccountMark } from "../components/account-mark";
-import type { LedgerRow } from "../components/accounts/ledger";
 import { Ledger } from "../components/accounts/ledger";
+import { PhoneLedger } from "../components/phone/ledger";
+import { usePhone } from "../components/phone/use-phone";
 import { Segmented } from "../components/segmented";
-import { syncBanks } from "../data/actions";
+import { setCategory, syncBanks } from "../data/actions";
+import { signOut } from "../data/session";
 import { useBudget } from "../data/use-budget";
-
-type Filter = "all" | "uncleared" | "uncategorized" | "transfers";
 
 const kindLabel = new Map([
   ["card", "Card"],
@@ -30,90 +33,6 @@ const kindLabel = new Map([
   ["savings", "Savings"],
   ["tracking", "Tracking"],
 ]);
-
-type Budget = ReturnType<typeof useBudget>;
-
-/** The category this payee is filed under most often. */
-const guessFor = (row: Budget["ledger"][number], ledger: Budget["ledger"]) => {
-  const counts = new Map<string, number>();
-
-  for (const other of ledger) {
-    if (
-      other.payee === row.payee &&
-      other.categoryId &&
-      other.categoryId !== "ready-to-assign"
-    ) {
-      counts.set(other.categoryId, (counts.get(other.categoryId) ?? 0) + 1);
-    }
-  }
-
-  return [...counts].toSorted((a, b) => b[1] - a[1])[0]?.[0] ?? null;
-};
-
-const nameOf = (names: Map<string, string>, id: string | null | undefined) =>
-  id ? (names.get(id) ?? null) : null;
-
-/** Joins ledger rows with account, category, and group names, plus a guess. */
-const buildRows = ({
-  accounts,
-  categories,
-  groups,
-  ledger,
-}: Pick<
-  Budget,
-  "accounts" | "categories" | "groups" | "ledger"
->): LedgerRow[] => {
-  const accountName = new Map(
-    accounts.map((account) => [account.id, account.name])
-  );
-
-  const groupName = new Map(groups.map((group) => [group.id, group.name]));
-  const byId = new Map(categories.map((category) => [category.id, category]));
-
-  return ledger.map((row): LedgerRow => {
-    const category = row.categoryId ? byId.get(row.categoryId) : undefined;
-
-    const best =
-      row.categoryId === null && !row.transferAccountId
-        ? guessFor(row, ledger)
-        : null;
-
-    return {
-      ...row,
-      accountName: accountName.get(row.accountId) ?? "",
-      categoryIcon: category?.icon ?? null,
-      categoryName: category?.name ?? null,
-      groupName: nameOf(groupName, category?.groupId),
-      guess: best ? (byId.get(best)?.name ?? null) : null,
-      transferName: nameOf(accountName, row.transferAccountId),
-    };
-  });
-};
-
-const matchesFilter = (row: LedgerRow, filter: Filter, search: string) => {
-  if (
-    search !== "" &&
-    !`${row.payee} ${row.memo ?? ""} ${row.categoryName ?? ""}`
-      .toLowerCase()
-      .includes(search)
-  ) {
-    return false;
-  }
-
-  if (filter === "uncleared") {
-    return row.cleared === "uncleared";
-  }
-
-  if (filter === "uncategorized") {
-    return row.categoryId === null && !row.transferAccountId;
-  }
-
-  if (filter === "transfers") {
-    return row.transferAccountId !== null;
-  }
-
-  return true;
-};
 
 /** Asks the banks for new rows and says how many came. */
 const SyncButton = () => {
@@ -153,11 +72,12 @@ const ActiveCheck = () => (
 const AccountsScreen = () => {
   const { account: accountFilter } = Route.useSearch();
   const { accounts, categories, groups, ledger } = useBudget();
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<LedgerFilter>("all");
   const [query, setQuery] = useState("");
+  const phone = usePhone();
 
   const rows = useMemo(
-    () => buildRows({ accounts, categories, groups, ledger }),
+    () => ledgerRows({ accounts, categories, groups, transactions: ledger }),
     [accounts, categories, groups, ledger]
   );
 
@@ -184,12 +104,25 @@ const AccountsScreen = () => {
   const search = query.trim().toLowerCase();
   const open = accounts.filter((account) => !account.closed);
 
-  const visible = inAccount.filter((row) => matchesFilter(row, filter, search));
+  const visible = inAccount.filter((row) =>
+    inLedgerFilter(row, filter, search)
+  );
 
   const selected = accounts.find((account) => account.id === accountFilter);
 
+  const choices = useMemo(
+    () =>
+      groups.map((group) => ({
+        categories: categories.filter((entry) => entry.groupId === group.id),
+        id: group.id,
+        name: group.name,
+      })),
+    [categories, groups]
+  );
+
+  // On a phone the cards keep their width and scroll sideways.
   const card =
-    "flex flex-1 flex-col gap-2 rounded-xl bg-white px-4 py-3.5 shadow-card";
+    "flex flex-1 flex-col gap-2 rounded-xl bg-white px-4 py-3.5 shadow-card max-md:min-w-[172px] max-md:flex-none max-md:snap-start max-md:rounded-2xl";
 
   // The card whose transactions are listed: outlined, tinted, and checked.
   const active =
@@ -198,9 +131,9 @@ const AccountsScreen = () => {
   const activeName = "text-text-primary font-semibold";
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto">
-      <section className="flex flex-col gap-6 px-10 pt-7 pb-6">
-        <div className="flex items-center justify-between">
+    <div className="min-h-0 flex-1 overflow-y-auto max-md:pb-28">
+      <section className="flex flex-col gap-6 px-10 pt-7 pb-6 max-md:gap-3 max-md:px-4 max-md:pt-4 max-md:pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3.5">
             {selected ? (
               <AccountMark
@@ -209,14 +142,14 @@ const AccountsScreen = () => {
                 className="size-9 rounded-[9px] text-xl"
               />
             ) : null}
-            <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
+            <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight max-md:text-[30px] max-md:leading-9">
               {selected?.name ?? "Accounts"}
             </h1>
             {selected ? (
               <Link
                 to="/accounts"
                 search={{}}
-                className="bg-surface-sunken text-text-secondary ml-1.5 flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold whitespace-nowrap"
+                className="bg-surface-sunken text-text-secondary ml-1.5 flex h-7 items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold whitespace-nowrap max-md:hidden"
               >
                 <X className="size-[13px]" aria-hidden />
                 Show all accounts
@@ -224,22 +157,22 @@ const AccountsScreen = () => {
             ) : null}
           </div>
           <div className="flex gap-2">
-            <Button variant="ghost">
+            <Button variant="ghost" className="max-md:hidden">
               <Scale />
               Reconcile
             </Button>
             <SyncButton />
-            <Button variant="outline">
+            <Button variant="outline" className="max-md:hidden">
               <FileUp />
               Import
             </Button>
-            <Button>
+            <Button className="max-md:hidden">
               <Plus />
               Add transaction
             </Button>
           </div>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-md:-mx-4 max-md:snap-x max-md:[scrollbar-width:none] max-md:gap-3 max-md:overflow-x-auto max-md:px-4 max-md:py-1">
           <Link
             to="/accounts"
             search={{}}
@@ -311,7 +244,7 @@ const AccountsScreen = () => {
           ))}
         </div>
       </section>
-      <div className="flex items-center justify-between px-10 pb-2">
+      <div className="flex items-center justify-between gap-3 px-10 pb-2 max-md:flex-col max-md:items-stretch max-md:px-4 max-md:pb-4">
         <Segmented
           label="Filter transactions"
           value={filter}
@@ -333,11 +266,11 @@ const AccountsScreen = () => {
           ]}
         />
         <div className="flex items-center gap-1">
-          <Button variant="ghost">
+          <Button variant="ghost" className="max-md:hidden">
             <SlidersHorizontal />
             View
           </Button>
-          <label className="border-border-control text-text-tertiary flex h-8 w-[280px] items-center gap-2 rounded-[10px] border bg-white px-2.5 text-[13px] font-medium">
+          <label className="border-border-control text-text-tertiary flex h-8 w-[280px] items-center gap-2 rounded-[10px] border bg-white px-2.5 text-[13px] font-medium max-md:h-10 max-md:w-full max-md:rounded-xl max-md:text-base">
             <Search className="size-3.5" aria-hidden />
             <input
               value={query}
@@ -348,7 +281,25 @@ const AccountsScreen = () => {
           </label>
         </div>
       </div>
-      <Ledger rows={visible} />
+      {phone ? (
+        <>
+          <PhoneLedger
+            rows={visible}
+            choices={choices}
+            onCategorize={setCategory}
+          />
+          <button
+            type="button"
+            onClick={signOut}
+            className="text-text-tertiary mx-auto mt-8 flex h-10 items-center gap-2 px-4 text-[13px] font-medium"
+          >
+            <LogOut className="size-3.5" aria-hidden />
+            Sign out
+          </button>
+        </>
+      ) : (
+        <Ledger rows={visible} />
+      )}
     </div>
   );
 };

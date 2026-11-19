@@ -20,7 +20,7 @@ export const Segmented = <Value extends string>({
   value,
   onChange,
 }: SegmentedProps<Value>) => (
-  <fieldset className="bg-surface-sunken m-0 flex items-center gap-1 rounded-[10px] border-0 p-[3px]">
+  <fieldset className="bg-surface-sunken m-0 flex max-w-full min-w-0 [scrollbar-width:none] items-center gap-1 overflow-x-auto rounded-[10px] border-0 p-[3px]">
     <legend className="sr-only">{label}</legend>
     {options.map((option) => {
       const active = option.value === value;
@@ -29,7 +29,7 @@ export const Segmented = <Value extends string>({
         <label
           key={option.value}
           className={cn(
-            "has-focus-visible:ring-ring/50 flex h-7 cursor-pointer items-center gap-1 rounded-lg border px-2.5 text-[13px] font-medium has-focus-visible:ring-3",
+            "has-focus-visible:ring-ring/50 flex h-7 shrink-0 cursor-pointer items-center gap-1 rounded-lg border px-2.5 text-[13px] font-medium whitespace-nowrap has-focus-visible:ring-3 max-md:h-8",
             active
               ? "border-border-control text-text-primary bg-white shadow-[0_1px_1px_rgb(0_0_0/0.04)]"
               : "hover:text-text-primary border-transparent text-gray-600"

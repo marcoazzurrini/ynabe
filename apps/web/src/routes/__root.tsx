@@ -13,6 +13,8 @@ import { z } from "zod";
 import { AgentPanel, AgentRail } from "../components/agent/panel";
 import { AgentProvider, useAgent } from "../components/agent/state";
 import { SignInScreen } from "../components/auth/sign-in-screen";
+import { TabBar } from "../components/phone/tab-bar";
+import { usePhone } from "../components/phone/use-phone";
 import { Sidebar } from "../components/sidebar";
 import { checkSession, useSession } from "../data/session";
 
@@ -32,6 +34,19 @@ const RootDocument = ({ children }: { children: ReactNode }) => (
 
 const Shell = () => {
   const { open } = useAgent();
+  const phone = usePhone();
+
+  // A phone shows one thing at a time: a screen or the assistant.
+  if (phone) {
+    return (
+      <div className="bg-surface-app flex h-dvh flex-col overflow-hidden pt-[env(safe-area-inset-top)]">
+        <main className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          {open ? <AgentPanel /> : <Outlet />}
+        </main>
+        <TabBar />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-dvh overflow-hidden">
@@ -114,7 +129,14 @@ export const Route = createRootRoute({
     ],
     meta: [
       { charSet: "utf-8" },
-      { content: "width=device-width, initial-scale=1", name: "viewport" },
+      {
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
+        name: "viewport",
+      },
+      // Added to a phone's home screen, the app opens without browser bars.
+      { content: "yes", name: "mobile-web-app-capable" },
+      { content: "ynabe", name: "apple-mobile-web-app-title" },
+      { content: "#f9f9fa", name: "theme-color" },
       { title: "ynabe" },
     ],
   }),

@@ -51,7 +51,7 @@ const RangeTitle = ({ from, to }: Range) => {
   }
 
   return (
-    <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
+    <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight max-md:text-[30px] max-md:leading-9">
       {text} <span className="text-text-disabled">{monthYear(to)}</span>
     </h1>
   );
@@ -112,7 +112,7 @@ const Statement = ({
   const kept = income - spent;
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-5 max-md:w-full max-md:justify-between max-md:gap-2">
       <Figure label="Income" cents={income} />
       <Operator>−</Operator>
       <Figure label="Spent" cents={spent} />
@@ -289,9 +289,9 @@ const ReflectScreen = () => {
 
   return (
     <div className="bg-surface-app flex min-h-0 flex-1 flex-col overflow-y-auto">
-      <section className="flex flex-col gap-4 px-10 pt-7 pb-5">
+      <section className="flex flex-col gap-4 px-10 pt-7 pb-5 max-md:px-4 max-md:pt-4">
         <div className="flex flex-wrap items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 max-md:w-full max-md:justify-between">
             <RangeTitle from={from} to={to} />
             <div className="flex gap-1">
               <Step
@@ -367,14 +367,14 @@ const ReflectScreen = () => {
           />
         </div>
       </section>
-      <div className="flex flex-col gap-5 px-10 pb-10">
+      <div className="flex flex-col gap-5 px-10 pb-10 max-md:gap-3 max-md:px-4 max-md:pb-28">
         <Card title="Monthly spending">
           <MonthlySpending months={report.months} />
         </Card>
         <Card title="Daily spending" aside={<HeatmapKey />}>
           <DailySpending calendar={report.calendar} />
         </Card>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(480px,1fr))] gap-5">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(480px,1fr))] gap-5 max-md:grid-cols-1 max-md:gap-3">
           <Card
             title={
               categoryIds === undefined

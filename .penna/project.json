@@ -5,7 +5,8 @@
   "components",
   "patterns",
   "screens",
-  "explorations"
+  "explorations",
+  "mobile"
  ],
  "variables": {
   "white": "#ffffff",

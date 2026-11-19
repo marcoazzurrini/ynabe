@@ -38,7 +38,7 @@ export const Card = ({
 }) => (
   <section
     className={cn(
-      "shadow-card flex min-w-0 flex-col gap-5 rounded-[14px] bg-white p-6",
+      "shadow-card flex min-w-0 flex-col gap-5 rounded-[14px] bg-white p-6 max-md:rounded-2xl max-md:p-4",
       className
     )}
   >
@@ -350,7 +350,7 @@ export const DailySpending = ({
 }: {
   calendar: readonly CalendarMonth[];
 }) => (
-  <div className="flex gap-10">
+  <div className="flex gap-10 max-md:flex-col max-md:gap-6">
     {calendar.map((month, index) => (
       <Calendar
         key={month.month}

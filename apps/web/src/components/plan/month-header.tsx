@@ -44,8 +44,8 @@ interface MonthHeaderProps {
 
 /** The month as the page title, with arrows to step through months. */
 const MonthTitle = ({ month }: { month: string }) => (
-  <div className="flex items-center gap-4">
-    <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight">
+  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <h1 className="text-[40px] leading-[44px] font-semibold tracking-tight max-md:flex-1 max-md:text-[30px] max-md:leading-9">
       {monthName(month)}{" "}
       <span className="text-text-disabled">{monthYear(month)}</span>
     </h1>
@@ -129,7 +129,7 @@ const ReadyToAssign = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-6 rounded-[14px] border py-3 pr-3 pl-5",
+        "flex items-center justify-between gap-6 rounded-[14px] border py-3 pr-3 pl-5",
         tone
       )}
     >
@@ -181,13 +181,13 @@ const ReadyToAssign = ({
 
 /** The month title with its arrows, and Ready to Assign. */
 export const MonthHeader = ({ month, plan, options }: MonthHeaderProps) => (
-  <section className="flex flex-col gap-5 px-10 pt-7 pb-6">
-    <div className="flex items-center justify-between gap-6">
+  <section className="flex flex-col gap-5 px-10 pt-7 pb-6 max-md:gap-4 max-md:px-4 max-md:pt-4 max-md:pb-4">
+    <div className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-stretch max-md:gap-4">
       <MonthTitle month={month} />
       <ReadyToAssign plan={plan} options={options} />
     </div>
     {plan.readyToAssign < 0 ? (
-      <p className="bg-over-bg text-over ring-over-border flex items-center gap-3 rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium ring-1 ring-inset">
+      <p className="bg-over-bg text-over ring-over-border flex flex-wrap items-center gap-3 rounded-[10px] px-3.5 py-2.5 text-[13px] font-medium ring-1 ring-inset">
         <CircleAlert className="size-[15px]" aria-hidden />
         <span className="flex-1">
           You’ve assigned <Money cents={-plan.readyToAssign} /> more than you

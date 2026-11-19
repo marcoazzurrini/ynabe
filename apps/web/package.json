@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "exports": {
-    "./components/*": "./src/components/*.tsx"
-  },
   "scripts": {
     "build": "vite build",
     "db:import": "cd ../../imports && wrangler d1 execute ynabe --local --config ../apps/web/wrangler.jsonc --file",
@@ -30,6 +27,7 @@
     "@ynabe/db": "workspace:*",
     "@ynabe/reports": "workspace:*",
     "@ynabe/ui": "workspace:*",
+    "@ynabe/views": "workspace:*",
     "lucide-react": "1.66.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",

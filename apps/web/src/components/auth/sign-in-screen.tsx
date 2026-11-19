@@ -78,7 +78,7 @@ const Frame = ({
   children: ReactNode;
 }) => (
   <main className="bg-surface-app relative flex h-dvh flex-col items-center justify-center">
-    <section className="shadow-window flex w-[440px] flex-col items-center gap-6 rounded-2xl bg-white px-10 pt-10 pb-8">
+    <section className="shadow-window flex w-[440px] max-w-[calc(100vw-2rem)] flex-col items-center gap-6 rounded-2xl bg-white px-10 pt-10 pb-8 max-md:px-6">
       <LogoTile size={40} className="shadow-button rounded-[11px]" />
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-[28px] leading-8 font-semibold tracking-tight">
