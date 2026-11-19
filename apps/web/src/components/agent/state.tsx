@@ -1,16 +1,22 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
+import { isPhone } from "../phone/use-phone";
+
 interface AgentState {
   open: boolean;
+  setOpen: (open: boolean) => void;
   toggle: () => void;
 }
 
 const AgentContext = createContext<AgentState | null>(null);
 
-/** Whether the assistant column is open; ⌘J toggles it. */
+/**
+ * Whether the assistant is open; ⌘J toggles it. On a phone it is a whole
+ * screen, not a column, so it starts closed there.
+ */
 export const AgentProvider = ({ children }: { children: ReactNode }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => !isPhone());
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -26,7 +32,7 @@ export const AgentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const value = useMemo(
-    () => ({ open, toggle: () => setOpen((current) => !current) }),
+    () => ({ open, setOpen, toggle: () => setOpen((current) => !current) }),
     [open]
   );
 

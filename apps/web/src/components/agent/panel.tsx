@@ -160,8 +160,11 @@ export const AgentPanel = () => {
   };
 
   return (
-    <aside className="border-border bg-surface-app flex w-[clamp(360px,25vw,640px)] shrink-0 flex-col border-l">
-      <header className="border-border flex h-[52px] shrink-0 items-center gap-3 border-b pr-4 pl-9">
+    <aside className="border-border bg-surface-app flex w-[clamp(360px,25vw,640px)] shrink-0 flex-col border-l max-md:min-h-0 max-md:w-full max-md:flex-1 max-md:border-l-0">
+      <h1 className="px-4 pt-4 text-[30px] leading-9 font-semibold tracking-tight md:hidden">
+        Ledger
+      </h1>
+      <header className="border-border flex h-[52px] shrink-0 items-center gap-3 border-b pr-4 pl-9 max-md:hidden">
         <span className="flex-1" />
         <Kbd>⌘J</Kbd>
         <Button
@@ -175,7 +178,7 @@ export const AgentPanel = () => {
       </header>
       <div
         ref={scroller}
-        className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-9 py-7"
+        className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-9 py-7 max-md:px-4 max-md:py-5"
       >
         {messages.map((message, index) => (
           <div key={message.id} className="flex flex-col gap-5">
@@ -209,7 +212,7 @@ export const AgentPanel = () => {
           </output>
         ) : null}
       </div>
-      <div className="flex flex-col gap-3 px-9 pb-7">
+      <div className="flex flex-col gap-3 px-9 pb-7 max-md:px-4 max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom))]">
         <p className="text-text-secondary text-[13px] leading-5 font-medium">
           {thread.connected
             ? thread.insight
@@ -227,7 +230,7 @@ export const AgentPanel = () => {
               }
             }}
             placeholder="Ask Ledger, or tell it what to change…"
-            className="min-h-11 text-sm"
+            className="min-h-11 text-sm max-md:text-base"
           />
           <InputGroupAddon align="block-end">
             <InputGroupButton

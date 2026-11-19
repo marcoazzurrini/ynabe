@@ -8,16 +8,16 @@ A calm, AI-assisted envelope budgeting app, in the spirit of YNAB.
 | --- | --- |
 | `apps/web` | TanStack Start app on Cloudflare Workers, with D1, TanStack DB and Charts |
 | `apps/agent` | The assistant's runner: Claude Code behind a small server, on an always-on Mac |
-| `apps/demo` | Storybook for the design system |
 | `packages/agent` | The assistant: its tools, its prompt, and one run from question to answer |
 | `packages/budget` | The budget engine: one month of the budget from categories and money |
+| `packages/views` | What the screens show, worked out from the budget: plan rows, ledger days, wording |
 | `packages/reports` | Spending insights for Reflect: pace, day levels, usual ranges |
 | `packages/import` | Reads a YNAB export into the rows ynabe stores |
 | `packages/db` | Drizzle schema, D1 migrations, and budget storage |
 | `packages/ui` | Design tokens and components: Tailwind v4, shadcn on Base UI |
 | `.penna/` | The design: foundations, components, patterns, and screens (open in penna) |
 
-`packages/budget`, `packages/reports`, and `packages/db` are deep modules: a small interface (`planMonth`, `spendingReport`, `loadBudget`) over the rules behind it.
+`packages/budget`, `packages/reports`, `packages/db`, and `packages/views` are deep modules: a small interface (`planMonth`, `spendingReport`, `loadBudget`, `planView`) over the rules behind it.
 
 ## Getting started
 
@@ -26,7 +26,6 @@ bun install
 bun run --cwd apps/web db:migrate   # create the local D1 tables
 bun run --cwd apps/web db:seed      # fill them with sample data
 bun run dev                         # the app on http://localhost:3000
-bun run storybook                   # Storybook on http://localhost:6006
 ```
 
 ## Importing from YNAB
@@ -73,6 +72,12 @@ The app can fetch new bank rows by itself through [Synci](https://synci.io), a p
 2. Tie each Synci account to a budget account with one row in `bank_links`: the Synci account id as `source_id`, the budget account as `account_id`, and `since`, the first day the sync may add rows for. Keep that SQL in `imports/`, since it is private, and load it with `bun run --cwd apps/web db:import <file>`.
 
 The Worker then syncs every six hours, and **Sync banks** on the Accounts screen does it at once. A bank row the budget already holds, from a statement or typed in, is tied to it instead of added again, so the statements and the sync can overlap. A new row takes the category or transfer that the same bank words had before. A pending payment comes in uncleared. It turns cleared, with the final amount, when the bank books it, and it is removed when the bank drops it, since the payment was then cancelled.
+
+## On a phone
+
+The app installs from the browser, with no app store. Open it in Safari on an iPhone, tap **Share**, then **Add to Home Screen**. In Chrome on Android, use **Install app** in the menu. It then opens from its own icon, without the browser's bars, and keeps its sign-in apart from the browser's.
+
+It needs a connection: the budget lives on the server, and nothing is kept for offline use.
 
 ## The assistant
 

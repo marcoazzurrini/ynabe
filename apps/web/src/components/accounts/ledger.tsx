@@ -2,6 +2,7 @@ import type { LedgerTransaction } from "@ynabe/db";
 import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
 import { cn } from "@ynabe/ui/lib/utils";
+import type { LedgerRow as Row } from "@ynabe/views";
 import {
   ArrowLeftRight,
   ArrowDownLeft,
@@ -24,17 +25,9 @@ import { CategoryIcon } from "../category-icon";
 const COLUMNS =
   "grid grid-cols-[minmax(0,1fr)_300px_150px_20px] items-center gap-x-6";
 
-export interface LedgerRow extends LedgerTransaction {
-  accountName: string;
-  categoryName: string | null;
-  categoryIcon: string | null;
-  groupName: string | null;
-  transferName: string | null;
-  /** A likely category for a transaction that has none, from its payee. */
-  guess: string | null;
-}
+export type LedgerRow = Row<LedgerTransaction>;
 
-const dayTitle = (date: string) =>
+export const dayTitle = (date: string) =>
   new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -42,10 +35,10 @@ const dayTitle = (date: string) =>
     weekday: "long",
   });
 
-const isToday = (date: string) =>
+export const isToday = (date: string) =>
   date === new Date().toISOString().slice(0, 10);
 
-const totalTone = (cents: number) => {
+export const totalTone = (cents: number) => {
   if (cents < 0) {
     return "text-over";
   }
@@ -53,7 +46,7 @@ const totalTone = (cents: number) => {
   return cents > 0 ? "text-inflow" : "text-text-secondary";
 };
 
-const ClearedMark = ({ cleared }: { cleared: LedgerRow["cleared"] }) => {
+export const ClearedMark = ({ cleared }: { cleared: LedgerRow["cleared"] }) => {
   if (cleared === "uncleared") {
     return (
       <CircleDashed
@@ -123,7 +116,7 @@ const DayBand = ({
   );
 };
 
-const Category = ({ row }: { row: LedgerRow }) => {
+export const Category = ({ row }: { row: LedgerRow }) => {
   if (row.categoryId === "ready-to-assign") {
     return (
       <span className="flex items-center gap-2 text-[13px]">

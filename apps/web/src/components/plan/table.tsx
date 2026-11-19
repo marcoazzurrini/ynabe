@@ -4,6 +4,7 @@ import type { EnvelopeState } from "@ynabe/ui/components/envelope";
 import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
 import { cn } from "@ynabe/ui/lib/utils";
+import type { PlanGroup, PlanRow } from "@ynabe/views";
 import {
   ArrowRightLeft,
   BellOff,
@@ -29,21 +30,6 @@ const envelopeState: Record<CategoryPlan["status"], EnvelopeState> = {
   overspent: "overspent",
   underfunded: "underfunded",
 };
-
-export interface PlanRow extends CategoryPlan {
-  icon: string | null;
-  target?: Target;
-  lastMonth: number;
-  average: number;
-  /** Oldest first: what was assigned and spent in each of the last 6 months. */
-  history: { month: string; assigned: number; spent: number }[];
-}
-
-export interface PlanGroup {
-  id: string;
-  name: string;
-  rows: PlanRow[];
-}
 
 const Quiet = ({ cents }: { cents: number }) =>
   cents === 0 ? (

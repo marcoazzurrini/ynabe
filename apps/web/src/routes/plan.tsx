@@ -1,95 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { addMonths, planMonth } from "@ynabe/budget";
 import { Money } from "@ynabe/ui/components/money";
 import { Button } from "@ynabe/ui/components/ui/button";
+import { inPlanFilter, planGroups, planView } from "@ynabe/views";
+import type { PlanFilter, PlanRow } from "@ynabe/views";
 import { Zap } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import { PhonePlan } from "../components/phone/plan";
+import { usePhone } from "../components/phone/use-phone";
 import type { AutoAssignOption } from "../components/plan/month-header";
 import { MonthHeader } from "../components/plan/month-header";
-import type { PlanGroup, PlanRow } from "../components/plan/table";
 import { PlanTable } from "../components/plan/table";
 import { Segmented } from "../components/segmented";
 import { setAssigned } from "../data/actions";
 import { monthFromSearch, useBudget } from "../data/use-budget";
 
-type Filter = "all" | "attention" | "funded";
-
-const matches = (row: PlanRow, filter: Filter) => {
-  if (filter === "attention") {
-    return row.status === "underfunded" || row.status === "overspent";
-  }
-
-  if (filter === "funded") {
-    return row.status === "funded" || row.status === "available";
-  }
-
-  return filter === "all";
-};
-
 const PlanScreen = () => {
   const month = monthFromSearch(Route.useSearch());
   const { data, categories, groups } = useBudget();
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<PlanFilter>("all");
+  const phone = usePhone();
 
-  const plans = useMemo(
-    () =>
-      Array.from({ length: 7 }, (_, index) =>
-        planMonth(data, addMonths(month, index - 6))
-      ),
-    [data, month]
+  const view = useMemo(
+    () => planView({ ...data, categories, groups }, month),
+    [data, categories, groups, month]
   );
 
-  const plan = plans.at(-1) ?? planMonth(data, month);
-  const previous = plans.at(-2);
-
-  const rows = useMemo(
-    () =>
-      plan.categories.map((category): PlanRow => {
-        const source = categories.find((entry) => entry.id === category.id);
-
-        const past = plans
-          .slice(3, 6)
-          .map(
-            (entry) =>
-              entry.categories.find(({ id }) => id === category.id)?.assigned ??
-              0
-          );
-
-        return {
-          ...category,
-          average: Math.round(
-            past.reduce((sum, value) => sum + value, 0) /
-              Math.max(1, past.length)
-          ),
-          history: plans.slice(1).map((entry) => {
-            const found = entry.categories.find(({ id }) => id === category.id);
-
-            return {
-              assigned: found?.assigned ?? 0,
-              month: entry.month,
-              spent: Math.max(0, -(found?.activity ?? 0)),
-            };
-          }),
-          icon: source?.icon ?? null,
-          lastMonth:
-            previous?.categories.find(({ id }) => id === category.id)
-              ?.assigned ?? 0,
-          target: source?.target,
-        };
-      }),
-    [plan, plans, previous, categories]
-  );
-
-  const visible: PlanGroup[] = groups
-    .map((group) => ({
-      id: group.id,
-      name: group.name,
-      rows: rows.filter(
-        (row) => row.groupId === group.id && matches(row, filter)
-      ),
-    }))
-    .filter((group) => group.rows.length > 0);
+  const { plan, rows } = view;
+  const visible = planGroups(view, filter);
 
   const assignAll = (pick: (row: PlanRow) => number) => {
     for (const row of rows) {
@@ -137,15 +75,15 @@ const PlanScreen = () => {
     },
   ];
 
-  const attention = rows.filter((row) => matches(row, "attention")).length;
+  const attention = rows.filter((row) => inPlanFilter(row, "attention")).length;
 
   const under = rows.filter((row) => row.status === "underfunded").length;
   const over = rows.filter((row) => row.status === "overspent").length;
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto">
+    <div className="min-h-0 flex-1 overflow-y-auto max-md:pb-28">
       <MonthHeader month={month} plan={plan} options={options} />
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-10 pb-2">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-10 pb-2 max-md:px-4 max-md:pb-3">
         <Segmented
           label="Filter categories"
           value={filter}
@@ -158,7 +96,7 @@ const PlanScreen = () => {
               value: "attention",
             },
             {
-              count: rows.filter((row) => matches(row, "funded")).length,
+              count: rows.filter((row) => inPlanFilter(row, "funded")).length,
               label: "Funded",
               value: "funded",
             },
@@ -195,13 +133,24 @@ const PlanScreen = () => {
           ) : null}
         </p>
       </div>
-      <PlanTable
-        month={month}
-        groups={visible}
-        onAssign={(categoryId, amount) =>
-          setAssigned(categoryId, month, amount)
-        }
-      />
+      {phone ? (
+        <PhonePlan
+          month={month}
+          groups={visible}
+          readyToAssign={plan.readyToAssign}
+          onAssign={(categoryId, amount) =>
+            setAssigned(categoryId, month, amount)
+          }
+        />
+      ) : (
+        <PlanTable
+          month={month}
+          groups={visible}
+          onAssign={(categoryId, amount) =>
+            setAssigned(categoryId, month, amount)
+          }
+        />
+      )}
     </div>
   );
 };
